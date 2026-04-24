@@ -16,6 +16,11 @@
 
 # Debugger Files
 *.pdb
+*.dmp
+*.mdmp
+.gdb_history
+.gdbinit.local
+.lldbinit.local
 
 # Compiled Dynamic libraries
 *.so
@@ -39,5 +44,27 @@
 
 # debug information files
 *.dwo
+
+# Core dumps
+core
+core.*
+vgcore.*
+
+# Sanitizer logs
+*.log
+sanitizer_report.*
+
+# Valgrind
+valgrind.out
+massif.out.*
+cachegrind.out.*
+callgrind.out.*
+
+# Coverage
+*.gcno
+*.gcda
+*.gcov
+coverage/
+lcov.info
 
 .vs
