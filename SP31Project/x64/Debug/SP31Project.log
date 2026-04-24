@@ -1,0 +1,5 @@
+﻿  compilation object save succeeded; see C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\UnlitColorPS.cso
+C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\shader\UnlitColorVS.hlsl(4,34-36): warning X3578: Output value 'Out' is not completely initialized
+  
+  compilation object save succeeded; see C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\UnlitColorVS.cso
+  SP31Project.vcxproj -> C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\x64\Debug\SP31Project.exe
