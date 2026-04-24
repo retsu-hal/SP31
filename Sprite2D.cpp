@@ -30,17 +30,17 @@
 HRESULT Sprite2D::Init(void)
 {
 	// テクスチャ読み込み
-	int Texture = TextureLoad(L"asset\\texture\\texture.jpg");
+	int Texture = TextureLoad(L"asset\\texture\\img_yuno-sengoku.jpg");
 
 	//シェーダー読み込み
 	CreateVertexShader(&VertexShader, &VertexLayout, "UnlitColorVS.cso");
 	CreatePixelShader(&PixelShader, "UnlitColorPS.cso");
 
 	//2Dオブジェクト初期化
-	Position = XMFLOAT3(SCREEN_WIDTH / 3 / 2, SCREEN_HEIGHT / 3 / 2, 0.0f);
+	Position = XMFLOAT3(SCREEN_WIDTH / 3 / 2, SCREEN_HEIGHT / 3 , 0.0f);
 	Color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	Scale = XMFLOAT2(1.0f, 1.0f);
-	Size = XMFLOAT2(SCREEN_WIDTH / 3, SCREEN_HEIGHT / 3);
+	Size = XMFLOAT2(SCREEN_WIDTH / 3, SCREEN_HEIGHT / 1.5);
 	Rotate = 0.0f;
 	TexID = Texture;
 

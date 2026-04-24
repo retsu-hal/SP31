@@ -1,19 +1,24 @@
+/*定数バッファ　C言語から受け取るデータ用の変数*/
+//ワールド行列
 
 cbuffer WorldBuffer : register(b0)
 {
     matrix World;
 }
 
+//カメラ行列
 cbuffer ViewBuffer : register(b1)
 {
     matrix View;
 }
 
+//プロジェクション行列
 cbuffer ProjectionBuffer : register(b2)
 {
     matrix Projection;
 }
 
+//頂点構造体　頂点シェーダーが頂点バッファの情報を受け取るための構造体
 struct VS_IN
 {
     float4 Position : POSITION0;
@@ -23,6 +28,7 @@ struct VS_IN
   
 };
 
+//頂点（ピクセル）構造体　頂点シェーダーの出力とピクセルシェーダーの入力の兼ねている
 struct PS_IN
 {
     float4 Position : SV_POSITION0;
@@ -33,6 +39,7 @@ struct PS_IN
  
 };
 
+//ライト構造体　今後使用するライトのデータを受け取る構造体
 struct LIGHT
 {
     bool     Enable;
@@ -46,14 +53,20 @@ struct LIGHT
 };
 
 
+/*その他の定数バッファ*/
+//ライトオブジェクト
 cbuffer LightBuffer : register(b4)
 {
     LIGHT Light;
 }
+
+//カメラ座標
 cbuffer CameraBuffer : register(b5)
 {
     float4 CameraPosition;
 }
+
+//汎用パラメーター
 cbuffer ParameterBuffer : register(b6)
 {
     float4 Parameter;
