@@ -1,4 +1,5 @@
 C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\Camera.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\Camera.obj
+C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\Field3D.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\Field3D.obj
 C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\Game.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\Game.obj
 C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\imgui\imgui.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\imgui.obj
 C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\imgui\imgui_demo.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\imgui_demo.obj
@@ -11,7 +12,10 @@ C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\keyboard.cpp;C:\Users\retsu\D
 C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\main.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\main.obj
 C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\Manager.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\Manager.obj
 C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\model.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\model.obj
+C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\PixelDirectionalLighting.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\PixelDirectionalLighting.obj
+C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\PolygonModel.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\PolygonModel.obj
 C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\Sprite2D.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\Sprite2D.obj
 C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\renderer.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\renderer.obj
 C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\sprite.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\sprite.obj
 C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\texture.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\texture.obj
+C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\VertexDirectionalLighting.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\VertexDirectionalLighting.obj

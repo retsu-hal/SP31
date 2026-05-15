@@ -11,6 +11,7 @@
 
 #include "main.h"
 #include "renderer.h"
+#include "GameObject.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -21,25 +22,18 @@
 //構造体
 ////////////////
 
-class Sprite2D
+class Sprite2D : public GameObject
 {
 	protected:
-		XMFLOAT3	Position;		//表示座標
-		XMFLOAT4	Color;			//色
 		XMFLOAT2	Size;			//サイズ
-		XMFLOAT2	Scale;			//拡大縮小率
+
 		float		Rotate;			//回転角度（360表現）
 		int			TexID;			//テクスチャID
-		ID3D11VertexShader* VertexShader; //頂点シェーダーオブジェクト
-		ID3D11PixelShader* PixelShader; //ピクセルシェーダーオブジェクト
-		ID3D11InputLayout* VertexLayout; //頂点レイアウトオブジェクト
-
 	public:
-		HRESULT Init(void);
-		void Finalize(void);
-		void Update(void);
-		void Draw(void);
-
+		void Init(void)override;
+		void Uninit(void)override;
+		void Update(void)override;
+		void Draw(void)override;
 
 
 };

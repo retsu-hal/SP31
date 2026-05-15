@@ -27,35 +27,53 @@
 //=============================================================================
 // 初期化処理
 //=============================================================================
-HRESULT Sprite2D::Init(void)
+void Sprite2D::Init(void)
 {
+	m_Is2D = true;		//2DオブジェクトフラグON
 	// テクスチャ読み込み
-	int Texture = TextureLoad(L"asset\\texture\\img_yuno-sengoku.jpg");
-
+	int texture = TextureLoad(L"asset\\texture\\img_yuno-sengoku.jpg");
+	
 	//シェーダー読み込み
 	CreateVertexShader(&VertexShader, &VertexLayout, "UnlitColorVS.cso");
 	CreatePixelShader(&PixelShader, "UnlitColorPS.cso");
 
-	//2Dオブジェクト初期化
-	Position = XMFLOAT3(SCREEN_WIDTH / 3 / 2, SCREEN_HEIGHT / 3 , 0.0f);
-	Color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	Scale = XMFLOAT2(1.0f, 1.0f);
-	Size = XMFLOAT2(SCREEN_WIDTH / 3, SCREEN_HEIGHT / 1.5);
-	Rotate = 0.0f;
-	TexID = Texture;
+	//シェーダー読み込み(グレースケール)
+	/*
+	CreateVertexShader(&VertexShader, &VertexLayout, "GrayScaleVS.cso");
+	CreatePixelShader(&PixelShader, "GrayScalePS.cso");
+	*/
 
-	return S_OK;
+	//シェーダー読み込み(セピア調変換）
+	/*
+	CreateVertexShader(&VertexShader, &VertexLayout, "SepiaVS.cso");
+	CreatePixelShader(&PixelShader, "SepiaPS.cso");
+	*/
+	//2Dオブジェクト初期化
+	m_Position = XMFLOAT3(SCREEN_WIDTH / 12, SCREEN_HEIGHT / 6 , 0.0f);
+	m_Color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	m_Scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
+	Size = XMFLOAT2(SCREEN_WIDTH /3/2, SCREEN_HEIGHT /1.5/2);
+	Rotate = 0.0f;
+	TexID = texture;
+
+	D3D11_SAMPLER_DESC sampDesc = {};
+	sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
+	GetDevice()->CreateSamplerState(&sampDesc, &SamplerState);
 }
 
 //=============================================================================
 // 終了処理
 //=============================================================================
-void Sprite2D::Finalize(void)
+void Sprite2D::Uninit(void)
 {
 	VertexLayout->Release();
 	VertexShader->Release();
 	PixelShader->Release();
-
+	SamplerState->Release();
 }
 
 //=============================================================================
@@ -63,7 +81,7 @@ void Sprite2D::Finalize(void)
 //=============================================================================
 void Sprite2D::Update(void)
 {
-
+	
 
 }
 
@@ -95,15 +113,17 @@ void Sprite2D::Draw(void)
 		ID3D11ShaderResourceView* tex = GetTexture(TexID);
 		GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
 
+		GetDeviceContext()->PSSetSamplers(0, 1, &SamplerState);
+
 		//平行移動行列の作成（表示座標を決める）
 		XMMATRIX	TranslationMatrix = XMMatrixTranslation(
-			Position.x, Position.y, 0.0f);
+			m_Position.x, m_Position.y, 0.0f);
 
 		//回転行列（Z回転）行列の作成
 		XMMATRIX	RotationMatrix = XMMatrixRotationZ(XMConvertToRadians(Rotate));
 
 		//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
-		XMMATRIX	ScalingMatrix = XMMatrixScaling(Scale.x,Scale.y, 1.0f);
+		XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, 1.0f);
 
 		//ワールド行列の作成（ポリゴンの表示の仕方を指定する最終的な行列
 		XMMATRIX	WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;
@@ -111,8 +131,9 @@ void Sprite2D::Draw(void)
 		//ワールド行列をDirectXへセット
 		SetWorldMatrix(WorldMatrix);
 
+	
 		// ポリゴン描画
-		DrawSprite(Size, Color);
+		DrawSprite(Size, m_Color);
 	}
 
 
