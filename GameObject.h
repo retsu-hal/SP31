@@ -2,7 +2,7 @@
 
 #include "main.h"
 #include "renderer.h"
-#include"model.h"
+#include "model.h"
 #include "texture.h"
 #include "Vector3.h"
 
@@ -24,13 +24,12 @@ protected://外部からアクセスできないが、継承したクラスからアクセスできる
 	ID3D11SamplerState* SamplerState;
 
 
-	MODEL* Model;
+	MODEL* m_Model;
 
 
 public:
 	bool m_Is2D = true;		//true:2Dオブジェクト、false:3Dオブジェクト
 
-public:
 	virtual void Init() {};
 	virtual void Uninit() {};
 	virtual void Update() {};

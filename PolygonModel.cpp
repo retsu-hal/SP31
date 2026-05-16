@@ -28,7 +28,7 @@ void PolygonModel::Init(void)
 	m_Rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
 
 	//モデルの読み込み
-	Model = ModelLoad("asset\\model\\model.fbx");
+	m_Model = ModelLoad("asset\\model\\model.fbx");
 	
 	//サンプラーの設定
 	D3D11_SAMPLER_DESC sampDesc = {};
@@ -49,7 +49,7 @@ void PolygonModel::Uninit(void)
 	VertexShader->Release();
 	PixelShader->Release();
 	SamplerState->Release();
-	ModelRelease(Model);
+	ModelRelease(m_Model);
 }
 
 //=========================================================================================================
@@ -115,6 +115,6 @@ void PolygonModel::Draw(void)
 		SetLight(light);
 
 		//描画
-		ModelDraw(Model);
+		ModelDraw(m_Model);
 	}
 }

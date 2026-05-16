@@ -30,7 +30,7 @@ void VertexDirectionalLighting::Init(void)
 	TexID = TextureLoad(L"asset\\texture\\sura.jpg");
 
 	//ÉÇÉfÉãÇÃì«Ç›çûÇ›
-	Model = ModelLoad("asset\\model\\model.fbx");
+	m_Model = ModelLoad("asset\\model\\model.fbx");
 };
 
 //=========================================================================================================
