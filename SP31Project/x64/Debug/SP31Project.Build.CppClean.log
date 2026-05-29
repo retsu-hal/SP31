@@ -4,6 +4,7 @@ c:\users\retsu\documents\2026_hal\sp31\sp31project\sp31project\x64\debug\texture
 c:\users\retsu\documents\2026_hal\sp31\sp31project\sp31project\x64\debug\sprite.obj
 c:\users\retsu\documents\2026_hal\sp31\sp31project\sp31project\x64\debug\renderer.obj
 c:\users\retsu\documents\2026_hal\sp31\sp31project\sp31project\x64\debug\sprite2d.obj
+c:\users\retsu\documents\2026_hal\sp31\sp31project\sp31project\x64\debug\pixeldirectionallighting.obj
 c:\users\retsu\documents\2026_hal\sp31\sp31project\sp31project\x64\debug\model.obj
 c:\users\retsu\documents\2026_hal\sp31\sp31project\sp31project\x64\debug\manager.obj
 c:\users\retsu\documents\2026_hal\sp31\sp31project\sp31project\x64\debug\main.obj
@@ -15,14 +16,18 @@ c:\users\retsu\documents\2026_hal\sp31\sp31project\sp31project\x64\debug\imgui_i
 c:\users\retsu\documents\2026_hal\sp31\sp31project\sp31project\x64\debug\imgui_draw.obj
 c:\users\retsu\documents\2026_hal\sp31\sp31project\sp31project\x64\debug\imgui_demo.obj
 c:\users\retsu\documents\2026_hal\sp31\sp31project\sp31project\x64\debug\imgui.obj
-c:\users\retsu\documents\2026_hal\sp31\sp31project\sp31project\x64\debug\camera.obj
 c:\users\retsu\documents\2026_hal\sp31\sp31project\sp31project\x64\debug\game.obj
 c:\users\retsu\documents\2026_hal\sp31\sp31project\sp31project\x64\debug\field3d.obj
+c:\users\retsu\documents\2026_hal\sp31\sp31project\sp31project\x64\debug\camera.obj
 c:\users\retsu\documents\2026_hal\sp31\sp31project\sp31project\x64\debug\polygonmodel.obj
+c:\users\retsu\documents\2026_hal\sp31\sp31project\sp31project\x64\debug\pixellightingblinnphong.obj
 c:\users\retsu\documents\2026_hal\sp31\sp31project\sp31project\x64\debug\vertexdirectionallighting.obj
-c:\users\retsu\documents\2026_hal\sp31\sp31project\sp31project\x64\debug\pixeldirectionallighting.obj
+c:\users\retsu\documents\2026_hal\sp31\sp31project\sp31project\x64\debug\hemispherelighting.obj
 c:\users\retsu\documents\2026_hal\sp31\sp31project\grayscaleps.cso
 c:\users\retsu\documents\2026_hal\sp31\sp31project\grayscalevs.cso
+c:\users\retsu\documents\2026_hal\sp31\sp31project\pixeldirectionallightingps.cso
+c:\users\retsu\documents\2026_hal\sp31\sp31project\pixellightingblinnphongvs.cso
+c:\users\retsu\documents\2026_hal\sp31\sp31project\pixellightingblinnphongps.cso
 c:\users\retsu\documents\2026_hal\sp31\sp31project\sepiaps.cso
 c:\users\retsu\documents\2026_hal\sp31\sp31project\sepiavs.cso
 c:\users\retsu\documents\2026_hal\sp31\sp31project\unlitcolorps.cso
@@ -32,7 +37,6 @@ c:\users\retsu\documents\2026_hal\sp31\sp31project\unlittexturevs.cso
 c:\users\retsu\documents\2026_hal\sp31\sp31project\vertexdirectionallightingps.cso
 c:\users\retsu\documents\2026_hal\sp31\sp31project\vertexdirectionallightingvs.cso
 c:\users\retsu\documents\2026_hal\sp31\sp31project\pixeldirectionallightingvs.cso
-c:\users\retsu\documents\2026_hal\sp31\sp31project\pixeldirectionallightingps.cso
 c:\users\retsu\documents\2026_hal\sp31\sp31project\x64\debug\sp31project.exe
 c:\users\retsu\documents\2026_hal\sp31\sp31project\x64\debug\sp31project.pdb
 c:\users\retsu\documents\2026_hal\sp31\sp31project\sp31project\x64\debug\sp31project.ilk

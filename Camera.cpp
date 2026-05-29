@@ -24,14 +24,14 @@ void Camera::Uninit()
 
 void Camera::Update()
 {
-
+	float speed = 0.8f;
 	if (Keyboard_IsKeyDown(KK_LEFT))
 	{
-		m_Rotation.x += 0.5f;
+		m_Rotation.x += speed;
 	}
 	else if (Keyboard_IsKeyDown(KK_RIGHT))
 	{
-		m_Rotation.x += -0.5f;
+		m_Rotation.x += -speed;
 	}
 
 

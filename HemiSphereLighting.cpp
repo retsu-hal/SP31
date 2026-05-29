@@ -1,0 +1,41 @@
+#include "HemiSphereLighting.h"
+
+void HemiSphereLighting::Init(void)
+{
+	PolygonModel::Init();
+	// シェーダー読み込み
+	CreateVertexShader(&VertexShader, &VertexLayout, "HemiSphereLightingVS.cso");
+	CreatePixelShader(&PixelShader, "HemiSphereLightingPS.cso");
+
+	//3Dオブジェクト管理構造体の初期化
+	m_Position = XMFLOAT3(0.0f + 0.5 * 3, 0.5f, 0.0f);
+
+
+	// ライト構造体の初期化
+	XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f);
+	dir = XMVector3Normalize(dir);
+	XMStoreFloat4(&m_Light.Direction, dir);
+	m_Light.Diffuse = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);	//拡散光の色
+	m_Light.Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);	//環境光の色
+
+	dir = XMVector4Normalize(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
+	XMStoreFloat4(&m_Light.GroundNormal, dir);
+
+	m_Light.SkyColor = XMFLOAT4(0.6f, 0.0f, 0.0f, 1.0f);	
+	m_Light.GroundColor = XMFLOAT4(0.0f, 0.6f, 0.0f, 1.0f);
+}
+
+void HemiSphereLighting::Uninit(void)
+{
+	PolygonModel::Uninit();
+}
+
+void HemiSphereLighting::Update(void)
+{
+	PolygonModel::Update();
+}
+
+void HemiSphereLighting::Draw(void)
+{
+	PolygonModel::Draw();
+}

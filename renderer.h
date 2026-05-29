@@ -44,6 +44,10 @@ struct LIGHT
 
 	XMFLOAT4	Position;
 	XMFLOAT4	PointLightParam;
+
+	XMFLOAT4 SkyColor;
+	XMFLOAT4 GroundColor;
+	XMFLOAT4 GroundNormal;
 };
 
 //*****************************************************************************

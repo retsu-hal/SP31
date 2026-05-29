@@ -7,40 +7,16 @@
   </ProjectOutputs>
   <ContentFiles>
     <ContentFile>
-      <FullPath>C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\GrayScalePS.cso</FullPath>
+      <FullPath>C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\LimLightingPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\GrayScaleVS.cso</FullPath>
+      <FullPath>C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\PointPixelLightingPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\PixelDirectionalLightingPS.cso</FullPath>
+      <FullPath>C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\PointPixelLightingVS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SepiaPS.cso</FullPath>
-    </ContentFile>
-    <ContentFile>
-      <FullPath>C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SepiaVS.cso</FullPath>
-    </ContentFile>
-    <ContentFile>
-      <FullPath>C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\UnlitColorPS.cso</FullPath>
-    </ContentFile>
-    <ContentFile>
-      <FullPath>C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\UnlitColorVS.cso</FullPath>
-    </ContentFile>
-    <ContentFile>
-      <FullPath>C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\UnlitTexturePS.cso</FullPath>
-    </ContentFile>
-    <ContentFile>
-      <FullPath>C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\UnlitTextureVS.cso</FullPath>
-    </ContentFile>
-    <ContentFile>
-      <FullPath>C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\VertexDirectionalLightingPS.cso</FullPath>
-    </ContentFile>
-    <ContentFile>
-      <FullPath>C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\VertexDirectionalLightingVS.cso</FullPath>
-    </ContentFile>
-    <ContentFile>
-      <FullPath>C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\PixelDirectionalLightingVS.cso</FullPath>
+      <FullPath>C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\LimLightingVS.cso</FullPath>
     </ContentFile>
   </ContentFiles>
   <SatelliteDlls />

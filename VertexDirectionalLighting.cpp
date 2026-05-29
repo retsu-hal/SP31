@@ -17,20 +17,13 @@ void VertexDirectionalLighting::Init(void)
 {
 	PolygonModel::Init();
 
-	m_Is2D = false;		//2DオブジェクトフラグOFF
+	//構造体初期化
+	m_Position = XMFLOAT3(0.0f + 0.5 * -0, 0.5f, 0.0f);
 
 	//シェーダー読み込み
 	CreateVertexShader(&VertexShader, &VertexLayout, "VertexDirectionalLightingVS.cso");
 	CreatePixelShader(&PixelShader, "VertexDirectionalLightingPS.cso");
 
-	//モデルの位置
-	m_Position = XMFLOAT3(0.5f, 0.2f, 0.0f);
-
-	// テクスチャ読み込み
-	TexID = TextureLoad(L"asset\\texture\\sura.jpg");
-
-	//モデルの読み込み
-	m_Model = ModelLoad("asset\\model\\model.fbx");
 };
 
 //=========================================================================================================
@@ -54,5 +47,7 @@ void VertexDirectionalLighting::Update(void)
 //=========================================================================================================
 void VertexDirectionalLighting::Draw(void)
 {
+	ID3D11ShaderResourceView* texture = GetTexture(TexID);
+	GetDeviceContext()->PSSetShaderResources(0, 1, &texture);
 	PolygonModel::Draw();
 }

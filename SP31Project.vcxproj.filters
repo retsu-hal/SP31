@@ -95,6 +95,18 @@
     <ClCompile Include="PixelDirectionalLighting.cpp">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClCompile>
+    <ClCompile Include="PixelLightingBlinnPhong.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClCompile>
+    <ClCompile Include="HemiSphereLighting.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClCompile>
+    <ClCompile Include="PointPixelLighting.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClCompile>
+    <ClCompile Include="LimLighting.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprite2D.h">
@@ -175,6 +187,18 @@
     <ClInclude Include="GameObject.h">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
+    <ClInclude Include="PixelLightingBlinnPhong.h">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClInclude>
+    <ClInclude Include="HemiSphereLighting.h">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClInclude>
+    <ClInclude Include="PointPixelLighting.h">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClInclude>
+    <ClInclude Include="LimLighting.h">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\UnlitColorVS.hlsl">
@@ -216,5 +240,13 @@
     <FxCompile Include="shader\VertexDirectionalLightingVS.hlsl">
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
+    <FxCompile Include="shader\PixelLightingBlinnPhongVS.hlsl" />
+    <FxCompile Include="shader\PixelLightingBlinnPhongPS.hlsl" />
+    <FxCompile Include="shader\HemiSphereLightingPS.hlsl" />
+    <FxCompile Include="shader\HemiSphereLightingVS.hlsl" />
+    <FxCompile Include="shader\PointPixelLightingVS.hlsl" />
+    <FxCompile Include="shader\PointPixelLightingPS.hlsl" />
+    <FxCompile Include="shader\LimLightingVS.hlsl" />
+    <FxCompile Include="shader\LimLightingPS.hlsl" />
   </ItemGroup>
 </Project>

@@ -25,7 +25,7 @@ protected://外部からアクセスできないが、継承したクラスからアクセスできる
 
 
 	MODEL* m_Model;
-
+	LIGHT m_Light;
 
 public:
 	bool m_Is2D = true;		//true:2Dオブジェクト、false:3Dオブジェクト

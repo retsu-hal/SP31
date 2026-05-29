@@ -54,8 +54,8 @@ void Field3D::Init()
 	assert(TexID >= 0);
 
 	//シェーダー読み込み
-	CreateVertexShader(&VertexShader, &VertexLayout, "UnlitTextureVS.cso");
-	CreatePixelShader(&PixelShader, "UnlitTexturePS.cso");
+	CreateVertexShader(&VertexShader, &VertexLayout, "PixelDirectionalLightingVS.cso");
+	CreatePixelShader(&PixelShader, "PixelDirectionalLightingPS.cso");
 
 	// 頂点バッファの作成
 	{

@@ -1,6 +1,7 @@
 C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\Camera.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\Camera.obj
 C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\Field3D.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\Field3D.obj
 C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\Game.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\Game.obj
+C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\HemiSphereLighting.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\HemiSphereLighting.obj
 C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\imgui\imgui.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\imgui.obj
 C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\imgui\imgui_demo.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\imgui_demo.obj
 C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\imgui\imgui_draw.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\imgui_draw.obj
@@ -9,10 +10,13 @@ C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\imgui\imgui_impl_win32.cpp;C:
 C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\imgui\imgui_tables.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\imgui_tables.obj
 C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\imgui\imgui_widgets.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\imgui_widgets.obj
 C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\keyboard.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\keyboard.obj
+C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\LimLighting.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\LimLighting.obj
 C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\main.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\main.obj
 C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\Manager.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\Manager.obj
 C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\model.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\model.obj
 C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\PixelDirectionalLighting.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\PixelDirectionalLighting.obj
+C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\PixelLightingBlinnPhong.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\PixelLightingBlinnPhong.obj
+C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\PointPixelLighting.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\PointPixelLighting.obj
 C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\PolygonModel.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\PolygonModel.obj
 C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\Sprite2D.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\Sprite2D.obj
 C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\renderer.cpp;C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SP31Project\x64\Debug\renderer.obj

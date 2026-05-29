@@ -49,7 +49,11 @@ struct LIGHT
     float4  Ambient;
     
     float4 Position;
-    float4 PointLightparam;
+    float4 PointLightParam;
+    
+    float4 SkyColor;
+    float4 GroundColor;
+    float4 GroundNormal;
 };
 
 
