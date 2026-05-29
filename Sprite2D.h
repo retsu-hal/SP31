@@ -17,6 +17,7 @@ class Sprite2D : public GameObject
 	virtual const char* GetVertexShaderPath() const { return "UnlitTextureVS.cso"; }
 	virtual const char* GetPixelShaderPath()  const { return "UnlitTexturePS.cso"; }
 	virtual const wchar_t* GetTexturePath()  const { return L"asset\\texture\\img_yuno-sengoku.jpg"; }
+	const char* GetName() const override { return "Sprite2D"; }
 
 	protected:
 		XMFLOAT2	Size;			//ÉTÉCÉY

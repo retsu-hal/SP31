@@ -14,6 +14,7 @@
 #include "texture.h"
 #include "model.h"
 #include "keyboard.h"
+#include "imgui/imgui.h"
 //==============================================================================
 //マクロ宣言
 //==============================================================================
@@ -97,6 +98,24 @@ void PolygonModel::Update(void)
 	if(Keyboard_IsKeyDown(KK_A))		m_Position.x -= Movespeed;
 	if(Keyboard_IsKeyDown(KK_D))		m_Position.x += Movespeed;
 
+	ImGui::Begin("Debug");
+	ImGui::PushID(this);
+	const char* className = typeid(*this).name();
+	if (std::strncmp(className, "class ", 6) == 0) className += 6;
+	if (ImGui::CollapsingHeader(GetName()))
+	{
+		ImGui::DragFloat3("Position", &m_Position.x, 0.01f, 0.0f, 0.0f, "%.2f");
+		ImGui::DragFloat3("Rotation", &m_Rotation.x, 0.1f, 0.0f, 0.0f, "%.2f");
+		ImGui::DragFloat3("Scale", &m_Scale.x, 0.1f, 0.0f, FLT_MAX, "%.2f", ImGuiSliderFlags_AlwaysClamp);
+		ImGui::DragFloat3("Light Direction", &m_Light.Direction.x, 0.01f);  // 光の向き
+		ImGui::DragFloat4("Light Position", &m_Light.Position.x, 0.1f);   // 点光源の位置
+		ImGui::ColorEdit4("Diffuse", &m_Light.Diffuse.x);           // 拡散光の色
+		ImGui::ColorEdit4("Ambient", &m_Light.Ambient.x);           // 環境光の色
+		ImGui::DragFloat4("Point Light Param", &m_Light.PointLightParam.x, 0.01f); // 減衰パラメータ等
+	}
+	
+	ImGui::PopID();
+	ImGui::End();
 }
 
 //==============================================================================

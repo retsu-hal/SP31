@@ -46,6 +46,7 @@ void  PointPixelLighting::Init(void)
 //=============================================================================
 void PointPixelLighting::Uninit(void)
 {
+	PolygonModel::Uninit();
 }
 
 //=============================================================================
@@ -53,6 +54,7 @@ void PointPixelLighting::Uninit(void)
 //=============================================================================
 void PointPixelLighting::Update(void)
 {
+	PolygonModel::Update();
 }
 
 //=============================================================================
@@ -60,4 +62,5 @@ void PointPixelLighting::Update(void)
 //=============================================================================
 void PointPixelLighting::Draw(void)
 {
+	PolygonModel::Draw();
 }

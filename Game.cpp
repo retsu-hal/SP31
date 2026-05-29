@@ -1,9 +1,6 @@
 #include "Main.h"
 #include "Renderer.h"
-#include "Manager.h"
-#include "Sprite.h"
 #include "Game.h"
-#include "keyboard.h"
 #include "Camera.h"
 #include "texture.h"
 
@@ -28,13 +25,13 @@ std::vector<GameObject*> g_GameObjects =
 	new Camera(),
 	new Sprite2D(),
 	new Field3D(),
-	new PolygonModel(),
-	new VertexDirectionalLighting(),
-	new PixelDirectionalLighting(),
-	new PixelLightingBlinnPhong(),
-	new HemiSphereLighting(),
-	//new PointPixelLighting(),
-	//new LimLighting(),
+	//new PolygonModel(),
+	//new VertexDirectionalLighting(),
+	//new PixelDirectionalLighting(),
+	//new PixelLightingBlinnPhong(),
+	//new HemiSphereLighting(),
+	new PointPixelLighting(),
+	new LimLighting(),
 };
 
 //ポーズフラグ
@@ -121,6 +118,15 @@ void UpdateGame()
 //ゲームシーン描画
 void DrawGame()
 {
+	// 2D用マトリクス設定
+	SetWorldViewProjection2D();
+	SetDepthEnable(false);
+	for (GameObject* gameObject : g_GameObjects)
+	{
+		if (gameObject != nullptr && gameObject->m_Is2D)
+			gameObject->Draw();
+	}
+	
 	//3D用マトリクス設定
 	{
 		SetLight(g_Light);
@@ -131,13 +137,4 @@ void DrawGame()
 				gameObject->Draw();
 		}
 	}
-	// 2D用マトリクス設定
-	SetWorldViewProjection2D();
-	SetDepthEnable(false);
-	for (GameObject* gameObject : g_GameObjects)
-	{
-		if (gameObject != nullptr && gameObject->m_Is2D)
-			gameObject->Draw();
-	}
-	
 }

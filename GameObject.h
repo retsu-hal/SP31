@@ -31,7 +31,7 @@ protected://外部からアクセスできないが、継承したクラスからアクセスできる
 	virtual const char* GetPixelShaderPath()  const { return "UnlitTexturePS.cso"; }
 	virtual const char* GetModelPath()  const { return "asset\\model\\model.fbx"; }
 	virtual const wchar_t* GetTexturePath()  const { return L"asset\\texture\\sura.jpg"; }
-
+	virtual const char* GetName() const { return "GameObject"; }
 public:
 	virtual ~GameObject() {}
 
