@@ -10,25 +10,18 @@
 
 
 #include "main.h"
-#include "renderer.h"
 #include "GameObject.h"
-
-//*****************************************************************************
-// マクロ定義
-//*****************************************************************************
-
-
-////////////////
-//構造体
-////////////////
 
 class Sprite2D : public GameObject
 {
+	virtual const char* GetVertexShaderPath() const { return "UnlitTextureVS.cso"; }
+	virtual const char* GetPixelShaderPath()  const { return "UnlitTexturePS.cso"; }
+	virtual const wchar_t* GetTexturePath()  const { return L"asset\\texture\\img_yuno-sengoku.jpg"; }
+
 	protected:
 		XMFLOAT2	Size;			//サイズ
 
 		float		Rotate;			//回転角度（360表現）
-		int			TexID;			//テクスチャID
 	public:
 		void Init(void)override;
 		void Uninit(void)override;
@@ -37,7 +30,3 @@ class Sprite2D : public GameObject
 
 
 };
-
-//*****************************************************************************
-// プロトタイプ宣言
-//*****************************************************************************

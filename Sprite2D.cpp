@@ -8,7 +8,6 @@
 ==============================================================================*/
 #include "Sprite2D.h"
 #include "sprite.h"
-#include "Camera.h"
 #include "texture.h"
 
 //*****************************************************************************
@@ -31,11 +30,11 @@ void Sprite2D::Init(void)
 {
 	m_Is2D = true;		//2DオブジェクトフラグON
 	// テクスチャ読み込み
-	int texture = TextureLoad(L"asset\\texture\\img_yuno-sengoku.jpg");
+	m_TexID = TextureLoad(GetTexturePath());
 	
 	//シェーダー読み込み
-	CreateVertexShader(&VertexShader, &VertexLayout, "UnlitColorVS.cso");
-	CreatePixelShader(&PixelShader, "UnlitColorPS.cso");
+	CreateVertexShader(&m_VertexShader, &m_VertexLayout,GetVertexShaderPath());
+	CreatePixelShader(&m_PixelShader, GetPixelShaderPath());
 
 	//シェーダー読み込み(グレースケール)
 	/*
@@ -54,7 +53,6 @@ void Sprite2D::Init(void)
 	m_Scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
 	Size = XMFLOAT2(SCREEN_WIDTH /3/2, SCREEN_HEIGHT /1.5/2);
 	Rotate = 0.0f;
-	TexID = texture;
 
 	D3D11_SAMPLER_DESC sampDesc = {};
 	sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
@@ -62,7 +60,7 @@ void Sprite2D::Init(void)
 	sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 	sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
 	sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
-	GetDevice()->CreateSamplerState(&sampDesc, &SamplerState);
+	GetDevice()->CreateSamplerState(&sampDesc, &m_SamplerState);
 }
 
 //=============================================================================
@@ -70,10 +68,10 @@ void Sprite2D::Init(void)
 //=============================================================================
 void Sprite2D::Uninit(void)
 {
-	VertexLayout->Release();
-	VertexShader->Release();
-	PixelShader->Release();
-	SamplerState->Release();
+	m_VertexLayout->Release();
+	m_VertexShader->Release();
+	m_PixelShader->Release();
+	m_SamplerState->Release();
 }
 
 //=============================================================================
@@ -92,11 +90,11 @@ void Sprite2D::Draw(void)
 {
 
 	// 頂点レイアウト設定
-	GetDeviceContext()->IASetInputLayout(VertexLayout);
+	GetDeviceContext()->IASetInputLayout(m_VertexLayout);
 	//頂点シェーダーをセット
-	GetDeviceContext()->VSSetShader(VertexShader, NULL, 0);
+	GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
 	//ピクセルシェーダーをセット
-	GetDeviceContext()->PSSetShader(PixelShader, NULL, 0);
+	GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
 
 	//奥行き処理をOFF
 	SetDepthEnable(false);
@@ -110,10 +108,10 @@ void Sprite2D::Draw(void)
 	{//2Dポリゴン1枚ずつで必要な処理
 
 		//テクスチャをセット
-		ID3D11ShaderResourceView* tex = GetTexture(TexID);
+		ID3D11ShaderResourceView* tex = GetTexture(m_TexID);
 		GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
 
-		GetDeviceContext()->PSSetSamplers(0, 1, &SamplerState);
+		GetDeviceContext()->PSSetSamplers(0, 1, &m_SamplerState);
 
 		//平行移動行列の作成（表示座標を決める）
 		XMMATRIX	TranslationMatrix = XMMatrixTranslation(

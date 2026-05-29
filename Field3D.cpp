@@ -50,12 +50,11 @@ void Field3D::Init()
 	m_Is2D = false;		//2DオブジェクトフラグOFF
 
 	// テクスチャ読み込み
-	TexID = TextureLoad(L"asset\\texture\\sura.jpg");
-	assert(TexID >= 0);
-
+	m_TexID = TextureLoad(L"asset\\texture\\sura.jpg");
+	
 	//シェーダー読み込み
-	CreateVertexShader(&VertexShader, &VertexLayout, "PixelDirectionalLightingVS.cso");
-	CreatePixelShader(&PixelShader, "PixelDirectionalLightingPS.cso");
+	CreateVertexShader(&m_VertexShader, &m_VertexLayout, "PixelDirectionalLightingVS.cso");
+	CreatePixelShader(&m_PixelShader, "PixelDirectionalLightingPS.cso");
 
 	// 頂点バッファの作成
 	{
@@ -65,18 +64,18 @@ void Field3D::Init()
 		bd.ByteWidth = sizeof(VERTEX_3D) * NUM_VERTEX;
 		bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 		bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-		GetDevice()->CreateBuffer(&bd, NULL, &VertexBuffer);
+		GetDevice()->CreateBuffer(&bd, NULL, &m_VertexBuffer);
 	}
 	
 	//頂点バッファの書き込み先のポインターを取得
 	D3D11_MAPPED_SUBRESOURCE msr;
-	GetDeviceContext()->Map(VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
+	GetDeviceContext()->Map(m_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
 	VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
 	//頂点データをコピー
 	CopyMemory(&vertex[0], &Box[0], sizeof(VERTEX_3D) * NUM_VERTEX);
 	//
-	GetDeviceContext()->Unmap(VertexBuffer, 0);
+	GetDeviceContext()->Unmap(m_VertexBuffer, 0);
 
 	//構造体初期化
 	m_Position = XMFLOAT3(0.0f, 0.0f, 0.0f);
@@ -91,11 +90,10 @@ void Field3D::Init()
 //=========================================================================================================
 void Field3D::Uninit()
 {
-	VertexLayout->Release();
-	VertexShader->Release();
-	PixelShader->Release();
-
-	VertexBuffer->Release();
+	m_VertexLayout->Release();
+	m_VertexShader->Release();
+	m_PixelShader->Release();
+	m_VertexBuffer->Release();
 };
 
 //=========================================================================================================
@@ -112,15 +110,15 @@ void Field3D::Update(void)
 void Field3D::Draw(void)
 {
 	//
-	GetDeviceContext()->IASetInputLayout(VertexLayout);
+	GetDeviceContext()->IASetInputLayout(m_VertexLayout);
 	//
-	GetDeviceContext()->VSSetShader(VertexShader, NULL, 0);
+	GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
 	//
-	GetDeviceContext()->PSSetShader(PixelShader, NULL, 0);
+	GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
 
 	{
 		//
-		ID3D11ShaderResourceView* tex = GetTexture(TexID);
+		ID3D11ShaderResourceView* tex = GetTexture(m_TexID);
 		GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
 
 		//
@@ -137,7 +135,7 @@ void Field3D::Draw(void)
 		//
 		UINT stride = sizeof(VERTEX_3D);
 		UINT offset = 0;
-		GetDeviceContext()->IASetVertexBuffers(0, 1, &VertexBuffer, &stride, &offset);
+		GetDeviceContext()->IASetVertexBuffers(0, 1, &m_VertexBuffer, &stride, &offset);
 		//
 		GetDeviceContext()->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 

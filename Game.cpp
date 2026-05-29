@@ -26,7 +26,7 @@ LIGHT g_Light;
 std::vector<GameObject*> g_GameObjects =
 {
 	new Camera(),
-	//new Sprite2D(),
+	new Sprite2D(),
 	new Field3D(),
 	new PolygonModel(),
 	new VertexDirectionalLighting(),

@@ -4,9 +4,13 @@
 class PixelLightingBlinnPhong : public PolygonModel
 {
 	public:
-	void Init(void)override;
-	void Uninit(void)override;
-	void Update(void)override;
-	void Draw(void)override;
+		const char* GetVertexShaderPath() const override { return "PixelLightingBlinnPhongVS.cso"; }
+		const char* GetPixelShaderPath()  const override { return "PixelLightingBlinnPhongPS.cso"; }
+		const char* GetModelPath()  const override { return "asset\\model\\cube.fbx"; }
+		
+		void Init(void)override;
+		void Uninit(void)override;
+		void Update(void)override;
+		void Draw(void)override;
 };
 

@@ -23,15 +23,9 @@
 void PixelLightingBlinnPhong::Init(void)
 {
 	PolygonModel::Init();
-	// シェーダー読み込み
-	CreateVertexShader(&VertexShader, &VertexLayout, "PixelLightingBlinnPhongVS.cso");
-	CreatePixelShader(&PixelShader, "PixelLightingBlinnPhongPS.cso");
-
+	
 	//構造体初期化
 	m_Position = XMFLOAT3(0.0f + 0.5 * 2, 0.5f, 0.0f);
-
-	//モデル読み込み
-	m_Model = ModelLoad("asset\\model\\cube.fbx");
 
 	// ライト構造体の初期化
 	XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f);

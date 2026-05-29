@@ -1,9 +1,4 @@
-﻿  HemiSphereLighting.cpp
-  LimLighting.cpp
-  PixelDirectionalLighting.cpp
-  PixelLightingBlinnPhong.cpp
-  PointPixelLighting.cpp
-  PolygonModel.cpp
-  VertexDirectionalLighting.cpp
+﻿  Game.cpp
+  Sprite2D.cpp
   コードを生成中...
   SP31Project.vcxproj -> C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\x64\Debug\SP31Project.exe

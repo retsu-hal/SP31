@@ -29,10 +29,6 @@
 void  PointPixelLighting::Init(void)
 {
 	PolygonModel::Init();
-	//シェーダー読み込み
-	CreateVertexShader(&VertexShader, &VertexLayout, "PointPixelLightingVS.cso");
-	CreatePixelShader(&PixelShader, "PointPixelLightingPS.cso");
-
 
 	//ライト構造体の初期化
 	XMVECTOR	dir = XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f);
@@ -50,7 +46,6 @@ void  PointPixelLighting::Init(void)
 //=============================================================================
 void PointPixelLighting::Uninit(void)
 {
-	PolygonModel::Uninit();
 }
 
 //=============================================================================
@@ -58,7 +53,6 @@ void PointPixelLighting::Uninit(void)
 //=============================================================================
 void PointPixelLighting::Update(void)
 {
-	PolygonModel::Update();
 }
 
 //=============================================================================
@@ -66,5 +60,4 @@ void PointPixelLighting::Update(void)
 //=============================================================================
 void PointPixelLighting::Draw(void)
 {
-	PolygonModel::Draw();
 }

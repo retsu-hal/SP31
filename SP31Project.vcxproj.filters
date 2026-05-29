@@ -240,13 +240,29 @@
     <FxCompile Include="shader\VertexDirectionalLightingVS.hlsl">
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
-    <FxCompile Include="shader\PixelLightingBlinnPhongVS.hlsl" />
-    <FxCompile Include="shader\PixelLightingBlinnPhongPS.hlsl" />
-    <FxCompile Include="shader\HemiSphereLightingPS.hlsl" />
-    <FxCompile Include="shader\HemiSphereLightingVS.hlsl" />
-    <FxCompile Include="shader\PointPixelLightingVS.hlsl" />
-    <FxCompile Include="shader\PointPixelLightingPS.hlsl" />
-    <FxCompile Include="shader\LimLightingVS.hlsl" />
-    <FxCompile Include="shader\LimLightingPS.hlsl" />
+    <FxCompile Include="shader\HemiSphereLightingPS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\HemiSphereLightingVS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\LimLightingPS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\LimLightingVS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\PixelLightingBlinnPhongPS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\PixelLightingBlinnPhongVS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\PointPixelLightingPS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\PointPixelLightingVS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

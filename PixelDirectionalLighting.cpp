@@ -24,10 +24,6 @@ void PixelDirectionalLighting::Init(void)
 
 	//構造体初期化
 	m_Position = XMFLOAT3(0.0f + 0.5 * 1, 0.5f, 0.0f);
-
-	//シェーダー読み込み
-	CreateVertexShader(&VertexShader, &VertexLayout, "PixelDirectionalLightingVS.cso");
-	CreatePixelShader(&PixelShader, "PixelDirectionalLightingPS.cso");
 };
 
 //=========================================================================================================

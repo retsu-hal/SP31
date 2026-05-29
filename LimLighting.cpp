@@ -32,10 +32,7 @@
 void  LimLighting::Init(void)
 {
 	PolygonModel::Init();
-	//シェーダー読み込み
-	CreateVertexShader(&VertexShader, &VertexLayout, "LimLightingVS.cso");
-	CreatePixelShader(&PixelShader, "LimLightingPS.cso");
-
+	
 	m_Position = XMFLOAT3(0.5f,0.5f,0.0f);
 	
 	//ライト構造体の初期化
