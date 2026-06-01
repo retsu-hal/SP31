@@ -48,6 +48,8 @@ struct LIGHT
 	XMFLOAT4 SkyColor;
 	XMFLOAT4 GroundColor;
 	XMFLOAT4 GroundNormal;
+
+	XMFLOAT4 Angle;
 };
 
 //*****************************************************************************

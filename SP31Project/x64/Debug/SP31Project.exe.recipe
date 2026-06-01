@@ -13,6 +13,12 @@
       <FullPath>C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\PointPixelLightingPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
+      <FullPath>C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SpotLightingPS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\SpotLightingVS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
       <FullPath>C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\PointPixelLightingVS.cso</FullPath>
     </ContentFile>
     <ContentFile>
