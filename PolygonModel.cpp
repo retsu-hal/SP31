@@ -64,7 +64,7 @@ void PolygonModel::Init(void)
 	dir = XMVector3Normalize(dir);
 	XMStoreFloat4(&m_Light.Direction, dir);//光のベクトル
 
-	m_Light.Position = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);//点光源の位置
+	m_Light.Position = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);//点光源の位置
 	m_Light.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);//光の色
 	m_Light.Ambient = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);//環境光
 	m_Light.PointLightParam = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);//環境光
@@ -98,20 +98,63 @@ void PolygonModel::Update(void)
 	if(Keyboard_IsKeyDown(KK_A))		m_Position.x -= Movespeed;
 	if(Keyboard_IsKeyDown(KK_D))		m_Position.x += Movespeed;
 
-	ImGui::Begin("Debug");
+	ImGui::Begin("Inspecter");
 	ImGui::PushID(this);
-	const char* className = typeid(*this).name();
-	if (std::strncmp(className, "class ", 6) == 0) className += 6;
 	if (ImGui::CollapsingHeader(GetName()))
 	{
-		ImGui::DragFloat3("Position", &m_Position.x, 0.01f, 0.0f, 0.0f, "%.2f");
-		ImGui::DragFloat3("Rotation", &m_Rotation.x, 0.1f, 0.0f, 0.0f, "%.2f");
-		ImGui::DragFloat3("Scale", &m_Scale.x, 0.1f, 0.0f, FLT_MAX, "%.2f", ImGuiSliderFlags_AlwaysClamp);
-		ImGui::DragFloat3("Light Direction", &m_Light.Direction.x, 0.01f);  // 光の向き
-		ImGui::DragFloat4("Light Position", &m_Light.Position.x, 0.1f);   // 点光源の位置
-		ImGui::ColorEdit4("Diffuse", &m_Light.Diffuse.x);           // 拡散光の色
-		ImGui::ColorEdit4("Ambient", &m_Light.Ambient.x);           // 環境光の色
-		ImGui::DragFloat4("Point Light Param", &m_Light.PointLightParam.x, 0.01f); // 減衰パラメータ等
+		float w3 = (ImGui::CalcItemWidth() - ImGui::GetStyle().ItemSpacing.x * 2.0f) / 3.0f;//3つの項目を同じ幅で配置するための計算
+		float w4 = (ImGui::CalcItemWidth() - ImGui::GetStyle().ItemSpacing.x * 3.0f) / 4.0f;//4つの項目を同じ幅で配置するための計算
+
+		{
+		ImGui::PushItemWidth(w3); 
+		ImGui::DragFloat("##PositionX", &m_Position.x, 0.01f, 0.0f, 0.0f, "X:%.2f"); ImGui::SameLine();
+		ImGui::DragFloat("##PositionY", &m_Position.y, 0.01f, 0.0f, 0.0f, "Y:%.2f"); ImGui::SameLine();
+		ImGui::DragFloat("##PositionZ", &m_Position.z, 0.01f, 0.0f, 0.0f, "Z:%.2f");
+		ImGui::PopItemWidth();
+		ImGui::SameLine(); ImGui::Text("Position");
+		}
+
+		ImGui::PushItemWidth(w3); 
+		ImGui::DragFloat("##RotationX", &m_Rotation.x, 0.01f, 0.0f, 0.0f, "X:%.2f"); ImGui::SameLine();
+		ImGui::DragFloat("##RotationY", &m_Rotation.y, 0.01f, 0.0f, 0.0f, "Y:%.2f"); ImGui::SameLine();
+		ImGui::DragFloat("##RotationZ", &m_Rotation.z, 0.01f, 0.0f, 0.0f, "Z:%.2f");
+		ImGui::PopItemWidth();
+		ImGui::SameLine(); ImGui::Text("Rotation");
+
+		ImGui::PushItemWidth(w3); 
+		ImGui::DragFloat("##ScaleX", &m_Scale.x, 0.1f, 0.0f, FLT_MAX, "X:%.2f", ImGuiSliderFlags_AlwaysClamp); ImGui::SameLine();
+		ImGui::DragFloat("##ScaleY", &m_Scale.y, 0.1f, 0.0f, FLT_MAX, "Y:%.2f", ImGuiSliderFlags_AlwaysClamp); ImGui::SameLine();
+		ImGui::DragFloat("##ScaleZ", &m_Scale.z, 0.1f, 0.0f, FLT_MAX, "Z:%.2f", ImGuiSliderFlags_AlwaysClamp);
+		ImGui::PopItemWidth();
+		ImGui::SameLine(); ImGui::Text("Scale");
+
+		ImGui::PushItemWidth(w3);
+		ImGui::DragFloat("##Light DirectionX", &m_Light.Direction.x,0.01f, 0.0f, 0.0f, "X:%.2f"); ImGui::SameLine();
+		ImGui::DragFloat("##Light DirectionY", &m_Light.Direction.y,0.01f, 0.0f, 0.0f, "Y:%.2f"); ImGui::SameLine();
+		ImGui::DragFloat("##Light DirectionZ", &m_Light.Direction.z,0.01f, 0.0f, 0.0f, "Z:%.2f");
+		ImGui::PopItemWidth();
+		ImGui::SameLine(); ImGui::Text("Light Direction");
+
+		ImGui::PushItemWidth(w4);
+		ImGui::DragFloat("##Light PositionX", &m_Light.Position.x, 0.01f, 0.0f, 0.0f, "X:%.2f"); ImGui::SameLine();
+		ImGui::DragFloat("##Light PositionY", &m_Light.Position.y, 0.01f, 0.0f, 0.0f, "Y:%.2f"); ImGui::SameLine();
+		ImGui::DragFloat("##Light PositionZ", &m_Light.Position.z, 0.01f, 0.0f, 0.0f, "Z:%.2f"); ImGui::SameLine();
+		ImGui::DragFloat("##Light PositionW", &m_Light.Position.w, 0.01f, 0.0f, 0.0f, "W:%.2f"); 
+		ImGui::PopItemWidth();
+		ImGui::SameLine(); ImGui::Text("Light Position");
+
+		ImGui::ColorEdit3("Diffuse", &m_Light.Diffuse.x);
+		ImGui::ColorEdit3("Ambient", &m_Light.Ambient.x);
+
+		ImGui::PushItemWidth(w4);
+		ImGui::DragFloat("##Point Light ParamX", &m_Light.PointLightParam.x, 0.01f, 0.0f, 0.0f, "X:%.2f"); ImGui::SameLine();
+		ImGui::DragFloat("##Point Light ParamY", &m_Light.PointLightParam.y, 0.01f, 0.0f, 0.0f, "Y:%.2f"); ImGui::SameLine();
+		ImGui::DragFloat("##Point Light ParamZ", &m_Light.PointLightParam.z, 0.01f, 0.0f, 0.0f, "Z:%.2f"); ImGui::SameLine();
+		ImGui::DragFloat("##Point Light ParamW", &m_Light.PointLightParam.w, 0.01f, 0.0f, 0.0f, "W:%.2f");
+		ImGui::PopItemWidth();
+		ImGui::SameLine(); ImGui::Text("Point Light Param");
+
+		DrawImGui();
 	}
 	
 	ImGui::PopID();

@@ -1,6 +1,7 @@
 #pragma once
+#include "renderer.h"
 
-
+extern LIGHT g_Light;
 
 void InitGame();
 void FinalizeGame();

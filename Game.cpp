@@ -14,8 +14,9 @@
 #include "HemiSphereLighting.h"
 #include "PointPixelLighting.h"
 #include "LimLighting.h"
+#include "SpotLighting.h"
 
-LIGHT g_Light;
+
 //===============================================
 //グローバル変数
 //===============================================
@@ -32,11 +33,13 @@ std::vector<GameObject*> g_GameObjects =
 	//new HemiSphereLighting(),
 	new PointPixelLighting(),
 	new LimLighting(),
+	new SpotLighting(),
 };
 
 //ポーズフラグ
 static	bool	pause = false;
 
+LIGHT g_Light;
 //===============================================
 //ポーズフラグセット
 void	SetPause(bool flg)
@@ -67,16 +70,14 @@ void InitGame()
 
 	// ライト構造体の初期化
 	XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f);
-	dir = XMVector3Normalize(dir);
-	XMStoreFloat4(&g_Light.Direction, dir);
-	g_Light.Diffuse = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);	//拡散光の色
+	XMStoreFloat4(&g_Light.Direction, dir);//コーンの向き
+	g_Light.Position = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
+	g_Light.Diffuse = XMFLOAT4(1.0f,1.0f,1.0f, 1.0f);	//拡散光の色
 	g_Light.Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);	//環境光の色
-
-	dir = XMVector4Normalize(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
-	XMStoreFloat4(&g_Light.GroundNormal, dir);
-
 	g_Light.SkyColor = XMFLOAT4(0.6f, 0.0f, 0.0f, 1.0f);
 	g_Light.GroundColor = XMFLOAT4(0.0f, 0.6f, 0.0f, 1.0f);
+	g_Light.PointLightParam = XMFLOAT4(10.0f, 1.0f, 0.0f, 0.0f);
+	g_Light.Angle.x = XMConvertToRadians(30.0f);//コーンの角度
 }
 
 //===============================================
@@ -111,6 +112,18 @@ void UpdateGame()
 		}
 
 	}
+	// 共通ライト（g_Light）の調整UI
+	ImGui::Begin("SPOT LIGHT");
+	{
+		ImGui::ColorEdit3("Diffuse", &g_Light.Diffuse.x);
+		ImGui::DragFloat3("Direction", &g_Light.Direction.x, 0.01f);
+		ImGui::DragFloat4("Position", &g_Light.Position.x, 0.1f);
+
+		float angle = XMConvertToDegrees(g_Light.Angle.x);
+		ImGui::SliderFloat("Cone Angle", &angle, 5.0f, 45.0f, "%.1f");
+		g_Light.Angle.x = XMConvertToRadians(angle);
+	}
+	ImGui::End();
 
 }
 
@@ -129,7 +142,7 @@ void DrawGame()
 	
 	//3D用マトリクス設定
 	{
-		SetLight(g_Light);
+		//SetLight(g_Light);
 		SetDepthEnable(true);		//奥行き処理有効
 		for (GameObject* gameObject : g_GameObjects)
 		{

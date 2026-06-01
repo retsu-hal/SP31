@@ -54,6 +54,8 @@ struct LIGHT
     float4 SkyColor;
     float4 GroundColor;
     float4 GroundNormal;
+    
+    float4 Angle;
 };
 
 

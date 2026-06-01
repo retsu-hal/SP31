@@ -235,6 +235,7 @@ HRESULT	Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
+	//io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	ImGui_ImplWin32_Init(hWnd);
 	ImGui_ImplDX11_Init(GetDevice(), GetDeviceContext());
 	//==================

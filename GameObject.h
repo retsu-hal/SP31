@@ -41,4 +41,6 @@ public:
 	virtual void Uninit() {};
 	virtual void Update() {};
 	virtual void Draw() {};
+
+	virtual void  DrawImGui() {};
 };
