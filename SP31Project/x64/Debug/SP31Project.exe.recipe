@@ -24,6 +24,12 @@
     <ContentFile>
       <FullPath>C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\LimLightingVS.cso</FullPath>
     </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\UnlitTexturePS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\retsu\Documents\2026_hal\SP31\SP31Project\UnlitTextureVS.cso</FullPath>
+    </ContentFile>
   </ContentFiles>
   <SatelliteDlls />
   <NonRecipeFileRefs />

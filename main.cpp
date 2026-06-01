@@ -235,7 +235,7 @@ HRESULT	Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
-	//io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	ImGui_ImplWin32_Init(hWnd);
 	ImGui_ImplDX11_Init(GetDevice(), GetDeviceContext());
 	//==================
@@ -273,7 +273,8 @@ void	Update(void)
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
-	ImGui::ShowDemoWindow();  //消しても問題ない。
+	ImGui::DockSpaceOverViewport(0, ImGui::GetMainViewport());
+	//ImGui::ShowDemoWindow();  //消しても問題ない。
 	//===========================
 
 	//マネージャ更新
