@@ -273,7 +273,7 @@ void	Update(void)
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
-	ImGui::DockSpaceOverViewport(0, ImGui::GetMainViewport());
+	ImGui::DockSpaceOverViewport(0, ImGui::GetMainViewport(),ImGuiDockNodeFlags_PassthruCentralNode);
 	//ImGui::ShowDemoWindow();  //è¡ÇµÇƒÇ‡ñ‚ëËÇ»Ç¢ÅB
 	//===========================
 
