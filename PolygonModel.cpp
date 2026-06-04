@@ -98,67 +98,7 @@ void PolygonModel::Update(void)
 	if(Keyboard_IsKeyDown(KK_A))		m_Position.x -= Movespeed;
 	if(Keyboard_IsKeyDown(KK_D))		m_Position.x += Movespeed;
 
-	ImGui::Begin("Inspecter");
-	ImGui::PushID(this);
-	if (ImGui::CollapsingHeader(GetName()))
-	{
-		float w3 = (ImGui::CalcItemWidth() - ImGui::GetStyle().ItemSpacing.x * 2.0f) / 3.0f;//3Ç¬ÇÃçÄñ⁄ÇìØÇ∂ïùÇ≈îzíuÇ∑ÇÈÇΩÇﬂÇÃåvéZ
-		float w4 = (ImGui::CalcItemWidth() - ImGui::GetStyle().ItemSpacing.x * 3.0f) / 4.0f;//4Ç¬ÇÃçÄñ⁄ÇìØÇ∂ïùÇ≈îzíuÇ∑ÇÈÇΩÇﬂÇÃåvéZ
-
-		{
-		ImGui::PushItemWidth(w3); 
-		ImGui::DragFloat("##PositionX", &m_Position.x, 0.01f, 0.0f, 0.0f, "X:%.2f"); ImGui::SameLine();
-		ImGui::DragFloat("##PositionY", &m_Position.y, 0.01f, 0.0f, 0.0f, "Y:%.2f"); ImGui::SameLine();
-		ImGui::DragFloat("##PositionZ", &m_Position.z, 0.01f, 0.0f, 0.0f, "Z:%.2f");
-		ImGui::PopItemWidth();
-		ImGui::SameLine(); ImGui::Text("Position");
-		}
-
-		ImGui::PushItemWidth(w3); 
-		ImGui::DragFloat("##RotationX", &m_Rotation.x, 0.01f, 0.0f, 0.0f, "X:%.2f"); ImGui::SameLine();
-		ImGui::DragFloat("##RotationY", &m_Rotation.y, 0.01f, 0.0f, 0.0f, "Y:%.2f"); ImGui::SameLine();
-		ImGui::DragFloat("##RotationZ", &m_Rotation.z, 0.01f, 0.0f, 0.0f, "Z:%.2f");
-		ImGui::PopItemWidth();
-		ImGui::SameLine(); ImGui::Text("Rotation");
-
-		ImGui::PushItemWidth(w3); 
-		ImGui::DragFloat("##ScaleX", &m_Scale.x, 0.1f, 0.0f, FLT_MAX, "X:%.2f", ImGuiSliderFlags_AlwaysClamp); ImGui::SameLine();
-		ImGui::DragFloat("##ScaleY", &m_Scale.y, 0.1f, 0.0f, FLT_MAX, "Y:%.2f", ImGuiSliderFlags_AlwaysClamp); ImGui::SameLine();
-		ImGui::DragFloat("##ScaleZ", &m_Scale.z, 0.1f, 0.0f, FLT_MAX, "Z:%.2f", ImGuiSliderFlags_AlwaysClamp);
-		ImGui::PopItemWidth();
-		ImGui::SameLine(); ImGui::Text("Scale");
-
-		ImGui::PushItemWidth(w3);
-		ImGui::DragFloat("##Light DirectionX", &m_Light.Direction.x,0.01f, 0.0f, 0.0f, "X:%.2f"); ImGui::SameLine();
-		ImGui::DragFloat("##Light DirectionY", &m_Light.Direction.y,0.01f, 0.0f, 0.0f, "Y:%.2f"); ImGui::SameLine();
-		ImGui::DragFloat("##Light DirectionZ", &m_Light.Direction.z,0.01f, 0.0f, 0.0f, "Z:%.2f");
-		ImGui::PopItemWidth();
-		ImGui::SameLine(); ImGui::Text("Light Direction");
-
-		ImGui::PushItemWidth(w4);
-		ImGui::DragFloat("##Light PositionX", &m_Light.Position.x, 0.01f, 0.0f, 0.0f, "X:%.2f"); ImGui::SameLine();
-		ImGui::DragFloat("##Light PositionY", &m_Light.Position.y, 0.01f, 0.0f, 0.0f, "Y:%.2f"); ImGui::SameLine();
-		ImGui::DragFloat("##Light PositionZ", &m_Light.Position.z, 0.01f, 0.0f, 0.0f, "Z:%.2f"); ImGui::SameLine();
-		ImGui::DragFloat("##Light PositionW", &m_Light.Position.w, 0.01f, 0.0f, 0.0f, "W:%.2f"); 
-		ImGui::PopItemWidth();
-		ImGui::SameLine(); ImGui::Text("Light Position");
-
-		ImGui::ColorEdit3("Diffuse", &m_Light.Diffuse.x);
-		ImGui::ColorEdit3("Ambient", &m_Light.Ambient.x);
-
-		ImGui::PushItemWidth(w4);
-		ImGui::DragFloat("##Point Light ParamX", &m_Light.PointLightParam.x, 0.01f, 0.0f, 0.0f, "X:%.2f"); ImGui::SameLine();
-		ImGui::DragFloat("##Point Light ParamY", &m_Light.PointLightParam.y, 0.01f, 0.0f, 0.0f, "Y:%.2f"); ImGui::SameLine();
-		ImGui::DragFloat("##Point Light ParamZ", &m_Light.PointLightParam.z, 0.01f, 0.0f, 0.0f, "Z:%.2f"); ImGui::SameLine();
-		ImGui::DragFloat("##Point Light ParamW", &m_Light.PointLightParam.w, 0.01f, 0.0f, 0.0f, "W:%.2f");
-		ImGui::PopItemWidth();
-		ImGui::SameLine(); ImGui::Text("Point Light Param");
-
-		DrawImGui();
-	}
-	
-	ImGui::PopID();
-	ImGui::End();
+	PolygonModel::DrawImGui();
 }
 
 //==============================================================================
@@ -203,4 +143,71 @@ void PolygonModel::Draw(void)
 		//ï`âÊ
 		ModelDraw(m_Model);
 	}
+}
+
+void PolygonModel::DrawImGui()
+{
+	ImGui::Begin("Inspecter");
+	ImGui::PushID(this);
+	if (ImGui::CollapsingHeader(GetName()))
+	{
+		float w3 = (ImGui::CalcItemWidth() - ImGui::GetStyle().ItemSpacing.x * 2.0f) / 3.0f;
+		float w4 = (ImGui::CalcItemWidth() - ImGui::GetStyle().ItemSpacing.x * 3.0f) / 4.0f;
+
+		ImGui::SeparatorText("Transform");
+		ImGui::PushItemWidth(w3);
+		ImGui::DragFloat("##PositionX", &m_Position.x, 0.01f, 0.0f, 0.0f, "X:%.2f"); ImGui::SameLine();
+		ImGui::DragFloat("##PositionY", &m_Position.y, 0.01f, 0.0f, 0.0f, "Y:%.2f"); ImGui::SameLine();
+		ImGui::DragFloat("##PositionZ", &m_Position.z, 0.01f, 0.0f, 0.0f, "Z:%.2f");
+		ImGui::PopItemWidth();
+		ImGui::SameLine(); ImGui::Text("Position");
+
+		ImGui::PushItemWidth(w3);
+		ImGui::DragFloat("##RotationX", &m_Rotation.x, 0.01f, 0.0f, 0.0f, "X:%.2f"); ImGui::SameLine();
+		ImGui::DragFloat("##RotationY", &m_Rotation.y, 0.01f, 0.0f, 0.0f, "Y:%.2f"); ImGui::SameLine();
+		ImGui::DragFloat("##RotationZ", &m_Rotation.z, 0.01f, 0.0f, 0.0f, "Z:%.2f");
+		ImGui::PopItemWidth();
+		ImGui::SameLine(); ImGui::Text("Rotation");
+		
+		ImGui::PushItemWidth(w3);
+		ImGui::DragFloat("##ScaleX", &m_Scale.x, 0.01f, 0.0f, 0.0f, "X:%.2f"); ImGui::SameLine();
+		ImGui::DragFloat("##ScaleY", &m_Scale.y, 0.01f, 0.0f, 0.0f, "Y:%.2f"); ImGui::SameLine();
+		ImGui::DragFloat("##ScaleZ", &m_Scale.z, 0.01f, 0.0f, 0.0f, "Z:%.2f");
+		ImGui::PopItemWidth();
+		ImGui::SameLine(); ImGui::Text("Scale");
+
+		ImGui::SeparatorText("Light");
+		ImGui::PushItemWidth(w3);
+		ImGui::DragFloat("##Light DirectionX", &m_Light.Direction.x, 0.01f, 0.0f, 0.0f, "X:%.2f"); ImGui::SameLine();
+		ImGui::DragFloat("##Light DirectionY", &m_Light.Direction.y, 0.01f, 0.0f, 0.0f, "Y:%.2f"); ImGui::SameLine();
+		ImGui::DragFloat("##Light DirectionZ", &m_Light.Direction.z, 0.01f, 0.0f, 0.0f, "Z:%.2f");
+		ImGui::PopItemWidth();
+		ImGui::SameLine(); ImGui::Text("Light Direction");
+
+		ImGui::PushItemWidth(w3);
+		ImGui::DragFloat("##Light PositionX", &m_Light.Position.x, 0.01f, 0.0f, 0.0f, "X:%.2f"); ImGui::SameLine();
+		ImGui::DragFloat("##Light PositionY", &m_Light.Position.y, 0.01f, 0.0f, 0.0f, "Y:%.2f"); ImGui::SameLine();
+		ImGui::DragFloat("##Light PositionZ", &m_Light.Position.z, 0.01f, 0.0f, 0.0f, "Z:%.2f");
+		ImGui::PopItemWidth();
+		ImGui::SameLine(); ImGui::Text("Light Position");
+
+		ImGui::ColorEdit3("Diffuse", &m_Light.Diffuse.x);
+		ImGui::ColorEdit3("Ambient", &m_Light.Ambient.x);
+
+		ImGui::PushItemWidth(w3);
+		ImGui::DragFloat("##Point Light ParamX", &m_Light.PointLightParam.x, 0.01f, 0.0f, 0.0f, "X:%.2f"); ImGui::SameLine();
+		ImGui::DragFloat("##Point Light ParamY", &m_Light.PointLightParam.y, 0.01f, 0.0f, 0.0f, "Y:%.2f"); ImGui::SameLine();
+		ImGui::DragFloat("##Point Light ParamZ", &m_Light.PointLightParam.z, 0.01f, 0.0f, 0.0f, "Z:%.2f");
+		ImGui::PopItemWidth();
+		ImGui::SameLine(); ImGui::Text("Point Light Param");
+		
+		ImGui::SeparatorText("Resources");
+		ImGui::Text("VertexShader: %s", GetVertexShaderPath());
+		ImGui::Text("PixelShader : %s", GetPixelShaderPath());
+		ImGui::Text("Texture     : %ls", GetTexturePath());
+		ImGui::Text("Model       : %s", GetModelPath());
+	}
+
+	ImGui::PopID();
+	ImGui::End();
 }
