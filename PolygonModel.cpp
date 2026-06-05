@@ -39,7 +39,7 @@ void PolygonModel::Init(void)
 	CreatePixelShader(&m_PixelShader, GetPixelShaderPath());
 
 	//ç\ë¢ëÃèâä˙âª
-	m_Position = XMFLOAT3(0.0f + 0.5f * -1, 0.5f, 0.0f);
+	m_Position = XMFLOAT3(0.0f , 0.5f, 0.0f);
 	m_Scale = XMFLOAT3(0.2f, 0.2f, 0.2f);
 	m_Rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
 

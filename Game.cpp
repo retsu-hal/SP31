@@ -76,7 +76,7 @@ void InitGame()
 	g_Light.Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);	//環境光の色
 	g_Light.SkyColor = XMFLOAT4(0.6f, 0.0f, 0.0f, 1.0f);
 	g_Light.GroundColor = XMFLOAT4(0.0f, 0.6f, 0.0f, 1.0f);
-	g_Light.PointLightParam = XMFLOAT4(10.0f, 1.0f, 0.0f, 0.0f);
+	g_Light.PointLightParam = XMFLOAT4(10.0f, 1.0f, 1.0f, 0.0f);
 	g_Light.Angle.x = XMConvertToRadians(30.0f);//コーンの角度
 }
 
@@ -118,10 +118,13 @@ void UpdateGame()
 		ImGui::ColorEdit3("Diffuse", &g_Light.Diffuse.x);
 		ImGui::DragFloat3("Direction", &g_Light.Direction.x, 0.01f);
 		ImGui::DragFloat4("Position", &g_Light.Position.x, 0.1f);
+		ImGui::DragFloat4("PointLightParam", &g_Light.PointLightParam.x, 0.1f);
 
 		float angle = XMConvertToDegrees(g_Light.Angle.x);
 		ImGui::SliderFloat("Cone Angle", &angle, 5.0f, 45.0f, "%.1f");
 		g_Light.Angle.x = XMConvertToRadians(angle);
+
+		
 	}
 	ImGui::End();
 
