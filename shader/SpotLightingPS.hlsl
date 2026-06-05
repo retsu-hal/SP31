@@ -43,7 +43,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
         float3 refv = reflect(lv, normal.xyz);
         refv = normalize(refv);
         specular = saturate(-dot(eyev, refv));
-        specular = pow(specular,30);
+        specular = pow(specular,30.0f);
         
         float dist = length(In.WorldPosition.xyz - Light.Position.xyz);
         float ofs = saturate(1.0 - dist / Light.PointLightParam.x);
