@@ -206,6 +206,8 @@ void PolygonModel::DrawImGui()
 		ImGui::Text("PixelShader : %s", GetPixelShaderPath());
 		ImGui::Text("Texture     : %ls", GetTexturePath());
 		ImGui::Text("Model       : %s", GetModelPath());
+
+		DrawImGuiExtra();
 	}
 
 	ImGui::PopID();

@@ -6,9 +6,7 @@
 
 class GameObject
 {
-
-
-protected://外部からアクセスできないが、継承したクラスからアクセスできる
+protected:	// 継承元ではアクセス不可だが、子クラスからはアクセス可
 	XMFLOAT3 m_Position{ 0.0f, 0.0f, 0.0f };
 	XMFLOAT3 m_Rotation{ 0.0f, 0.0f, 0.0f };
 	XMFLOAT3 m_Scale{ 1.0f, 1.0f, 1.0f };
@@ -25,7 +23,7 @@ protected://外部からアクセスできないが、継承したクラスからアクセスできる
 
 
 	MODEL* m_Model = nullptr;
-	LIGHT m_Light ;
+	LIGHT m_Light;
 	
 	virtual const char* GetVertexShaderPath() const { return "UnlitTextureVS.cso"; }
 	virtual const char* GetPixelShaderPath()  const { return "UnlitTexturePS.cso"; }
@@ -35,7 +33,7 @@ protected://外部からアクセスできないが、継承したクラスからアクセスできる
 public:
 	virtual ~GameObject() {}
 
-	bool m_Is2D = true;		//true:2Dオブジェクト、false:3Dオブジェクト
+	bool m_Is2D = true;		// true:2D オブジェクト、false:3D オブジェクト
 
 	virtual void Init() {};
 	virtual void Uninit() {};
@@ -43,4 +41,5 @@ public:
 	virtual void Draw() {};
 
 	virtual void  DrawImGui() {};
+	virtual void DrawImGuiExtra() {};
 };

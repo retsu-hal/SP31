@@ -9,7 +9,9 @@
 #include <io.h>
 #include "renderer.h"
 
-
+#ifndef SAFE_RELEASE
+#define SAFE_RELEASE(p) { if (p) { (p)->Release(); (p) = NULL; } }
+#endif
 
 //*********************************************************
 // 構造体
@@ -43,7 +45,9 @@ ID3D11Buffer*			g_LightBuffer = NULL;
 ID3D11Buffer*			g_CameraBuffer = NULL;
 ID3D11Buffer*			g_ParameterBuffer = NULL;
 
-
+ID3D11RasterizerState* g_RasterizerState = NULL;
+ID3D11BlendState* g_BlendState = NULL;
+ID3D11SamplerState* g_SamplerState = NULL;
 
 
 XMMATRIX				g_WorldMatrix;
@@ -185,8 +189,11 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 	// レンダーターゲットビュー生成、設定
 	ID3D11Texture2D* pBackBuffer = NULL;
-	g_SwapChain->GetBuffer( 0, __uuidof( ID3D11Texture2D ), ( LPVOID* )&pBackBuffer );
-	g_D3DDevice->CreateRenderTargetView( pBackBuffer, NULL, &g_RenderTargetView );
+	hr = g_SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
+	if (FAILED(hr)) return hr;
+	hr = g_D3DDevice->CreateRenderTargetView(pBackBuffer, NULL, &g_RenderTargetView);
+	pBackBuffer->Release();
+	if (FAILED(hr)) return hr;
 	pBackBuffer->Release();
 
 
@@ -213,7 +220,9 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	dsvd.Format			= td.Format;
 	dsvd.ViewDimension	= D3D11_DSV_DIMENSION_TEXTURE2D;
 	dsvd.Flags			= 0;
-	g_D3DDevice->CreateDepthStencilView( depthTexture, &dsvd, &g_DepthStencilView );
+	hr = g_D3DDevice->CreateDepthStencilView(depthTexture, &dsvd, &g_DepthStencilView);
+	depthTexture->Release();	// ビューが参照を保持するのでここで解放
+	if (FAILED(hr)) return hr;
 	//DirectXへセット
 	g_ImmediateContext->OMSetRenderTargets( 1, &g_RenderTargetView, g_DepthStencilView );
 
@@ -242,10 +251,9 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	rd.MultisampleEnable = FALSE; 
 
 	ID3D11RasterizerState *rs;
-	g_D3DDevice->CreateRasterizerState( &rd, &rs );
-
-	g_ImmediateContext->RSSetState( rs );
-
+	hr = g_D3DDevice->CreateRasterizerState(&rd, &g_RasterizerState);
+	if (FAILED(hr)) return hr;
+	g_ImmediateContext->RSSetState(g_RasterizerState);
 
 
 
@@ -315,7 +323,9 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	hBufferDesc.MiscFlags = 0;
 	hBufferDesc.StructureByteStride = sizeof(float);
 	//行列オブジェクトをシェーダーへ接続　b0をつかう
-	g_D3DDevice->CreateBuffer(&hBufferDesc, NULL, &g_WorldBuffer);
+	hBufferDesc.StructureByteStride = 0;	// 定数バッファでは未使用
+	hr = g_D3DDevice->CreateBuffer(&hBufferDesc, NULL, &g_WorldBuffer);
+	if (FAILED(hr)) return hr;
 	g_ImmediateContext->VSSetConstantBuffers(0, 1, &g_WorldBuffer);
 
 	g_D3DDevice->CreateBuffer(&hBufferDesc, NULL, &g_ViewBuffer);
@@ -365,17 +375,32 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 void FinalizeRenderer(void)
 {
 	// オブジェクト解放
-	if(g_WorldViewProjection)	g_WorldViewProjection->Release();
-	if( g_MaterialBuffer )		g_MaterialBuffer->Release();
-	if( g_VertexLayout )		g_VertexLayout->Release();
-	if( g_VertexShader )		g_VertexShader->Release();
-	if( g_PixelShader )			g_PixelShader->Release();
+	if (g_ImmediateContext)	g_ImmediateContext->ClearState();
 
-	if( g_ImmediateContext )	g_ImmediateContext->ClearState();
-	if( g_RenderTargetView )	g_RenderTargetView->Release();
-	if( g_SwapChain )			g_SwapChain->Release();
-	if( g_ImmediateContext )	g_ImmediateContext->Release();
-	if( g_D3DDevice )			g_D3DDevice->Release();
+	SAFE_RELEASE(g_ParameterBuffer);
+	SAFE_RELEASE(g_CameraBuffer);
+	SAFE_RELEASE(g_LightBuffer);
+	SAFE_RELEASE(g_MaterialBuffer);
+	SAFE_RELEASE(g_ProjectionBuffer);
+	SAFE_RELEASE(g_ViewBuffer);
+	SAFE_RELEASE(g_WorldBuffer);
+	SAFE_RELEASE(g_WorldViewProjection);
+
+	SAFE_RELEASE(g_VertexLayout);
+	SAFE_RELEASE(g_VertexShader);
+	SAFE_RELEASE(g_PixelShader);
+
+	SAFE_RELEASE(g_SamplerState);
+	SAFE_RELEASE(g_BlendState);
+	SAFE_RELEASE(g_RasterizerState);
+	SAFE_RELEASE(g_DepthStateEnable);
+	SAFE_RELEASE(g_DepthStateDisable);
+
+	SAFE_RELEASE(g_DepthStencilView);
+	SAFE_RELEASE(g_RenderTargetView);
+	SAFE_RELEASE(g_SwapChain);
+	SAFE_RELEASE(g_ImmediateContext);
+	SAFE_RELEASE(g_D3DDevice);
 }
 
 
@@ -405,12 +430,12 @@ void Present(void)
 // 頂点シェーダ生成
 void CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName)
 {
-
-	FILE* file;
-	long int fsize;
-
-	file = fopen(FileName, "rb");
-	fsize = _filelength(_fileno(file));
+	FILE* file = fopen(FileName, "rb");
+	if (file == NULL) {
+		MessageBoxA(NULL, FileName, "シェーダファイルが開けません", MB_ICONEXCLAMATION | MB_OK);
+		return;
+	}
+	long int fsize = _filelength(_fileno(file));
 	unsigned char* buffer = new unsigned char[fsize];
 	fread(buffer, fsize, 1, file);
 	fclose(file);

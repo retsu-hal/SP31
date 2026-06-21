@@ -1,5 +1,5 @@
 
-#include "common.hlsl"
+#include "Common.hlsl"
 void main(in VS_IN In, out PS_IN Out)
 {
     //ここで頂点変換

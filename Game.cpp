@@ -15,6 +15,8 @@
 #include "PointPixelLighting.h"
 #include "LimLighting.h"
 #include "SpotLighting.h"
+#include "BumpField3D.h"
+#include "CookTorrance.h"
 
 
 //===============================================
@@ -25,7 +27,8 @@ std::vector<GameObject*> g_GameObjects =
 {
 	new Camera(),
 	new Sprite2D(),
-	new Field3D(),
+	//new Field3D(),
+	new BumpField3D(),
 	//new PolygonModel(),
 	//new VertexDirectionalLighting(),
 	//new PixelDirectionalLighting(),
@@ -34,6 +37,7 @@ std::vector<GameObject*> g_GameObjects =
 	new PointPixelLighting(),
 	new LimLighting(),
 	new SpotLighting(),
+	new CookTorrance(),
 };
 
 //ポーズフラグ

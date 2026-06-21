@@ -1,4 +1,3 @@
-
 #define NOMINMAX
 
 
@@ -9,24 +8,43 @@
 #include "renderer.h"
 
 
+/*==============================================================================
+   リファクタリング内容:
+   - aiImportFile / CreateBuffer などの失敗を実行時にチェック（assert 依存をやめる）
+   - UV・法線を持たないメッシュでのヌルアクセスを HasTextureCoords / HasNormals で回避
+   - ModelDraw のテクスチャ取得を operator[] から find() に変更
+	 （未登録キーで null SRV を挿入・バインドしてしまう不具合を防止）
+==============================================================================*/
 
-MODEL* ModelLoad( const char *FileName )
+
+MODEL* ModelLoad(const char* FileName)
 {
 	MODEL* model = new MODEL;
 
 
-	const std::string modelPath( FileName );
+	const std::string modelPath(FileName);
 
 	model->AiScene = aiImportFile(FileName, aiProcessPreset_TargetRealtime_MaxQuality | aiProcess_ConvertToLeftHanded);
-	assert(model->AiScene);
 
-	model->VertexBuffer = new ID3D11Buffer*[model->AiScene->mNumMeshes];//頂点データポインター
-	model->IndexBuffer = new ID3D11Buffer*[model->AiScene->mNumMeshes];//インデックスデータポインター
+	// 旧版は assert のみ（Release ビルドで消える）。実行時にも失敗を処理する
+	assert(model->AiScene);
+	if (model->AiScene == nullptr)
+	{
+		MessageBoxA(NULL, FileName, "モデルの読み込みに失敗しました", MB_ICONEXCLAMATION | MB_OK);
+		delete model;
+		return nullptr;
+	}
+
+	model->VertexBuffer = new ID3D11Buffer * [model->AiScene->mNumMeshes];//頂点データポインター
+	model->IndexBuffer = new ID3D11Buffer * [model->AiScene->mNumMeshes];//インデックスデータポインター
 
 
 	for (unsigned int m = 0; m < model->AiScene->mNumMeshes; m++)
 	{
 		aiMesh* mesh = model->AiScene->mMeshes[m];
+
+		const bool hasUV = mesh->HasTextureCoords(0);
+		const bool hasNormal = mesh->HasNormals();
 
 		// 頂点バッファ生成
 		{
@@ -34,10 +52,22 @@ MODEL* ModelLoad( const char *FileName )
 
 			for (unsigned int v = 0; v < mesh->mNumVertices; v++)
 			{
+				// 軸変換：assimp(Y-up) → 本エンジン座標へ（Y と Z を入れ替え、Z を反転）
 				vertex[v].Position = XMFLOAT3(mesh->mVertices[v].x, -mesh->mVertices[v].z, mesh->mVertices[v].y);
-				vertex[v].TexCoord = XMFLOAT2( mesh->mTextureCoords[0][v].x, mesh->mTextureCoords[0][v].y);
+
+				// UV が無いメッシュでも落ちないようにする
+				if (hasUV)
+					vertex[v].TexCoord = XMFLOAT2(mesh->mTextureCoords[0][v].x, mesh->mTextureCoords[0][v].y);
+				else
+					vertex[v].TexCoord = XMFLOAT2(0.0f, 0.0f);
+
 				vertex[v].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-				vertex[v].Normal = XMFLOAT3(mesh->mNormals[v].x, -mesh->mNormals[v].z, mesh->mNormals[v].y);
+
+				// 法線が無いメッシュでも落ちないようにする
+				if (hasNormal)
+					vertex[v].Normal = XMFLOAT3(mesh->mNormals[v].x, -mesh->mNormals[v].z, mesh->mNormals[v].y);
+				else
+					vertex[v].Normal = XMFLOAT3(0.0f, 1.0f, 0.0f);
 			}
 
 			D3D11_BUFFER_DESC bd;
@@ -51,7 +81,8 @@ MODEL* ModelLoad( const char *FileName )
 			ZeroMemory(&sd, sizeof(sd));
 			sd.pSysMem = vertex;
 
-			GetDevice()->CreateBuffer(&bd, &sd, &model->VertexBuffer[m]);
+			HRESULT hr = GetDevice()->CreateBuffer(&bd, &sd, &model->VertexBuffer[m]);
+			assert(SUCCEEDED(hr));
 
 			delete[] vertex;
 		}
@@ -83,7 +114,8 @@ MODEL* ModelLoad( const char *FileName )
 			ZeroMemory(&sd, sizeof(sd));
 			sd.pSysMem = index;
 
-			GetDevice()->CreateBuffer(&bd, &sd, &model->IndexBuffer[m]);
+			HRESULT hr = GetDevice()->CreateBuffer(&bd, &sd, &model->IndexBuffer[m]);
+			assert(SUCCEEDED(hr));
 
 			delete[] index;
 		}
@@ -91,16 +123,20 @@ MODEL* ModelLoad( const char *FileName )
 	}
 
 	//テクスチャ読み込み
-	for(UINT i = 0; i < model->AiScene->mNumTextures; i++)
+	for (UINT i = 0; i < model->AiScene->mNumTextures; i++)
 	{
 		aiTexture* aitexture = model->AiScene->mTextures[i];
 
-		ID3D11ShaderResourceView* texture;
+		ID3D11ShaderResourceView* texture = nullptr;
 		TexMetadata metadata;
 		ScratchImage image;
-		LoadFromWICMemory(aitexture->pcData, aitexture->mWidth, WIC_FLAGS_NONE, &metadata, image);
+		HRESULT hr = LoadFromWICMemory(aitexture->pcData, aitexture->mWidth, WIC_FLAGS_NONE, &metadata, image);
+		if (FAILED(hr))
+			continue;	// 読めなかったテクスチャはスキップ（落とさない）
+
 		CreateShaderResourceView(GetDevice(), image.GetImages(), image.GetImageCount(), metadata, &texture);
-		assert(texture);
+		if (texture == nullptr)
+			continue;
 
 		model->Texture[aitexture->mFilename.data] = texture;
 	}
@@ -115,10 +151,13 @@ MODEL* ModelLoad( const char *FileName )
 
 void ModelRelease(MODEL* model)
 {
+	if (model == nullptr)
+		return;
+
 	for (unsigned int m = 0; m < model->AiScene->mNumMeshes; m++)
 	{
-		model->VertexBuffer[m]->Release();
-		model->IndexBuffer[m]->Release();
+		if (model->VertexBuffer[m]) model->VertexBuffer[m]->Release();
+		if (model->IndexBuffer[m])  model->IndexBuffer[m]->Release();
 	}
 
 	delete[] model->VertexBuffer;
@@ -127,7 +166,7 @@ void ModelRelease(MODEL* model)
 
 	for (std::pair<const std::string, ID3D11ShaderResourceView*> pair : model->Texture)
 	{
-		pair.second->Release();
+		if (pair.second) pair.second->Release();
 	}
 
 
@@ -154,7 +193,14 @@ void ModelDraw(MODEL* model)
 		aimaterial->GetTexture(aiTextureType_DIFFUSE, 0, &texture);
 
 		if (texture != aiString(""))
-			GetDeviceContext()->PSSetShaderResources(0, 1, &model->Texture[texture.data]);
+		{
+			// operator[] だと未登録キーで null を挿入してしまうため find() を使う
+			auto it = model->Texture.find(texture.data);
+			if (it != model->Texture.end() && it->second != nullptr)
+			{
+				GetDeviceContext()->PSSetShaderResources(0, 1, &it->second);
+			}
+		}
 
 		// 頂点バッファ設定
 		UINT stride = sizeof(VERTEX_3D);
@@ -168,6 +214,3 @@ void ModelDraw(MODEL* model)
 		GetDeviceContext()->DrawIndexed(mesh->mNumFaces * 3, 0, 0);
 	}
 }
-
-
-

@@ -5,14 +5,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="ヘッダー ファイル">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="リソース ファイル">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="ソース ファイル\オブジェクトクラス">
       <UniqueIdentifier>{084be035-9f73-4d13-91c1-379bae451cf8}</UniqueIdentifier>
     </Filter>
@@ -25,6 +17,42 @@
     <Filter Include="ソース ファイル\imgui">
       <UniqueIdentifier>{d944efe8-9a25-4bd6-97f3-a85185aa8d90}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\オブジェクトクラス\BumpField3D">
+      <UniqueIdentifier>{b162e487-81bf-44a0-b3ba-120386b23a1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\オブジェクトクラス\Field3D">
+      <UniqueIdentifier>{2f568997-4675-4153-8917-7caa5b9b21b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\オブジェクトクラス\HemiSphereLighting">
+      <UniqueIdentifier>{497a8d48-7fdc-4772-bcee-5f4bda9e9799}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\オブジェクトクラス\LimLighting">
+      <UniqueIdentifier>{46c088e4-0f2d-4418-99ef-c592bf0b8cd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\オブジェクトクラス\PixelDirectionalLighting">
+      <UniqueIdentifier>{2c788d01-7a82-4722-850e-321202b8fe81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\オブジェクトクラス\PixelLightingBlinnPhong">
+      <UniqueIdentifier>{6902820a-b3b3-4b7d-be72-a29cc55c31da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\オブジェクトクラス\PointPixelLighting">
+      <UniqueIdentifier>{5312c4b8-2c8c-46c8-a019-d05c0a1d8682}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\オブジェクトクラス\PolygonModel">
+      <UniqueIdentifier>{61731cb5-f92d-42eb-a07d-be84cbacdca1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\オブジェクトクラス\SpotLighting">
+      <UniqueIdentifier>{c6d26093-3d9b-47d3-be4c-33b1c3d55aa1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\オブジェクトクラス\Sprite2D">
+      <UniqueIdentifier>{07664a67-e31e-42a3-b71a-df31632e3d0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\オブジェクトクラス\VertexDirectionalLighting">
+      <UniqueIdentifier>{ce3e72a2-1998-4395-8161-d3de3dff5edd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\オブジェクトクラス\CookTorrance">
+      <UniqueIdentifier>{7307ecb0-9f95-48fb-bf5d-c59eadf2c218}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DirectXTex.inl">
@@ -32,9 +60,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Sprite2D.cpp">
-      <Filter>ソース ファイル\オブジェクトクラス</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>ソース ファイル\フレームワーク</Filter>
     </ClCompile>
@@ -83,38 +108,44 @@
     <ClCompile Include="imgui\imgui_widgets.cpp">
       <Filter>ソース ファイル\imgui</Filter>
     </ClCompile>
+    <ClCompile Include="BumpField3D.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス\BumpField3D</Filter>
+    </ClCompile>
     <ClCompile Include="Field3D.cpp">
-      <Filter>ソース ファイル\オブジェクトクラス</Filter>
-    </ClCompile>
-    <ClCompile Include="PolygonModel.cpp">
-      <Filter>ソース ファイル\オブジェクトクラス</Filter>
-    </ClCompile>
-    <ClCompile Include="VertexDirectionalLighting.cpp">
-      <Filter>ソース ファイル\オブジェクトクラス</Filter>
-    </ClCompile>
-    <ClCompile Include="PixelDirectionalLighting.cpp">
-      <Filter>ソース ファイル\オブジェクトクラス</Filter>
-    </ClCompile>
-    <ClCompile Include="PixelLightingBlinnPhong.cpp">
-      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+      <Filter>ソース ファイル\オブジェクトクラス\Field3D</Filter>
     </ClCompile>
     <ClCompile Include="HemiSphereLighting.cpp">
-      <Filter>ソース ファイル\オブジェクトクラス</Filter>
-    </ClCompile>
-    <ClCompile Include="PointPixelLighting.cpp">
-      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+      <Filter>ソース ファイル\オブジェクトクラス\HemiSphereLighting</Filter>
     </ClCompile>
     <ClCompile Include="LimLighting.cpp">
-      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+      <Filter>ソース ファイル\オブジェクトクラス\LimLighting</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelDirectionalLighting.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス\PixelDirectionalLighting</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelLightingBlinnPhong.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス\PixelLightingBlinnPhong</Filter>
+    </ClCompile>
+    <ClCompile Include="PointPixelLighting.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス\PointPixelLighting</Filter>
+    </ClCompile>
+    <ClCompile Include="PolygonModel.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス\PolygonModel</Filter>
     </ClCompile>
     <ClCompile Include="SpotLighting.cpp">
-      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+      <Filter>ソース ファイル\オブジェクトクラス\SpotLighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite2D.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス\Sprite2D</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexDirectionalLighting.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス\VertexDirectionalLighting</Filter>
+    </ClCompile>
+    <ClCompile Include="CookTorrance.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス\CookTorrance</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Sprite2D.h">
-      <Filter>ソース ファイル\オブジェクトクラス</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>ソース ファイル\フレームワーク</Filter>
     </ClInclude>
@@ -172,38 +203,47 @@
     <ClInclude Include="imgui\imstb_truetype.h">
       <Filter>ソース ファイル\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="Field3D.h">
-      <Filter>ソース ファイル\オブジェクトクラス</Filter>
-    </ClInclude>
     <ClInclude Include="Vector3.h">
       <Filter>ソース ファイル\フレームワーク</Filter>
-    </ClInclude>
-    <ClInclude Include="PolygonModel.h">
-      <Filter>ソース ファイル\オブジェクトクラス</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexDirectionalLighting.h">
-      <Filter>ソース ファイル\オブジェクトクラス</Filter>
-    </ClInclude>
-    <ClInclude Include="PixelDirectionalLighting.h">
-      <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
-    <ClInclude Include="PixelLightingBlinnPhong.h">
-      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    <ClInclude Include="BumpField3D.h">
+      <Filter>ソース ファイル\オブジェクトクラス\BumpField3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Field3D.h">
+      <Filter>ソース ファイル\オブジェクトクラス\Field3D</Filter>
     </ClInclude>
     <ClInclude Include="HemiSphereLighting.h">
-      <Filter>ソース ファイル\オブジェクトクラス</Filter>
-    </ClInclude>
-    <ClInclude Include="PointPixelLighting.h">
-      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+      <Filter>ソース ファイル\オブジェクトクラス\HemiSphereLighting</Filter>
     </ClInclude>
     <ClInclude Include="LimLighting.h">
-      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+      <Filter>ソース ファイル\オブジェクトクラス\LimLighting</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelDirectionalLighting.h">
+      <Filter>ソース ファイル\オブジェクトクラス\PixelDirectionalLighting</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelLightingBlinnPhong.h">
+      <Filter>ソース ファイル\オブジェクトクラス\PixelLightingBlinnPhong</Filter>
+    </ClInclude>
+    <ClInclude Include="PointPixelLighting.h">
+      <Filter>ソース ファイル\オブジェクトクラス\PointPixelLighting</Filter>
+    </ClInclude>
+    <ClInclude Include="PolygonModel.h">
+      <Filter>ソース ファイル\オブジェクトクラス\PolygonModel</Filter>
     </ClInclude>
     <ClInclude Include="SpotLighting.h">
-      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+      <Filter>ソース ファイル\オブジェクトクラス\SpotLighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite2D.h">
+      <Filter>ソース ファイル\オブジェクトクラス\Sprite2D</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexDirectionalLighting.h">
+      <Filter>ソース ファイル\オブジェクトクラス\VertexDirectionalLighting</Filter>
+    </ClInclude>
+    <ClInclude Include="CookTorrance.h">
+      <Filter>ソース ファイル\オブジェクトクラス\CookTorrance</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -274,6 +314,21 @@
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\SpotLightingVS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\CookTorranceVS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\BumpPS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\BumpVS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\CookTorrancePS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\CookTorranceSub.hlsl">
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
   </ItemGroup>
