@@ -17,6 +17,7 @@
 #include "SpotLighting.h"
 #include "BumpField3D.h"
 #include "CookTorrance.h"
+#include "DisneyPBR.h"
 
 
 //===============================================
@@ -38,6 +39,7 @@ std::vector<GameObject*> g_GameObjects =
 	new LimLighting(),
 	new SpotLighting(),
 	new CookTorrance(),
+	new DisneyPBR(),
 };
 
 //ポーズフラグ

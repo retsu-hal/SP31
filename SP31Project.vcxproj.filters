@@ -53,6 +53,9 @@
     <Filter Include="ソース ファイル\オブジェクトクラス\CookTorrance">
       <UniqueIdentifier>{7307ecb0-9f95-48fb-bf5d-c59eadf2c218}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\オブジェクトクラス\DisneyPBR">
+      <UniqueIdentifier>{7adc1d34-64ec-44eb-8546-c5919ff233a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DirectXTex.inl">
@@ -143,6 +146,9 @@
     </ClCompile>
     <ClCompile Include="CookTorrance.cpp">
       <Filter>ソース ファイル\オブジェクトクラス\CookTorrance</Filter>
+    </ClCompile>
+    <ClCompile Include="DisneyPBR.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス\DisneyPBR</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -245,6 +251,9 @@
     <ClInclude Include="CookTorrance.h">
       <Filter>ソース ファイル\オブジェクトクラス\CookTorrance</Filter>
     </ClInclude>
+    <ClInclude Include="DisneyPBR.h">
+      <Filter>ソース ファイル\オブジェクトクラス\DisneyPBR</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\UnlitColorVS.hlsl">
@@ -329,6 +338,12 @@
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\CookTorranceSub.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\DisneyPBRPS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\DisneyPBRVS.hlsl">
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
   </ItemGroup>

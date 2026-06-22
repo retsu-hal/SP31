@@ -22,8 +22,8 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
     light *= ofs; //明るさを減衰させる
 
     //テクスチャのピクセル色を取得
-   // float4 albedocolor = g_Texture.Sample(g_SamplerState, In.TexCoord);
-    float4 albedocolor = float4(0.7f, 0.6f, 0.3f, 1.0f); //ゴールドクロス的にする場合
+    float4 albedocolor = g_Texture.Sample(g_SamplerState, In.TexCoord);
+    //float4 albedocolor = float4(0.7f, 0.6f, 0.3f, 1.0f); //ゴールドクロス的にする場合
     outDiffuse = albedocolor;
     outDiffuse.rgb *= In.Diffuse.rgb * Light.Diffuse.rgb * light + Light.Ambient.rgb;
     outDiffuse.a *= In.Diffuse.a; //α値に明るさは関係ない
