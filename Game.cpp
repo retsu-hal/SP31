@@ -18,6 +18,8 @@
 #include "BumpField3D.h"
 #include "CookTorrance.h"
 #include "DisneyPBR.h"
+#include "Toon1.h"
+#include "Toon2.h"
 
 
 //===============================================
@@ -27,7 +29,7 @@
 std::vector<GameObject*> g_GameObjects =
 {
 	new Camera(),
-	new Sprite2D(),
+	//new Sprite2D(),
 	//new Field3D(),
 	new BumpField3D(),
 	//new PolygonModel(),
@@ -35,11 +37,13 @@ std::vector<GameObject*> g_GameObjects =
 	//new PixelDirectionalLighting(),
 	//new PixelLightingBlinnPhong(),
 	//new HemiSphereLighting(),
-	new PointPixelLighting(),
-	new LimLighting(),
-	new SpotLighting(),
-	new CookTorrance(),
-	new DisneyPBR(),
+	//new PointPixelLighting(),
+	//new LimLighting(),
+	//new SpotLighting(),
+	//new CookTorrance(),
+	//new DisneyPBR(),
+	new Toon1(),
+	//new Toon2(),
 };
 
 //ポーズフラグ

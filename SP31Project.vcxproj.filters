@@ -56,6 +56,15 @@
     <Filter Include="ソース ファイル\オブジェクトクラス\DisneyPBR">
       <UniqueIdentifier>{7adc1d34-64ec-44eb-8546-c5919ff233a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\オブジェクトクラス\Toon">
+      <UniqueIdentifier>{9160d196-dcb9-48cf-a365-b561e7673daa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\オブジェクトクラス\Toon\Toon1">
+      <UniqueIdentifier>{3f290db9-b4de-4f59-b5b4-9d1dbbc6b11f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\オブジェクトクラス\Toon\Toon2">
+      <UniqueIdentifier>{5c2fb7e7-9b5d-4bc7-b934-90ba535d7472}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DirectXTex.inl">
@@ -149,6 +158,12 @@
     </ClCompile>
     <ClCompile Include="DisneyPBR.cpp">
       <Filter>ソース ファイル\オブジェクトクラス\DisneyPBR</Filter>
+    </ClCompile>
+    <ClCompile Include="Toon1.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス\Toon\Toon1</Filter>
+    </ClCompile>
+    <ClCompile Include="Toon2.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス\Toon\Toon2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -254,6 +269,12 @@
     <ClInclude Include="DisneyPBR.h">
       <Filter>ソース ファイル\オブジェクトクラス\DisneyPBR</Filter>
     </ClInclude>
+    <ClInclude Include="Toon1.h">
+      <Filter>ソース ファイル\オブジェクトクラス\Toon\Toon1</Filter>
+    </ClInclude>
+    <ClInclude Include="Toon2.h">
+      <Filter>ソース ファイル\オブジェクトクラス\Toon\Toon2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\UnlitColorVS.hlsl">
@@ -344,6 +365,18 @@
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\DisneyPBRVS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\Toon1PS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\Toon1VS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\Toon2VS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\Toon2PS.hlsl">
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
   </ItemGroup>
