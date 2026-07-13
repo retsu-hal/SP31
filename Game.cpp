@@ -20,6 +20,7 @@
 #include "DisneyPBR.h"
 #include "Toon1.h"
 #include "Toon2.h"
+#include "Toon3.h"
 
 
 //===============================================
@@ -29,7 +30,7 @@
 std::vector<GameObject*> g_GameObjects =
 {
 	new Camera(),
-	//new Sprite2D(),
+	new Sprite2D(),
 	//new Field3D(),
 	new BumpField3D(),
 	//new PolygonModel(),
@@ -43,7 +44,8 @@ std::vector<GameObject*> g_GameObjects =
 	//new CookTorrance(),
 	//new DisneyPBR(),
 	new Toon1(),
-	//new Toon2(),
+	new Toon2(),
+	new Toon3(),
 };
 
 //ポーズフラグ
@@ -144,22 +146,25 @@ void UpdateGame()
 //ゲームシーン描画
 void DrawGame()
 {
-	// 2D用マトリクス設定
-	SetWorldViewProjection2D();
-	SetDepthEnable(false);
-	for (GameObject* gameObject : g_GameObjects)
+	//===== パス1：レンダリングテクスチャへ描画 =====
+	BeginPe();		//レンダリングテクスチャをレンダリングターゲットにする（緑クリア）
 	{
-		if (gameObject != nullptr && gameObject->m_Is2D)
-			gameObject->Draw();
-	}
-	
-	//3D用マトリクス設定
-	{
-		//SetLight(g_Light);
 		SetDepthEnable(true);		//奥行き処理有効
 		for (GameObject* gameObject : g_GameObjects)
 		{
 			if (gameObject != nullptr && !gameObject->m_Is2D)
+				gameObject->Draw();		//Camera→BumpField3D→Toon1 の順で描かれる
+		}
+	}
+
+	//===== パス2：バックバッファへ描画 =====
+	Clear();		//★レンダリングターゲットをデフォルトへ戻す（赤クリア）★
+	{
+		SetWorldViewProjection2D();
+		SetDepthEnable(false);
+		for (GameObject* gameObject : g_GameObjects)
+		{
+			if (gameObject != nullptr && gameObject->m_Is2D)
 				gameObject->Draw();
 		}
 	}

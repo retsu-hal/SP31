@@ -6,52 +6,52 @@ SamplerState g_SamplerState : register(s0);
 
 void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 {
-    //ãƒ”ã‚¯ã‚»ãƒ«ã‹ã‚‰å…‰æºã¸ã®ãƒ™ã‚¯ãƒˆãƒ«(ã„ã¤ã‚‚ã¨é€†)
+    //ƒsƒNƒZƒ‹‚©‚çŒõŒ¹‚Ö‚ÌƒxƒNƒgƒ‹(‚¢‚Â‚à‚Æ‹t)
     float4 lv = Light.Position - In.WorldPosition;
-    float4 ld = length(lv); //ç‰©ä½“ã¨å…‰æºã®è·é›¢
-    lv = normalize(lv); //ãƒ™ã‚¯ãƒˆãƒ«ã®æ­£è¦åŒ–
-    //æ¸›è¡°ã®è¨ˆç®—
+    float4 ld = length(lv); //•¨‘Ì‚ÆŒõŒ¹‚Ì‹——£
+    lv = normalize(lv); //ƒxƒNƒgƒ‹‚Ì³‹K‰»
+    //Œ¸Š‚ÌŒvZ
     float ofs = 1.0f - (1.0f / Light.PointLightParam.x) * ld;
-    ofs = max(0, ofs); //æ¸›è¡°ç‡0æœªæº€ã¯0ã«ã™ã‚‹
+    ofs = max(0, ofs); //Œ¸Š—¦0–¢–‚Í0‚É‚·‚é
 
-    //ãƒ”ã‚¯ã‚»ãƒ«ã®æ³•ç·šã‚’æ­£è¦åŒ–
+    //ƒsƒNƒZƒ‹‚Ì–@ü‚ğ³‹K‰»
     float4 normal = normalize(In.Normal);
-    //å…‰æºè¨ˆç®—
+    //ŒõŒ¹ŒvZ
     float light = 0.5f + 0.5f * dot(normal.xyz, lv.xyz);
     light = saturate(light);
-    light *= ofs; //æ˜ã‚‹ã•ã‚’æ¸›è¡°ã•ã›ã‚‹
+    light *= ofs; //–¾‚é‚³‚ğŒ¸Š‚³‚¹‚é
 
-    //ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ãƒ”ã‚¯ã‚»ãƒ«è‰²ã‚’å–å¾—
+    //ƒeƒNƒXƒ`ƒƒ‚ÌƒsƒNƒZƒ‹F‚ğæ“¾
     float4 albedocolor = g_Texture.Sample(g_SamplerState, In.TexCoord);
-    //float4 albedocolor = float4(0.7f, 0.6f, 0.3f, 1.0f); //ã‚´ãƒ¼ãƒ«ãƒ‰ã‚¯ãƒ­ã‚¹çš„ã«ã™ã‚‹å ´åˆ
+    //float4 albedocolor = float4(0.7f, 0.6f, 0.3f, 1.0f); //ƒS[ƒ‹ƒhƒNƒƒX“I‚É‚·‚éê‡
     outDiffuse = albedocolor;
     outDiffuse.rgb *= In.Diffuse.rgb * Light.Diffuse.rgb * light + Light.Ambient.rgb;
-    outDiffuse.a *= In.Diffuse.a; //Î±å€¤ã«æ˜ã‚‹ã•ã¯é–¢ä¿‚ãªã„
+    outDiffuse.a *= In.Diffuse.a; //ƒ¿’l‚É–¾‚é‚³‚ÍŠÖŒW‚È‚¢
 
-    //ãƒ”ã‚¯ã‚»ãƒ«ã‹ã‚‰ã‚«ãƒ¡ãƒ©ã¸å‘ã‹ã†ãƒ™ã‚¯ãƒˆãƒ«(ã„ã¤ã‚‚ã¨é€†)
+    //ƒsƒNƒZƒ‹‚©‚çƒJƒƒ‰‚ÖŒü‚©‚¤ƒxƒNƒgƒ‹(‚¢‚Â‚à‚Æ‹t)
     float3 eyev = CameraPosition.xyz - In.WorldPosition.xyz;
     eyev = normalize(eyev);
 
-    //ãƒãƒ¼ãƒ•ãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨ˆç®—
-    float3 halfv = eyev + lv.xyz; //è¦–ç·šãƒ™ã‚¯ãƒˆãƒ«+ãƒ©ã‚¤ãƒˆãƒ™ã‚¯ãƒˆãƒ«
+    //ƒn[ƒtƒxƒNƒgƒ‹‚ğŒvZ
+    float3 halfv = eyev + lv.xyz; //‹üƒxƒNƒgƒ‹+ƒ‰ƒCƒgƒxƒNƒgƒ‹
     halfv = normalize(halfv);
 
-    //ã‚¹ãƒšã‚­ãƒ¥ãƒ©ãƒ¼ã®è¨ˆç®—
+    //ƒXƒyƒLƒ…ƒ‰[‚ÌŒvZ
     float3 specular;
     float nv = saturate(dot(normal.xyz, eyev));
     float nh = saturate(dot(normal.xyz, halfv));
     float vh = saturate(dot(eyev, halfv));
     float nl = saturate(dot(normal.xyz, lv.xyz));
 
-    //ä»Šå›ã¯ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‹ã‚‰ã®æƒ…å ±ã§ãªãè¨­å®šã—ãŸæ•°å€¤ã§ä»£ç”¨
+    //¡‰ñ‚ÍƒeƒNƒXƒ`ƒƒ‚©‚ç‚Ìî•ñ‚Å‚È‚­İ’è‚µ‚½”’l‚Å‘ã—p
     float smooth = saturate(Parameter.x);
     float metallic = saturate(Parameter.y);
 
-    float D = CalculateBeckmann(smooth, nh); //é¢ã®ç²—ã•
+    float D = CalculateBeckmann(smooth, nh); //–Ê‚Ì‘e‚³
     float G = CalculateGeometricDamping(nh, nv, nl, vh);
     float F = CalculateFresnel(metallic, dot(lv.xyz, halfv));
 
     specular = max(0.0f, F * D * G / nv) * albedocolor.rgb;
 
-    outDiffuse.rgb += (specular * ofs); // = ã®ã¿ã«ã™ã‚‹ã¨ã‚¹ãƒšã‚­ãƒ¥ãƒ©ã ã‘ã«ãªã‚Šåˆ†ã‹ã‚Šã‚„ã™ã„
+    outDiffuse.rgb += (specular * ofs); // = ‚Ì‚İ‚É‚·‚é‚ÆƒXƒyƒLƒ…ƒ‰‚¾‚¯‚É‚È‚è•ª‚©‚è‚â‚·‚¢
 }

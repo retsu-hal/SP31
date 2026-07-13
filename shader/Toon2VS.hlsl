@@ -2,22 +2,22 @@
 
 void main(in VS_IN In, out PS_IN Out)
 {
-    // é ‚ç‚¹å¤‰æ›å‡¦ç†ï¼ˆã“ã®å‡¦ç†ã¯å¿…ãšå¿…è¦ï¼‰
+    // ’¸“_•ÏŠ·ˆ—i‚±‚Ìˆ—‚Í•K‚¸•K—vj
     matrix wvp;
-    wvp = mul(World, View); // wvp = ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ— * ã‚«ãƒ¡ãƒ©è¡Œåˆ—
-    wvp = mul(wvp, Projection); // wvp = wvp * ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¡Œåˆ—
-    Out.Position = mul(In.Position, wvp); // å¤‰æ›çµæžœã‚’å‡ºåŠ›ã™ã‚‹
+    wvp = mul(World, View); // wvp = ƒ[ƒ‹ƒhs—ñ * ƒJƒƒ‰s—ñ
+    wvp = mul(wvp, Projection); // wvp = wvp * ƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ
+    Out.Position = mul(In.Position, wvp); // •ÏŠ·Œ‹‰Ê‚ðo—Í‚·‚é
 
-    // é ‚ç‚¹æ³•ç·šã‚’ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã§å›žè»¢ã•ã›ã‚‹
+    // ’¸“_–@ü‚ðƒ[ƒ‹ƒhs—ñ‚Å‰ñ“]‚³‚¹‚é
     float4 worldNormal, normal;
     normal = float4(In.Normal.xyz, 0.0);
     worldNormal = mul(normal, World);
     worldNormal = normalize(worldNormal);
     Out.Normal = worldNormal;
 
-    Out.Diffuse = In.Diffuse; // é ‚ç‚¹è‰²ã‚’ãã®ã¾ã¾å‡ºåŠ›
-    Out.TexCoord = In.TexCoord; // UVåº§æ¨™ã‚’ãã®ã¾ã¾å‡ºåŠ›
+    Out.Diffuse = In.Diffuse; // ’¸“_F‚ð‚»‚Ì‚Ü‚Üo—Í
+    Out.TexCoord = In.TexCoord; // UVÀ•W‚ð‚»‚Ì‚Ü‚Üo—Í
 
-    // ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›ã—ãŸé ‚ç‚¹åº§æ¨™ã‚’å‡ºåŠ›
+    // ƒ[ƒ‹ƒh•ÏŠ·‚µ‚½’¸“_À•W‚ðo—Í
     Out.WorldPosition = mul(In.Position, World);
 }

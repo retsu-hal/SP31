@@ -87,3 +87,7 @@ void CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName);
 
 void SetLight(LIGHT Light);
 
+void SetCullMode(D3D11_CULL_MODE CullMode);
+
+ID3D11ShaderResourceView* GetPeTexture(int no = 0);
+void	BeginPe(int no = 0);

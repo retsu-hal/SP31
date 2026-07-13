@@ -2,20 +2,20 @@
 #include "Common.hlsl"
 void main(in VS_IN In, out PS_IN Out)
 {
-    //é ‚ç‚¹å¤‰æ›å‡¦ç†ï¼ˆWVPï¼‰
+    //’¸“_•ÏŠ·ˆ—iWVPj
     matrix wvp;
-    wvp = mul(World, View);         //wvp = ãƒ¯ãƒ¼ãƒ«ãƒ‰ * ã‚«ãƒ¡ãƒ©
-    wvp = mul(wvp, Projection);     //wvp = wvp * ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³
+    wvp = mul(World, View);         //wvp = ƒ[ƒ‹ƒh * ƒJƒƒ‰
+    wvp = mul(wvp, Projection);     //wvp = wvp * ƒvƒƒWƒFƒNƒVƒ‡ƒ“
     Out.Position = mul(In.Position, wvp);
 
-    //é ‚ç‚¹æ³•ç·šã‚’ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã§å›žè»¢ã•ã›ã‚‹
+    //’¸“_–@ü‚ðƒ[ƒ‹ƒhs—ñ‚Å‰ñ“]‚³‚¹‚é
     float4 normal = float4(In.Normal.xyz, 0.0);
     float4 worldNormal = mul(normal, World);
     Out.Normal = normalize(worldNormal);
 
-    Out.Diffuse  = In.Diffuse;      //é ‚ç‚¹è‰²ã‚’ãã®ã¾ã¾
-    Out.TexCoord = In.TexCoord;     //UVã‚’ãã®ã¾ã¾
+    Out.Diffuse  = In.Diffuse;      //’¸“_F‚ð‚»‚Ì‚Ü‚Ü
+    Out.TexCoord = In.TexCoord;     //UV‚ð‚»‚Ì‚Ü‚Ü
 
-    //ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›ã—ãŸé ‚ç‚¹åº§æ¨™ï¼ˆãƒ©ã‚¤ãƒ†ã‚£ãƒ³ã‚°è¨ˆç®—ã«ä½¿ç”¨ï¼‰
+    //ƒ[ƒ‹ƒh•ÏŠ·‚µ‚½’¸“_À•Wiƒ‰ƒCƒeƒBƒ“ƒOŒvŽZ‚ÉŽg—pj
     Out.WorldPosition = mul(In.Position, World);
 }

@@ -1,18 +1,18 @@
 //=====================================================
 // DisneyPBRPS.hlsl
-//   æ‹¡æ•£åå°„ï¼šãƒ•ãƒ¬ãƒãƒ«ã‚’è€ƒæ…®ã—ãŸæ‹¡æ•£ ï¼‹ æ­£è¦åŒ–Lambert
-//   é¡é¢åå°„ï¼šã‚¯ãƒƒã‚¯ãƒˆãƒ©ãƒ³ã‚¹ï¼ˆCookTorranceSub.hlsl ã‚’æµç”¨ï¼‰
+//   ŠgU”½ËFƒtƒŒƒlƒ‹‚ğl—¶‚µ‚½ŠgU { ³‹K‰»Lambert
+//   ‹¾–Ê”½ËFƒNƒbƒNƒgƒ‰ƒ“ƒXiCookTorranceSub.hlsl ‚ğ—¬—pj
 //=====================================================
 #include "Common.hlsl"
 #include "CookTorranceSub.hlsl"
 
-Texture2D g_Texture          : register(t0); //ãƒ†ã‚¯ã‚¹ãƒãƒ£0ç•ª(ã‚¢ãƒ«ãƒ™ãƒ‰)
-Texture2D g_TextureRoughness : register(t1); //ãƒ†ã‚¯ã‚¹ãƒãƒ£1ç•ª(ç²—ã•)
-Texture2D g_TextureMetalness : register(t2); //ãƒ†ã‚¯ã‚¹ãƒãƒ£2ç•ª(é‡‘å±åº¦)
+Texture2D g_Texture          : register(t0); //ƒeƒNƒXƒ`ƒƒ0”Ô(ƒAƒ‹ƒxƒh)
+Texture2D g_TextureRoughness : register(t1); //ƒeƒNƒXƒ`ƒƒ1”Ô(‘e‚³)
+Texture2D g_TextureMetalness : register(t2); //ƒeƒNƒXƒ`ƒƒ2”Ô(‹à‘®“x)
 
-SamplerState g_SamplerState  : register(s0); //ã‚µãƒ³ãƒ—ãƒ©ãƒ¼0ç•ª
+SamplerState g_SamplerState  : register(s0); //ƒTƒ“ƒvƒ‰[0”Ô
 
-//ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€ï¼ˆå®šç¾©ã¯ä¸‹éƒ¨ï¼‰
+//ƒvƒƒgƒ^ƒCƒvéŒ¾i’è‹`‚Í‰º•”j
 float CalculateDiffuseFromFresnel(float3 N, float3 L, float3 V);
 float CalculateCookTorranceSpecular(float3 L, float3 V, float3 N, float smooth, float metallic);
 
@@ -20,107 +20,107 @@ static const float PI = 3.1415926f;
 
 void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 {
-    // æ³•ç·šã‚’è¨ˆç®—
+    // –@ü‚ğŒvZ
     float4 normal = normalize(In.Normal);
 
-    // å„ç¨®ãƒãƒƒãƒ—ã‚’ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ã™ã‚‹
-    // ã‚¢ãƒ«ãƒ™ãƒ‰ã‚«ãƒ©ãƒ¼
+    // Šeíƒ}ƒbƒv‚ğƒTƒ“ƒvƒŠƒ“ƒO‚·‚é
+    // ƒAƒ‹ƒxƒhƒJƒ‰[
     float4 albedoColor = g_Texture.Sample(g_SamplerState, In.TexCoord);
 
-    // ã‚¹ãƒšã‚­ãƒ¥ãƒ©ã‚«ãƒ©ãƒ¼ã¯ã‚¢ãƒ«ãƒ™ãƒ‰ã‚«ãƒ©ãƒ¼ã¨åŒã˜ã«ã™ã‚‹
+    // ƒXƒyƒLƒ…ƒ‰ƒJƒ‰[‚ÍƒAƒ‹ƒxƒhƒJƒ‰[‚Æ“¯‚¶‚É‚·‚é
     float3 specColor = albedoColor.rgb;
 
-    // æ»‘ã‚‰ã‹ã•ã‚’å–å¾—
+    // ŠŠ‚ç‚©‚³‚ğæ“¾
     float smooth = g_TextureRoughness.Sample(g_SamplerState, In.TexCoord).r * 2.0f - 1.0f;
-    // smooth *= Parameter.x; //ã“ã‚Œã¯ç„¡ãã¦ã‚‚ã‚ˆã„
+    // smooth *= Parameter.x; //‚±‚ê‚Í–³‚­‚Ä‚à‚æ‚¢
     smooth = saturate(smooth);
 
-    // é‡‘å±åº¦ã‚’å–å¾—
+    // ‹à‘®“x‚ğæ“¾
     float metallic = g_TextureMetalness.Sample(g_SamplerState, In.TexCoord).r * 2.0f - 1.0f;
-    // metallic *= Parameter.y; //ã“ã‚Œã¯ç„¡ãã¦ã‚‚ã‚ˆã„
+    // metallic *= Parameter.y; //‚±‚ê‚Í–³‚­‚Ä‚à‚æ‚¢
     metallic = saturate(metallic);
 
-    // ã‚«ãƒ¡ãƒ©ã¸ã®ãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨ˆç®—ã™ã‚‹
+    // ƒJƒƒ‰‚Ö‚ÌƒxƒNƒgƒ‹‚ğŒvZ‚·‚é
     float3 eyev = CameraPosition.xyz - In.WorldPosition.xyz;
     eyev = normalize(eyev);
 
-    // ãƒ©ã‚¤ãƒˆãƒã‚·ãƒã‚·
+    // ƒ‰ƒCƒgƒ}ƒVƒ}ƒV
     float3 lit = 0;
-    for (int ligNo = 0; ligNo < Parameter.z; ligNo++) //ãƒ©ã‚¤ãƒˆãŒè¤‡æ•°ã‚ã‚‹ã¨ä»®å®š
+    for (int ligNo = 0; ligNo < Parameter.z; ligNo++) //ƒ‰ƒCƒg‚ª•¡”‚ ‚é‚Æ‰¼’è
     {
-        float4 lv = Light.Position - In.WorldPosition; //å…‰æºã¸ã®ãƒ™ã‚¯ãƒˆãƒ«
+        float4 lv = Light.Position - In.WorldPosition; //ŒõŒ¹‚Ö‚ÌƒxƒNƒgƒ‹
 
-        // ãƒ•ãƒ¬ãƒãƒ«åå°„ã‚’è€ƒæ…®ã—ãŸæ‹¡æ•£åå°„ã‚’è¨ˆç®—
+        // ƒtƒŒƒlƒ‹”½Ë‚ğl—¶‚µ‚½ŠgU”½Ë‚ğŒvZ
         float diffuseFromFresnel = CalculateDiffuseFromFresnel(normal.xyz, lv.xyz, eyev);
 
-        // æ­£è¦åŒ–Lambertæ‹¡æ•£åå°„ã‚’æ±‚ã‚ã‚‹
+        // ³‹K‰»LambertŠgU”½Ë‚ğ‹‚ß‚é
         float nl = saturate(dot(normal.xyz, lv.xyz));
         float3 light = nl + Light.Diffuse.rgb / PI;
 
-        // æœ€çµ‚çš„ãªæ‹¡æ•£åå°„å…‰ã‚’è¨ˆç®—ã™ã‚‹
+        // ÅI“I‚ÈŠgU”½ËŒõ‚ğŒvZ‚·‚é
         float3 diffuse = albedoColor.rgb * diffuseFromFresnel * Light.Diffuse.rgb * light;
 
-        // é¡é¢åå°„ç‡ã‚’è¨ˆç®—ã™ã‚‹
+        // ‹¾–Ê”½Ë—¦‚ğŒvZ‚·‚é
         float3 spec = CalculateCookTorranceSpecular(lv.xyz, eyev, normal.xyz, smooth, metallic) * Light.Diffuse.rgb;
 
-        // é‡‘å±åº¦ãŒé«˜ã‘ã‚Œã°ã€é¡é¢åå°„ã¯ã‚¹ãƒšã‚­ãƒ¥ãƒ©ã‚«ãƒ©ãƒ¼ã€ä½ã‘ã‚Œã°ç™½ã«ãªã‚‹ã‚ˆã†ã«è£œé–“
-        // ã‚¹ãƒšã‚­ãƒ¥ãƒ©ã‚«ãƒ©ãƒ¼ã®å¼·ã•ã‚’é¡é¢åå°„ç‡ã¨ã—ã¦æ‰±ã†
+        // ‹à‘®“x‚ª‚‚¯‚ê‚ÎA‹¾–Ê”½Ë‚ÍƒXƒyƒLƒ…ƒ‰ƒJƒ‰[A’á‚¯‚ê‚Î”’‚É‚È‚é‚æ‚¤‚É•âŠÔ
+        // ƒXƒyƒLƒ…ƒ‰ƒJƒ‰[‚Ì‹­‚³‚ğ‹¾–Ê”½Ë—¦‚Æ‚µ‚Äˆµ‚¤
         spec *= lerp(float3(1.0f, 1.0f, 1.0f), specColor, metallic);
 
-        // æ»‘ã‚‰ã‹ã•ãŒé«˜ã‘ã‚Œã°ã€æ‹¡æ•£åå°„ã¯å¼±ããªã‚‹
+        // ŠŠ‚ç‚©‚³‚ª‚‚¯‚ê‚ÎAŠgU”½Ë‚Íã‚­‚È‚é
         lit += diffuse * (1.0f - smooth) + spec;
     }
 
-    // ç’°å¢ƒå…‰ã«ã‚ˆã‚‹åº•ä¸Šã’
+    // ŠÂ‹«Œõ‚É‚æ‚é’êã‚°
     lit += Light.Ambient.rgb * albedoColor.rgb;
 
-    // çµæœå‡ºåŠ›
+    // Œ‹‰Êo—Í
     outDiffuse.rgb = lit;
     outDiffuse.a = albedoColor.a * In.Diffuse.a;
 }
 
 //-----------------------------------------------------
-// ã‚¯ãƒƒã‚¯ãƒˆãƒ©ãƒ³ã‚¹ãƒ¢ãƒ‡ãƒ«ã®é¡é¢åå°„
+// ƒNƒbƒNƒgƒ‰ƒ“ƒXƒ‚ƒfƒ‹‚Ì‹¾–Ê”½Ë
 //-----------------------------------------------------
 float CalculateCookTorranceSpecular(float3 L, float3 V, float3 N, float smooth, float metallic)
 {
-    // ãƒ©ã‚¤ãƒˆã«å‘ã‹ã†ãƒ™ã‚¯ãƒˆãƒ«ã¨è¦–ç·šã«å‘ã‹ã†ãƒ™ã‚¯ãƒˆãƒ«ã®ãƒãƒ¼ãƒ•ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ±‚ã‚ã‚‹
+    // ƒ‰ƒCƒg‚ÉŒü‚©‚¤ƒxƒNƒgƒ‹‚Æ‹ü‚ÉŒü‚©‚¤ƒxƒNƒgƒ‹‚Ìƒn[ƒtƒxƒNƒgƒ‹‚ğ‹‚ß‚é
     float3 H = normalize(L + V);
 
-    // å„ç¨®ãƒ™ã‚¯ãƒˆãƒ«ãŒã©ã‚Œãã‚‰ã„ä¼¼ã¦ã„ã‚‹ã‹ã‚’å†…ç©ã‚’åˆ©ç”¨ã—ã¦æ±‚ã‚ã‚‹
+    // ŠeíƒxƒNƒgƒ‹‚ª‚Ç‚ê‚­‚ç‚¢—‚Ä‚¢‚é‚©‚ğ“àÏ‚ğ—˜—p‚µ‚Ä‹‚ß‚é
     float nh = saturate(dot(N, H));
     float vh = saturate(dot(V, H));
     float nl = saturate(dot(N, L));
     float nv = saturate(dot(N, V));
 
-    // Dé …ã‚’ãƒ™ãƒƒã‚¯ãƒãƒ³åˆ†å¸ƒã‚’ç”¨ã„ã¦è¨ˆç®—ã™ã‚‹
+    // D€‚ğƒxƒbƒNƒ}ƒ“•ª•z‚ğ—p‚¢‚ÄŒvZ‚·‚é
     float D = CalculateBeckmann(smooth, nh);
 
-    // Fé …ã‚’Schlickè¿‘ä¼¼ã‚’ç”¨ã„ã¦è¨ˆç®—ã™ã‚‹
+    // F€‚ğSchlick‹ß—‚ğ—p‚¢‚ÄŒvZ‚·‚é
     float F = CalculateFresnel(metallic, vh);
 
-    // Gé …ã‚’æ±‚ã‚ã‚‹
+    // G€‚ğ‹‚ß‚é
     float G = CalculateGeometricDamping(nh, nv, nl, nh);
 
-    // mé …ã‚’æ±‚ã‚ã‚‹
+    // m€‚ğ‹‚ß‚é
     float m = PI * nv * nh;
 
-    // ã“ã“ã¾ã§æ±‚ã‚ãŸå€¤ã‚’åˆ©ç”¨ã—ã¦ã€Cook-Torranceãƒ¢ãƒ‡ãƒ«ã®é¡é¢åå°„ã‚’æ±‚ã‚ã‚‹
+    // ‚±‚±‚Ü‚Å‹‚ß‚½’l‚ğ—˜—p‚µ‚ÄACook-Torranceƒ‚ƒfƒ‹‚Ì‹¾–Ê”½Ë‚ğ‹‚ß‚é
     return max(F * D * G / m, 0.0);
 }
 
 //-----------------------------------------------------
-// ãƒ•ãƒ¬ãƒãƒ«ã‚’è€ƒæ…®ã—ãŸæ‹¡æ•£åå°„ç‡
+// ƒtƒŒƒlƒ‹‚ğl—¶‚µ‚½ŠgU”½Ë—¦
 //-----------------------------------------------------
 float CalculateDiffuseFromFresnel(float3 N, float3 L, float3 V)
 {
-    // æ³•ç·šã¨å…‰æºã«å‘ã‹ã†ãƒ™ã‚¯ãƒˆãƒ«ãŒã©ã‚Œã ã‘ä¼¼ã¦ã„ã‚‹ã‹ã‚’å†…ç©ã§æ±‚ã‚ã‚‹
+    // –@ü‚ÆŒõŒ¹‚ÉŒü‚©‚¤ƒxƒNƒgƒ‹‚ª‚Ç‚ê‚¾‚¯—‚Ä‚¢‚é‚©‚ğ“àÏ‚Å‹‚ß‚é
     float nl = saturate(dot(N, L));
 
-    // æ³•ç·šã¨è¦–ç·šã«å‘ã‹ã†ãƒ™ã‚¯ãƒˆãƒ«ãŒã©ã‚Œã ã‘ä¼¼ã¦ã„ã‚‹ã‹ã‚’å†…ç©ã§æ±‚ã‚ã‚‹
+    // –@ü‚Æ‹ü‚ÉŒü‚©‚¤ƒxƒNƒgƒ‹‚ª‚Ç‚ê‚¾‚¯—‚Ä‚¢‚é‚©‚ğ“àÏ‚Å‹‚ß‚é
     float nv = saturate(dot(N, V));
 
-    // å…‰æºæ–¹å‘ã«ä¾å­˜ã™ã‚‹æ‹¡æ•£åå°„ç‡ã¨è¦–ç‚¹æ–¹å‘ã«ä¾å­˜ã™ã‚‹æ‹¡æ•£åå°„ç‡ã‚’
-    // ä¹—ç®—ã—ã¦æœ€çµ‚çš„ãªæ‹¡æ•£åå°„ç‡ã‚’æ±‚ã‚ã¦ã„ã‚‹ã€‚
+    // ŒõŒ¹•ûŒü‚ÉˆË‘¶‚·‚éŠgU”½Ë—¦‚Æ‹“_•ûŒü‚ÉˆË‘¶‚·‚éŠgU”½Ë—¦‚ğ
+    // æZ‚µ‚ÄÅI“I‚ÈŠgU”½Ë—¦‚ğ‹‚ß‚Ä‚¢‚éB
     return (nl * nv);
 }

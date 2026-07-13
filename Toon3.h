@@ -1,25 +1,29 @@
 #pragma once
 #include "PolygonModel.h"
 
-class Toon2 : public PolygonModel
+class Toon3 : public PolygonModel
 {
 public:
 	const char* GetVertexShaderPath() const override { return "Toon2VS.cso"; }
 	const char* GetPixelShaderPath()  const override { return "Toon2PS.cso"; }
-	const char* GetName() const override { return "Toon2"; }
+	const char* GetName() const override { return "Toon3"; }
 
 	void Init(void)   override;
 	void Uninit(void) override;
 	void Update(void) override;
 	void Draw(void)   override;
+	void DrawImGui() override;
 
 protected:
-	void DrawImGuiExtra() override;
 
-	XMFLOAT4 m_Parameter;	// x:ƒ‰ƒ“ƒvƒeƒNƒXƒ`ƒƒ‚ÌVÀ•Wic•ûŒü‚ÌŒÅ’èˆÊ’uj
+	XMFLOAT4 m_Parameter;	// x:ãƒ©ãƒ³ãƒ—ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®Våº§æ¨™ï¼ˆç¸¦æ–¹å‘ã®å›ºå®šä½ç½®ï¼‰
 
-	// ’Ç‰ÁƒeƒNƒXƒ`ƒƒiƒ‰ƒ“ƒv–¾‚é‚³‚ÌLUTj
+	// è¿½åŠ ãƒ†ã‚¯ã‚¹ãƒãƒ£ï¼ˆãƒ©ãƒ³ãƒ—ï¼æ˜ã‚‹ã•ã®LUTï¼‰
 	int m_TexIDRamp = -1;
 	const wchar_t* GetRampTexturePath() const { return L"asset\\texture\\Toon2.png"; }
+
+	ID3D11VertexShader* m_EdgeVS = nullptr;
+	ID3D11PixelShader* m_EdgePS = nullptr;
+	ID3D11InputLayout* m_EdgeLayout = nullptr;
 
 };

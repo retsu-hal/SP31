@@ -6,18 +6,18 @@ SamplerState g_SamplerState : register(s0);
 
 void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 {
-    //å…‰æºã‹ã‚‰ãƒ”ã‚¯ã‚»ãƒ«ã¸ã®ãƒ™ã‚¯ãƒˆãƒ«
+    //ŒõŒ¹‚©‚çƒsƒNƒZƒ‹‚Ö‚ÌƒxƒNƒgƒ‹
     float4 lv = In.WorldPosition - Light.Position;
-    //ç‰©ä½“ã¨å…‰æºã®è·é›¢
+    //•¨‘Ì‚ÆŒõŒ¹‚Ì‹——£
     float4 ld = length(lv);
-    //ãƒ™ã‚¯ãƒˆãƒ«ã®æ­£è¦åŒ–
+    //ƒxƒNƒgƒ‹‚Ì³‹K‰»
     lv = normalize(lv);
-    //æ¸›è¡°ã®è¨ˆç®—
+    //Œ¸Š‚ÌŒvZ
     float ofs = saturate(1.0f - ld / Light.PointLightParam.x);
     //-------------------------------------------------------------
-    //æ³•ç·šãƒãƒƒãƒ—å–å¾—
+    //–@üƒ}ƒbƒvæ“¾
     float4 tmpnormal = g_TextureNormal.Sample(g_SamplerState, In.TexCoord);
-    //RGBå€¤ã‚’ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°
+    //RGB’l‚ğƒXƒP[ƒŠƒ“ƒO
     tmpnormal = normalize((tmpnormal * 2.0f)-1.0f);
   
     float3 normal;
@@ -32,7 +32,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
     normal = normalize(mul(normal, Rot));
     //-------------------------------------------------------------
 
-    //æ˜ã‚‹ã•è¨ˆç®—
+    //–¾‚é‚³ŒvZ
     float light = -dot(normal.xyz, lv.xyz);
     light = saturate(light);
     light *= ofs;
@@ -41,16 +41,16 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
     outDiffuse.rgb *= Light.Diffuse.rgb * In.Diffuse.rgb * light + Light.Ambient.rgb;
     outDiffuse.a = In.Diffuse.a;
     
-    //ã‚«ãƒ¡ãƒ©ã‹ã‚‰ãƒ”ã‚¯ã‚»ãƒ«ã¸å‘ã‹ã†ãƒ™ã‚¯ãƒˆãƒ«
+    //ƒJƒƒ‰‚©‚çƒsƒNƒZƒ‹‚ÖŒü‚©‚¤ƒxƒNƒgƒ‹
     float3 eyev = In.WorldPosition.xyz - CameraPosition.xyz;
-    eyev = normalize(eyev); //æ­£è¦åŒ–ã™ã‚‹
+    eyev = normalize(eyev); //³‹K‰»‚·‚é
 
-    //ãƒãƒ¼ãƒ•ãƒ™ã‚¯ãƒˆãƒ«
+    //ƒn[ƒtƒxƒNƒgƒ‹
     float3 halfv = eyev + lv.xyz;
     halfv = normalize(halfv);
 
-    float specular = -dot(halfv, normal.xyz); //é¡é¢åå°„ã®è¨ˆç®—
-    specular = saturate(specular); //å€¤ã‚’ã‚µãƒãƒ¥ãƒ¬ãƒ¼ãƒˆ
+    float specular = -dot(halfv, normal.xyz); //‹¾–Ê”½Ë‚ÌŒvZ
+    specular = saturate(specular); //’l‚ğƒTƒ`ƒ…ƒŒ[ƒg
     specular = pow(specular, 30);
 
     outDiffuse.rgb += (specular * ofs);

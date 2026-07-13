@@ -13,6 +13,6 @@ public:
 	void Draw(void)override;
 
 protected:
-	void DrawImGuiExtra() override;	// æ¨™æº–ã‚¤ãƒ³ã‚¹ãƒšã‚¯ã‚¿ã®ãƒ˜ãƒƒãƒ€å†…ã«è¿½è¨˜ã™ã‚‹
-	XMFLOAT4 m_Parameter;			// x:ã–ã‚‰ã¤ã(Roughness)  y:é‡‘å±æ„Ÿ(Metallic)
+	void DrawImGuiExtra() override;	// •W€ƒCƒ“ƒXƒyƒNƒ^‚Ìƒwƒbƒ_“à‚É’Ç‹L‚·‚é
+	XMFLOAT4 m_Parameter;			// x:‚´‚ç‚Â‚«(Roughness)  y:‹à‘®Š´(Metallic)
 };

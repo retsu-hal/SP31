@@ -5,7 +5,7 @@ class Toon1 :public PolygonModel
 public:
 	virtual const char* GetVertexShaderPath() const override { return "Toon1VS.cso"; }
 	virtual const char* GetPixelShaderPath()  const override { return "Toon1PS.cso"; }
-	virtual const char* GetModelPath()  const override { return "asset\\model\\Cute Cartoon Character.fbx"; }
+	virtual const char* GetModelPath()  const override { return "asset\\model\\model.fbx"; }
 	virtual const wchar_t* GetTexturePath()  const override { return L"asset\\texture\\sura.jpg"; }
 	virtual const char* GetName() const override { return "Toon"; }
 	virtual void Init() override;

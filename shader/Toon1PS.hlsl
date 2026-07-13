@@ -1,61 +1,61 @@
 #include "Common.hlsl"
 
-Texture2D g_Texture : register(t0); // ãƒ†ã‚¯ã‚¹ãƒãƒ£0ç•ª
-SamplerState g_SamplerState : register(s0); // ã‚µãƒ³ãƒ—ãƒ©ãƒ¼0ç•ª
+Texture2D g_Texture : register(t0); // ƒeƒNƒXƒ`ƒƒ0”Ô
+SamplerState g_SamplerState : register(s0); // ƒTƒ“ƒvƒ‰[0”Ô
 
 void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 {
-    //--- ãƒã‚¤ãƒ³ãƒˆãƒ©ã‚¤ãƒˆã¨åŒã˜æµã‚Œã§æ˜ã‚‹ã•ã‚’è¨ˆç®— ---------------------------
-    // å…‰æºã‹ã‚‰ãƒ”ã‚¯ã‚»ãƒ«ã¸ã®ãƒ™ã‚¯ãƒˆãƒ«
+    //--- ƒ|ƒCƒ“ƒgƒ‰ƒCƒg‚Æ“¯‚¶—¬‚ê‚Å–¾‚é‚³‚ğŒvZ ---------------------------
+    // ŒõŒ¹‚©‚çƒsƒNƒZƒ‹‚Ö‚ÌƒxƒNƒgƒ‹
     float4 lv = In.WorldPosition - Light.Position;
-    // ç‰©ä½“ã¨å…‰æºã®è·é›¢
+    // •¨‘Ì‚ÆŒõŒ¹‚Ì‹——£
     float ld = length(lv);
-    // ãƒ™ã‚¯ãƒˆãƒ«ã®æ­£è¦åŒ–
+    // ƒxƒNƒgƒ‹‚Ì³‹K‰»
     lv = normalize(lv);
 
-    // æ¸›è¡°ã®è¨ˆç®—
+    // Œ¸Š‚ÌŒvZ
     float ofs = saturate(1.0f - ld / Light.PointLightParam.x);
-    ofs = max(0.0f, ofs); // æ¸›è¡°ç‡0æœªæº€ã¯0ã«ã™ã‚‹
+    ofs = max(0.0f, ofs); // Œ¸Š—¦0–¢–‚Í0‚É‚·‚é
 
-    // ãƒ”ã‚¯ã‚»ãƒ«ã®æ³•ç·šã‚’æ­£è¦åŒ–
+    // ƒsƒNƒZƒ‹‚Ì–@ü‚ğ³‹K‰»
     float4 normal = normalize(In.Normal);
 
-    // å…‰æºè¨ˆç®—ï¼ˆãƒãƒ¼ãƒ•ãƒ©ãƒ³ãƒãƒ¼ãƒˆï¼‰
-    // lv ã¯ã€Œå…‰æºâ†’ãƒ”ã‚¯ã‚»ãƒ«ã€æ–¹å‘ãªã®ã§ç¬¦å·ã‚’åè»¢ã—ã¦ã„ã‚‹
+    // ŒõŒ¹ŒvZiƒn[ƒtƒ‰ƒ“ƒo[ƒgj
+    // lv ‚ÍuŒõŒ¹¨ƒsƒNƒZƒ‹v•ûŒü‚È‚Ì‚Å•„†‚ğ”½“]‚µ‚Ä‚¢‚é
     float light = 0.5f - 0.5f * dot(normal.xyz, lv.xyz);
     light = saturate(light);
 
-    //--- æ˜ã‚‹ã•ã®æ®µéšåˆ†ã‘ï¼ˆãƒˆã‚¥ãƒ¼ãƒ³ï¼‰ ------------------------------------
-    // Parameter.x = Level-1ã€Parameter.y = Level-2ï¼ˆCè¨€èªå´ã‹ã‚‰è¨­å®šï¼‰
+    //--- –¾‚é‚³‚Ì’iŠK•ª‚¯iƒgƒD[ƒ“j ------------------------------------
+    // Parameter.x = Level-1AParameter.y = Level-2iCŒ¾Œê‘¤‚©‚çİ’èj
     if (light < Parameter.x)
     {
-        light = 0.4f; // ä¸€ç•ªæš—ã„æ®µéšï¼ˆ0.0ã«ã™ã‚‹ã¨çœŸã£é»’ã«ãªã‚‹ã®ã§é¿ã‘ã‚‹ï¼‰
+        light = 0.4f; // ˆê”ÔˆÃ‚¢’iŠKi0.0‚É‚·‚é‚Æ^‚Á•‚É‚È‚é‚Ì‚Å”ğ‚¯‚éj
     }
     else if (light < Parameter.y)
     {
-        light = 0.7f; // ä¸­é–“ã®æ®µéš
+        light = 0.7f; // ’†ŠÔ‚Ì’iŠK
     }
     else
     {
-        light = 1.0f; // ä¸€ç•ªæ˜ã‚‹ã„æ®µéš
+        light = 1.0f; // ˆê”Ô–¾‚é‚¢’iŠK
     }
     //---------------------------------------------------------------------
 
-    light *= ofs; // æ˜ã‚‹ã•ã‚’æ¸›è¡°ã•ã›ã‚‹
+    light *= ofs; // –¾‚é‚³‚ğŒ¸Š‚³‚¹‚é
 
-    // ãƒ†ã‚¯ã‚¹ãƒãƒ£ã¨é ‚ç‚¹è‰²ã®æƒ…å ±ã‚’åˆæˆï¼ˆã‚¹ãƒšã‚­ãƒ¥ãƒ©ãƒ¼ã¯ç„¡ã—ï¼‰
-    outDiffuse = g_Texture.Sample(g_SamplerState, In.TexCoord); // ãƒ†ã‚¯ã‚»ãƒ«ã‚’å–å¾—
-    outDiffuse.rgb *= In.Diffuse.rgb * Light.Diffuse.rgb * light + Light.Ambient.rgb; // æ˜ã‚‹ã•ã‚’ä¹—ç®—
-    outDiffuse.a *= In.Diffuse.a; // Î±å€¤ã«æ˜ã‚‹ã•ã¯é–¢ä¿‚ãªã„
+    // ƒeƒNƒXƒ`ƒƒ‚Æ’¸“_F‚Ìî•ñ‚ğ‡¬iƒXƒyƒLƒ…ƒ‰[‚Í–³‚µj
+    outDiffuse = g_Texture.Sample(g_SamplerState, In.TexCoord); // ƒeƒNƒZƒ‹‚ğæ“¾
+    outDiffuse.rgb *= In.Diffuse.rgb * Light.Diffuse.rgb * light + Light.Ambient.rgb; // –¾‚é‚³‚ğæZ
+    outDiffuse.a *= In.Diffuse.a; // ƒ¿’l‚É–¾‚é‚³‚ÍŠÖŒW‚È‚¢
     
-    //ç°¡æ˜“ã‚¨ãƒƒã‚¸ä½œæˆ
-    float4 eyev = In.WorldPosition - CameraPosition; //è¦–ç·šãƒ™ã‚¯ãƒˆãƒ«ä½œæˆï¼ˆã‚«ãƒ¡ãƒ©â†’ãƒ”ã‚¯ã‚»ãƒ«ï¼‰
-    eyev = normalize(eyev); //æ­£è¦åŒ–ã™ã‚‹
+    //ŠÈˆÕƒGƒbƒWì¬
+    float4 eyev = In.WorldPosition - CameraPosition; //‹üƒxƒNƒgƒ‹ì¬iƒJƒƒ‰¨ƒsƒNƒZƒ‹j
+    eyev = normalize(eyev); //³‹K‰»‚·‚é
 
-    float d = dot(eyev.xyz, normal.xyz); // è¦–ç·šã¨ãƒ”ã‚¯ã‚»ãƒ«æ³•ç·šã®å†…ç©
+    float d = dot(eyev.xyz, normal.xyz); // ‹ü‚ÆƒsƒNƒZƒ‹–@ü‚Ì“àÏ
 
-    if (d > -0.30f)  //é©å½“ãªã—ãã„å€¤ã§ã‚¨ãƒƒã‚¸ã‹å¦ã‹ã‚’åˆ¤åˆ¥
+    if (d > -0.30f)  //“K“–‚È‚µ‚«‚¢’l‚ÅƒGƒbƒW‚©”Û‚©‚ğ”»•Ê
     {
-        outDiffuse.rgb = float3(0.0f, 0.0f, 0.0f); //ã‚¨ãƒƒã‚¸ãªã‚‰é©å½“ã«è‰²ã‚’é»’ãã™ã‚‹
+        outDiffuse.rgb = float3(0.0f, 0.0f, 0.0f); //ƒGƒbƒW‚È‚ç“K“–‚ÉF‚ğ•‚­‚·‚é
     }
 }

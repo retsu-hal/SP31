@@ -2,25 +2,25 @@
 #include "Common.hlsl"
 void main(in VS_IN In, out PS_IN Out)
 {
-    //ã“ã“ã§é ‚ç‚¹å¤‰æ›
-    //é ‚ç‚¹åº§æ¨™ã‚’å‡ºåŠ›
-    //é ‚ç‚¹å¤‰æ›å‡¦ç†ã€€ã“ã®å‡¦ç†ã¯å¿…ãšå¿…è¦
-    matrix wvp; //è¡Œåˆ—å¤‰æ•°ã‚’ä½œæˆ
-    wvp = mul(World, View); //wvp = ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ— * ã‚«ãƒ¡ãƒ©è¡Œåˆ—
-    wvp = mul(wvp, Projection); //wvp = wvp * ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¡Œåˆ—
-    Out.Position = mul(In.Position, wvp); //å¤‰æ›çµæžœã‚’å‡ºåŠ›ã™ã‚‹
+    //‚±‚±‚Å’¸“_•ÏŠ·
+    //’¸“_À•W‚ðo—Í
+    //’¸“_•ÏŠ·ˆ—@‚±‚Ìˆ—‚Í•K‚¸•K—v
+    matrix wvp; //s—ñ•Ï”‚ðì¬
+    wvp = mul(World, View); //wvp = ƒ[ƒ‹ƒhs—ñ * ƒJƒƒ‰s—ñ
+    wvp = mul(wvp, Projection); //wvp = wvp * ƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ
+    Out.Position = mul(In.Position, wvp); //•ÏŠ·Œ‹‰Ê‚ðo—Í‚·‚é
 
-    //é ‚ç‚¹æ³•ç·šã‚’ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã§å›žè»¢ã•ã›ã‚‹(é ‚ç‚¹ã¨åŒã˜å›žè»¢ã‚’ã•ã›ã‚‹)
-    float4 worldNormal, normal; //ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã‚’ä½œæˆ
-    normal = float4(In.Normal.xyz, 0.0); //å…¥åŠ›æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ã®wã‚’0ã¨ã—ã¦ã‚³ãƒ”ãƒ¼
-    worldNormal = mul(normal, World); //æ³•ç·šã‚’ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã§å›žè»¢ã™ã‚‹
-    worldNormal = normalize(worldNormal); //å›žè»¢å¾Œã®æ³•ç·šã‚’æ­£è¦åŒ–ã™ã‚‹
-    Out.Normal = worldNormal; //å›žè»¢å¾Œã®æ³•ç·šå‡ºåŠ›
+    //’¸“_–@ü‚ðƒ[ƒ‹ƒhs—ñ‚Å‰ñ“]‚³‚¹‚é(’¸“_‚Æ“¯‚¶‰ñ“]‚ð‚³‚¹‚é)
+    float4 worldNormal, normal; //ƒ[ƒJƒ‹•Ï”‚ðì¬
+    normal = float4(In.Normal.xyz, 0.0); //“ü—Í–@üƒxƒNƒgƒ‹‚Ìw‚ð0‚Æ‚µ‚ÄƒRƒs[
+    worldNormal = mul(normal, World); //–@ü‚ðƒ[ƒ‹ƒhs—ñ‚Å‰ñ“]‚·‚é
+    worldNormal = normalize(worldNormal); //‰ñ“]Œã‚Ì–@ü‚ð³‹K‰»‚·‚é
+    Out.Normal = worldNormal; //‰ñ“]Œã‚Ì–@üo—Í
 
-    Out.Diffuse = In.Diffuse; //é ‚ç‚¹ã®ç‰©ã‚’ãã®ã¾ã¾å‡ºåŠ›
-    //å—ã‘å–ã£ãŸã“ã®é ‚ç‚¹ã®UVåº§æ¨™ã‚’ãã®ã¾ã¾å‡ºåŠ›
+    Out.Diffuse = In.Diffuse; //’¸“_‚Ì•¨‚ð‚»‚Ì‚Ü‚Üo—Í
+    //Žó‚¯Žæ‚Á‚½‚±‚Ì’¸“_‚ÌUVÀ•W‚ð‚»‚Ì‚Ü‚Üo—Í
     Out.TexCoord = In.TexCoord;
 
-    //ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›ã—ãŸé ‚ç‚¹åº§æ¨™ã‚’å‡ºåŠ›ï¼ˆã“ã®è¡Œã¯æœ€åˆè¿½åŠ ã—ãªã„ï¼‰
+    //ƒ[ƒ‹ƒh•ÏŠ·‚µ‚½’¸“_À•W‚ðo—Íi‚±‚Ìs‚ÍÅ‰’Ç‰Á‚µ‚È‚¢j
     Out.WorldPosition = mul(In.Position, World);
 }

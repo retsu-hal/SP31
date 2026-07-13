@@ -101,47 +101,16 @@ void PolygonModel::Update(void)
 }
 
 //==============================================================================
+// 描画処理
 //==============================================================================
 void PolygonModel::Draw(void)
 {
-	// 頂点レイアウト設定
+	// 頂点レイアウト・シェーダー設定
 	GetDeviceContext()->IASetInputLayout(m_VertexLayout);
-	//頂点シェーダーをセット
 	GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
-	//ピクセルシェーダーをセット
 	GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
 
-	SetLight(m_Light);
-
-
-	{//3Dポリゴン１つずつの処理
-		//テクスチャをセット
-		ID3D11ShaderResourceView* tex = GetTexture(m_TexID);
-		GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
-
-		//平行移動行列作成
-		XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
-		//回転行列作成
-		XMMATRIX	RotationMatrix = XMMatrixRotationRollPitchYaw(XMConvertToRadians(m_Rotation.x), XMConvertToRadians(m_Rotation.y), XMConvertToRadians(m_Rotation.z));
-		//スケーリング行列作成
-		XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
-		//ワールド行列作成 ※乗算の順番に注意
-		XMMATRIX	WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;
-		//DirectXへセット
-		SetWorldMatrix(WorldMatrix);
-
-		//プリミティブトポロジーの設定
-		GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-		//マテリアル設定
-		MATERIAL	material;
-		ZeroMemory(&material, sizeof(MATERIAL));
-		material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		SetMaterial(material);
-
-		//描画
-		ModelDraw(m_Model);
-	}
+	DrawModel();	
 }
 
 void PolygonModel::DrawImGui()
@@ -211,4 +180,31 @@ void PolygonModel::DrawImGui()
 
 	ImGui::PopID();
 	ImGui::End();
+}
+
+
+void PolygonModel::DrawModel(void)
+{
+	SetLight(m_Light);
+
+	//テクスチャをセット
+	ID3D11ShaderResourceView* tex = GetTexture(m_TexID);
+	GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
+
+	//ワールド行列作成（※中身は今のまま）
+	XMMATRIX TranslationMatrix = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
+	XMMATRIX RotationMatrix = XMMatrixRotationRollPitchYaw(
+		XMConvertToRadians(m_Rotation.x), XMConvertToRadians(m_Rotation.y), XMConvertToRadians(m_Rotation.z));
+	XMMATRIX ScalingMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
+	XMMATRIX WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;
+	SetWorldMatrix(WorldMatrix);
+
+	GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	MATERIAL material;
+	ZeroMemory(&material, sizeof(MATERIAL));
+	material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	SetMaterial(material);
+
+	ModelDraw(m_Model);
 }

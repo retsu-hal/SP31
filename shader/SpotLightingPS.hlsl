@@ -9,16 +9,16 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
     float light = 0.0f;
     float specular = 0.0f;
     
-    //ãƒ©ã‚¤ãƒˆã‹ã‚‰ãƒ”ã‚¯ã‚»ãƒ«ã¸ã®ãƒ™ã‚¯ãƒˆãƒ«
+    //ƒ‰ƒCƒg‚©‚çƒsƒNƒZƒ‹‚Ö‚ÌƒxƒNƒgƒ‹
     float3 lv = normalize(In.WorldPosition.xyz-Light.Position.xyz);
-    //ã‚³ãƒ¼ãƒ³ã®å‘ããƒ™ã‚¯ãƒˆãƒ«
+    //ƒR[ƒ“‚ÌŒü‚«ƒxƒNƒgƒ‹
     float3 cv= normalize(Light.Direction.xyz);   
-    //ãƒ©ã‚¤ãƒˆã®å‘ããƒ™ã‚¯ãƒˆãƒ«ã¨Vpã®è§’åº¦
+    //ƒ‰ƒCƒg‚ÌŒü‚«ƒxƒNƒgƒ‹‚ÆVp‚ÌŠp“x
     float angle = acos(dot(lv, cv));
     angle = abs(angle);
-    //ã‚³ãƒ¼ãƒ³ç¯„å›²ã®ãƒã‚§ãƒƒã‚¯
+    //ƒR[ƒ“”ÍˆÍ‚Ìƒ`ƒFƒbƒN
     
-    //åŸºæœ¬çš„ãªã‚¹ãƒãƒƒãƒˆãƒ©ã‚¤ãƒˆã®è¨ˆç®—
+    //Šî–{“I‚ÈƒXƒ|ƒbƒgƒ‰ƒCƒg‚ÌŒvZ
     /*if (angle<=Light.Angle.x)
     {
         spot = 1.0f;
@@ -32,11 +32,11 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
         specular = 0.0f;
     }**/
 
-    //å·¥å¤«ç‰ˆ
+    //H•v”Å
     if (angle <= Light.Angle.x)
     {
         spot = saturate(1.0f - pow(1.0f / Light.Angle.x * abs(angle), Light.PointLightParam.y));
-        float4 normal = normalize(In.Normal);//æ³•ç·šæ­£è¦åŒ–
+        float4 normal = normalize(In.Normal);//–@ü³‹K‰»
         light = saturate(-dot(normal.xyz, lv));
         float3 eyev = In.WorldPosition.xyz - CameraPosition.xyz;
         eyev = normalize(eyev);

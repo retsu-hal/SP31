@@ -57,7 +57,9 @@ XMMATRIX				g_ProjectionMatrix;
 ID3D11DepthStencilState* g_DepthStateEnable;
 ID3D11DepthStencilState* g_DepthStateDisable;
 
-
+#define	RT_MAX	(1)		//レンダリングテクスチャの枚数
+ID3D11RenderTargetView* g_PeRenderTargetView[RT_MAX];
+ID3D11ShaderResourceView* g_PeShaderResourceView[RT_MAX];
 
 ID3D11Device* GetDevice( void )
 {
@@ -358,12 +360,51 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	g_D3DDevice->CreateBuffer(&hBufferDesc, NULL, &g_ParameterBuffer);
 	g_ImmediateContext->PSSetConstantBuffers(6, 1, &g_ParameterBuffer);
 
+	g_ImmediateContext->VSSetConstantBuffers(6, 1, &g_ParameterBuffer);
+
+
+
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
 	material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	material.Ambient = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	SetMaterial(material);
 
+
+	//----- レンダリングテクスチャ[0] 作成 -----
+	{
+		ID3D11Texture2D* ppTexture = NULL;
+		D3D11_TEXTURE2D_DESC td;
+		ZeroMemory(&td, sizeof(td));
+		td.Width = sd.BufferDesc.Width;	//画面と同じサイズ
+		td.Height = sd.BufferDesc.Height;
+		td.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+		td.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;	//★両方立てる★
+		td.ArraySize = 1;
+		td.SampleDesc = sd.SampleDesc;
+		td.Usage = D3D11_USAGE_DEFAULT;
+		td.CPUAccessFlags = 0;
+		td.MipLevels = 1;	//★1にする★（資料のスライドに「１にする」と注記あり）
+		td.MiscFlags = 0;	//★GENERATE_MIPS は外す★
+		g_D3DDevice->CreateTexture2D(&td, NULL, &ppTexture);
+
+		//レンダーターゲットビュー作成（書き込むための顔）
+		D3D11_RENDER_TARGET_VIEW_DESC rtvd;
+		ZeroMemory(&rtvd, sizeof(rtvd));
+		rtvd.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+		rtvd.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+		g_D3DDevice->CreateRenderTargetView(ppTexture, &rtvd, &g_PeRenderTargetView[0]);
+
+		//シェーダーリソースビュー作成（読むための顔）
+		D3D11_SHADER_RESOURCE_VIEW_DESC srvd;
+		ZeroMemory(&srvd, sizeof(srvd));
+		srvd.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+		srvd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+		srvd.Texture2D.MipLevels = 1;	
+		g_D3DDevice->CreateShaderResourceView(ppTexture, &srvd, &g_PeShaderResourceView[0]);
+
+		ppTexture->Release();	//RTV/SRVが参照を持つのでここで解放してよい
+	}
 
 	return S_OK;
 }
@@ -374,6 +415,12 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 //=============================================================================
 void FinalizeRenderer(void)
 {
+	for (int i = 0; i < RT_MAX; i++)
+	{
+		SAFE_RELEASE(g_PeShaderResourceView[i]);
+		SAFE_RELEASE(g_PeRenderTargetView[i]);
+	}
+
 	// オブジェクト解放
 	if (g_ImmediateContext)	g_ImmediateContext->ClearState();
 
@@ -409,6 +456,8 @@ void FinalizeRenderer(void)
 //=============================================================================
 void Clear(void)
 {
+	//★デフォルトのバックバッファを強制的にセット（＝復帰処理を兼ねる）★
+	g_ImmediateContext->OMSetRenderTargets(1, &g_RenderTargetView, g_DepthStencilView);
 	// バックバッファクリア色
 	float ClearColor[4] = { 0.4f, 0.2f, 0.2f, 1.0f };//純黒は避ける
 	//バックバッファをクリア
@@ -426,6 +475,22 @@ void Present(void)
 	g_SwapChain->Present( 0, 0 );
 }
 
+ID3D11ShaderResourceView* GetPeTexture(int no)
+{
+	return g_PeShaderResourceView[no];
+}
+
+//指定のテクスチャをレンダリングターゲットへ設定してクリアー
+void BeginPe(int no)
+{
+	ID3D11ShaderResourceView* nullSRV[8] = { NULL };
+	g_ImmediateContext->PSSetShaderResources(0, 8, nullSRV);
+
+	g_ImmediateContext->OMSetRenderTargets(1, &g_PeRenderTargetView[no], g_DepthStencilView);
+	float	ClearColor[4] = { 0.0f, 0.5f, 0.0f, 1.0f };	//緑＝1パス目の印
+	g_ImmediateContext->ClearRenderTargetView(g_PeRenderTargetView[no], ClearColor);
+	g_ImmediateContext->ClearDepthStencilView(g_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+}
 
 // 頂点シェーダ生成
 void CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName)
@@ -483,5 +548,25 @@ void CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName)
 void SetLight(LIGHT Light)
 {
 	g_ImmediateContext->UpdateSubresource(g_LightBuffer, 0, NULL, &Light, 0, 0);
+}
+
+void SetCullMode(D3D11_CULL_MODE CullMode)
+{
+	//ラスタライザステート設定
+	D3D11_RASTERIZER_DESC rd;
+	ZeroMemory(&rd, sizeof(rd));
+	//構造体の作成
+	rd.FillMode = D3D11_FILL_SOLID;
+	rd.DepthClipEnable = TRUE;
+	rd.MultisampleEnable = FALSE;
+	rd.CullMode = CullMode;
+	//構造値からラスタライザオブジェクトを作成
+	ID3D11RasterizerState* rs;
+	g_D3DDevice->CreateRasterizerState(&rd, &rs);
+	//ラスタライザステートをセット
+	g_ImmediateContext->RSSetState(rs);
+	//オブジェクトをリリース
+	rs->Release();
+
 }
 

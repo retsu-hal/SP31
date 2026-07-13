@@ -48,10 +48,10 @@ void Sprite2D::Init(void)
 	CreatePixelShader(&PixelShader, "SepiaPS.cso");
 	*/
 	//2Dオブジェクト初期化
-	m_Position = XMFLOAT3(SCREEN_WIDTH / 12, SCREEN_HEIGHT / 6 , 0.0f);
+	m_Position = XMFLOAT3(SCREEN_WIDTH / 3/2, SCREEN_HEIGHT / 3/2 , 0.0f);
 	m_Color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	m_Scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
-	Size = XMFLOAT2(SCREEN_WIDTH /3/2, SCREEN_HEIGHT /1.5/2);
+	Size = XMFLOAT2(SCREEN_WIDTH /3, SCREEN_HEIGHT /3);
 	Rotate = 0.0f;
 
 	D3D11_SAMPLER_DESC sampDesc = {};
@@ -108,7 +108,7 @@ void Sprite2D::Draw(void)
 	{//2Dポリゴン1枚ずつで必要な処理
 
 		//テクスチャをセット
-		ID3D11ShaderResourceView* tex = GetTexture(m_TexID);
+		ID3D11ShaderResourceView* tex = GetPeTexture();
 		GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
 
 		GetDeviceContext()->PSSetSamplers(0, 1, &m_SamplerState);

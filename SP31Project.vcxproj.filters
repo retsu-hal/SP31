@@ -5,9 +5,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="ソース ファイル\オブジェクトクラス">
-      <UniqueIdentifier>{084be035-9f73-4d13-91c1-379bae451cf8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\フレームワーク">
       <UniqueIdentifier>{53506c2f-9179-4b93-ae68-1ab6ada22e31}</UniqueIdentifier>
     </Filter>
@@ -16,6 +13,36 @@
     </Filter>
     <Filter Include="ソース ファイル\imgui">
       <UniqueIdentifier>{d944efe8-9a25-4bd6-97f3-a85185aa8d90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\フレームワーク\Camera">
+      <UniqueIdentifier>{a61c73d5-7574-4da6-9971-822637503481}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\フレームワーク\Main">
+      <UniqueIdentifier>{e32875db-d185-45b0-91e5-c9708207607c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\フレームワーク\Keyboard">
+      <UniqueIdentifier>{97ddb9cf-fe65-4df3-be1c-f138a749be9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\フレームワーク\Sprite">
+      <UniqueIdentifier>{f667474f-11f7-4682-9c74-c16ed48ace2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\フレームワーク\Model">
+      <UniqueIdentifier>{3957a648-afed-4706-ac81-4427c50149c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\フレームワーク\Manager">
+      <UniqueIdentifier>{c0be5f68-cbbb-4d9c-ad51-520363b5a4f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\フレームワーク\Game">
+      <UniqueIdentifier>{3b227589-9d73-4181-8ada-4446fe4d20e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\フレームワーク\Renderer">
+      <UniqueIdentifier>{581d4075-e4c5-44fb-b2ce-5f17b4350b41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\フレームワーク\Texture">
+      <UniqueIdentifier>{b58db8c5-71cc-4492-886c-7567cfe63133}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\オブジェクトクラス">
+      <UniqueIdentifier>{084be035-9f73-4d13-91c1-379bae451cf8}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\オブジェクトクラス\BumpField3D">
       <UniqueIdentifier>{b162e487-81bf-44a0-b3ba-120386b23a1c}</UniqueIdentifier>
@@ -65,6 +92,9 @@
     <Filter Include="ソース ファイル\オブジェクトクラス\Toon\Toon2">
       <UniqueIdentifier>{5c2fb7e7-9b5d-4bc7-b934-90ba535d7472}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\オブジェクトクラス\Toon\Toon3">
+      <UniqueIdentifier>{32042e59-165c-4b31-9ba1-dedfbaa0367b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DirectXTex.inl">
@@ -72,33 +102,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Camera.cpp">
-      <Filter>ソース ファイル\フレームワーク</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>ソース ファイル\フレームワーク</Filter>
-    </ClCompile>
-    <ClCompile Include="keyboard.cpp">
-      <Filter>ソース ファイル\フレームワーク</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>ソース ファイル\フレームワーク</Filter>
-    </ClCompile>
-    <ClCompile Include="Manager.cpp">
-      <Filter>ソース ファイル\フレームワーク</Filter>
-    </ClCompile>
-    <ClCompile Include="model.cpp">
-      <Filter>ソース ファイル\フレームワーク</Filter>
-    </ClCompile>
-    <ClCompile Include="renderer.cpp">
-      <Filter>ソース ファイル\フレームワーク</Filter>
-    </ClCompile>
-    <ClCompile Include="sprite.cpp">
-      <Filter>ソース ファイル\フレームワーク</Filter>
-    </ClCompile>
-    <ClCompile Include="texture.cpp">
-      <Filter>ソース ファイル\フレームワーク</Filter>
-    </ClCompile>
     <ClCompile Include="imgui\imgui.cpp">
       <Filter>ソース ファイル\imgui</Filter>
     </ClCompile>
@@ -165,39 +168,42 @@
     <ClCompile Include="Toon2.cpp">
       <Filter>ソース ファイル\オブジェクトクラス\Toon\Toon2</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>ソース ファイル\フレームワーク\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル\フレームワーク\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="keyboard.cpp">
+      <Filter>ソース ファイル\フレームワーク\Keyboard</Filter>
+    </ClCompile>
+    <ClCompile Include="sprite.cpp">
+      <Filter>ソース ファイル\フレームワーク\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="model.cpp">
+      <Filter>ソース ファイル\フレームワーク\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager.cpp">
+      <Filter>ソース ファイル\フレームワーク\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>ソース ファイル\フレームワーク\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer.cpp">
+      <Filter>ソース ファイル\フレームワーク\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="texture.cpp">
+      <Filter>ソース ファイル\フレームワーク\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Toon3.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス\Toon\Toon3</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h">
-      <Filter>ソース ファイル\フレームワーク</Filter>
-    </ClInclude>
     <ClInclude Include="debugPrintf.h">
       <Filter>ソース ファイル\フレームワーク</Filter>
     </ClInclude>
     <ClInclude Include="DirectXTex.h">
-      <Filter>ソース ファイル\フレームワーク</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>ソース ファイル\フレームワーク</Filter>
-    </ClInclude>
-    <ClInclude Include="keyboard.h">
-      <Filter>ソース ファイル\フレームワーク</Filter>
-    </ClInclude>
-    <ClInclude Include="main.h">
-      <Filter>ソース ファイル\フレームワーク</Filter>
-    </ClInclude>
-    <ClInclude Include="Manager.h">
-      <Filter>ソース ファイル\フレームワーク</Filter>
-    </ClInclude>
-    <ClInclude Include="model.h">
-      <Filter>ソース ファイル\フレームワーク</Filter>
-    </ClInclude>
-    <ClInclude Include="renderer.h">
-      <Filter>ソース ファイル\フレームワーク</Filter>
-    </ClInclude>
-    <ClInclude Include="sprite.h">
-      <Filter>ソース ファイル\フレームワーク</Filter>
-    </ClInclude>
-    <ClInclude Include="texture.h">
       <Filter>ソース ファイル\フレームワーク</Filter>
     </ClInclude>
     <ClInclude Include="imgui\imconfig.h">
@@ -274,6 +280,36 @@
     </ClInclude>
     <ClInclude Include="Toon2.h">
       <Filter>ソース ファイル\オブジェクトクラス\Toon\Toon2</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>ソース ファイル\フレームワーク\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>ソース ファイル\フレームワーク\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="keyboard.h">
+      <Filter>ソース ファイル\フレームワーク\Keyboard</Filter>
+    </ClInclude>
+    <ClInclude Include="sprite.h">
+      <Filter>ソース ファイル\フレームワーク\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="model.h">
+      <Filter>ソース ファイル\フレームワーク\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager.h">
+      <Filter>ソース ファイル\フレームワーク\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>ソース ファイル\フレームワーク\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer.h">
+      <Filter>ソース ファイル\フレームワーク\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="texture.h">
+      <Filter>ソース ファイル\フレームワーク\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Toon3.h">
+      <Filter>ソース ファイル\オブジェクトクラス\Toon\Toon3</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -377,6 +413,12 @@
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\Toon2PS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\ToonPSEdge.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\ToonVSEdge.hlsl">
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
   </ItemGroup>

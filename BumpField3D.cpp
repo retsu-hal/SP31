@@ -8,24 +8,24 @@
 ==============================================================================*/
 
 //==============================================================================
-//ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰
+//ƒCƒ“ƒNƒ‹[ƒh
 //==============================================================================
 #include "BumpField3D.h"
 #include "texture.h"
 #include "imgui/imgui.h"
 
 //==============================================================================
-//ãƒã‚¯ãƒ­å®£è¨€
+//ƒ}ƒNƒéŒ¾
 //==============================================================================
 #define NUM_VERTEX (4)
 #define SIZE (6)
 
 //==============================================================================
-//ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€
+//ƒvƒƒgƒ^ƒCƒvéŒ¾
 //==============================================================================
 
 //==============================================================================
-//ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
+//ƒOƒ[ƒoƒ‹•Ï”
 //==============================================================================
 static VERTEX_3D Box[NUM_VERTEX] =
 {
@@ -59,21 +59,21 @@ static VERTEX_3D Box[NUM_VERTEX] =
 };
 
 //==============================================================================
-//åˆæœŸåŒ–å‡¦ç†
+//‰Šú‰»ˆ—
 //==============================================================================
 void BumpField3D::Init()
 {
 	m_Is2D = false;
 
-	// ãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
+	// ƒeƒNƒXƒ`ƒƒ“Ç‚İ‚İ
 	m_TexID = TextureLoad(GetTexturePath());
 	m_BumpTexID = TextureLoad(GetBumpTexturePath());
 
-	//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼èª­ã¿è¾¼ã¿
+	//ƒVƒF[ƒ_[“Ç‚İ‚İ
 	CreateVertexShader(&m_VertexShader, &m_VertexLayout, GetVertexShaderPath());
 	CreatePixelShader(&m_PixelShader, GetPixelShaderPath());
 
-	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆ
+	// ’¸“_ƒoƒbƒtƒ@‚Ìì¬
 	{
 		D3D11_BUFFER_DESC bd;
 		ZeroMemory(&bd, sizeof(bd));
@@ -84,35 +84,35 @@ void BumpField3D::Init()
 		GetDevice()->CreateBuffer(&bd, NULL, &m_VertexBuffer);
 	}
 
-	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®æ›¸ãè¾¼ã¿å…ˆã®ãƒã‚¤ãƒ³ã‚¿ãƒ¼ã‚’å–å¾—
+	//’¸“_ƒoƒbƒtƒ@‚Ì‘‚«‚İæ‚Ìƒ|ƒCƒ“ƒ^[‚ğæ“¾
 	D3D11_MAPPED_SUBRESOURCE msr;
 	GetDeviceContext()->Map(m_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
 	VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
-	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã‚’ã‚³ãƒ”ãƒ¼
+	//’¸“_ƒf[ƒ^‚ğƒRƒs[
 	CopyMemory(&vertex[0], &Box[0], sizeof(VERTEX_3D) * NUM_VERTEX);
 	//
 	GetDeviceContext()->Unmap(m_VertexBuffer, 0);
 
-	//æ§‹é€ ä½“åˆæœŸåŒ–
+	//\‘¢‘Ì‰Šú‰»
 	m_Position = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	m_Scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
 	m_Rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
 
-	// ãƒ©ã‚¤ãƒˆæ§‹é€ ä½“ã®åˆæœŸåŒ–
+	// ƒ‰ƒCƒg\‘¢‘Ì‚Ì‰Šú‰»
 	XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f);
-	XMStoreFloat4(&m_Light.Direction, dir);//ã‚³ãƒ¼ãƒ³ã®å‘ã
+	XMStoreFloat4(&m_Light.Direction, dir);//ƒR[ƒ“‚ÌŒü‚«
 	m_Light.Position = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
-	m_Light.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);	//æ‹¡æ•£å…‰ã®è‰²
-	m_Light.Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);	//ç’°å¢ƒå…‰ã®è‰²
+	m_Light.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);	//ŠgUŒõ‚ÌF
+	m_Light.Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);	//ŠÂ‹«Œõ‚ÌF
 	m_Light.SkyColor = XMFLOAT4(0.6f, 0.0f, 0.0f, 1.0f);
 	m_Light.GroundColor = XMFLOAT4(0.0f, 0.6f, 0.0f, 1.0f);
 	m_Light.PointLightParam = XMFLOAT4(10.0f, 1.0f, 1.0f, 0.0f);
-	m_Light.Angle.x = XMConvertToRadians(30.0f);//ã‚³ãƒ¼ãƒ³ã®è§’åº¦
+	m_Light.Angle.x = XMConvertToRadians(30.0f);//ƒR[ƒ“‚ÌŠp“x
 }
 
 //==============================================================================
-//çµ‚äº†å‡¦ç†
+//I—¹ˆ—
 //==============================================================================
 void BumpField3D::Uninit()
 {
@@ -123,7 +123,7 @@ void BumpField3D::Uninit()
 };
 
 //==============================================================================
-//æ›´æ–°å‡¦ç†
+//XVˆ—
 //==============================================================================
 void BumpField3D::Update()
 {
@@ -131,7 +131,7 @@ void BumpField3D::Update()
 };
 
 //==============================================================================
-//æç”»å‡¦ç†
+//•`‰æˆ—
 //==============================================================================
 void BumpField3D::Draw()
 {
@@ -157,7 +157,7 @@ void BumpField3D::Draw()
 		XMMATRIX RotationXMatrix = XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
 		//	
 		XMMATRIX ScalingMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
-		// ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®è¨ˆç®—
+		// ƒ[ƒ‹ƒhs—ñ‚ÌŒvZ
 		XMMATRIX WorldMatrix = ScalingMatrix * RotationXMatrix * TranslationMatrix;
 		//
 		SetWorldMatrix(WorldMatrix);
@@ -175,14 +175,14 @@ void BumpField3D::Draw()
 		material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 		SetMaterial(material);
 
-		// æç”»
+		// •`‰æ
 		GetDeviceContext()->Draw(NUM_VERTEX, 0);
 
 	}
 };
 
 //==============================================================================
-//ImGuiæç”»å‡¦ç†
+//ImGui•`‰æˆ—
 //==============================================================================
 void BumpField3D::DrawImGui(void)
 {

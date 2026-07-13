@@ -1,11 +1,11 @@
-ï»¿#pragma once
+#pragma once
 #include "PolygonModel.h"
 
 //==============================================================================
-// ãƒ‡ã‚£ã‚ºãƒ‹ãƒ¼PBRï¼ˆæ‹¡æ•£åå°„ï¼‹ã‚¯ãƒƒã‚¯ãƒˆãƒ©ãƒ³ã‚¹é¡é¢ï¼‰
-//   ãƒ»CookTorrance ã¨åŒã˜ã PolygonModel ã‚’ç¶™æ‰¿
-//   ãƒ»Roughness / Metalness ã‚’ãƒ†ã‚¯ã‚¹ãƒãƒ£ã§ãƒ”ã‚¯ã‚»ãƒ«ã”ã¨ã«æŒ‡å®š
-//   ãƒ»Parameter.z ã‚’ã€Œä½¿ç”¨ã™ã‚‹ãƒ©ã‚¤ãƒˆã®æ•°ã€ã¨ã—ã¦ä½¿ã†
+// ƒfƒBƒYƒj[PBRiŠgU”½Ë{ƒNƒbƒNƒgƒ‰ƒ“ƒX‹¾–Êj
+//   ECookTorrance ‚Æ“¯‚¶‚­ PolygonModel ‚ğŒp³
+//   ERoughness / Metalness ‚ğƒeƒNƒXƒ`ƒƒ‚ÅƒsƒNƒZƒ‹‚²‚Æ‚Éw’è
+//   EParameter.z ‚ğug—p‚·‚éƒ‰ƒCƒg‚Ì”v‚Æ‚µ‚Äg‚¤
 //==============================================================================
 class DisneyPBR : public PolygonModel
 {
@@ -21,14 +21,14 @@ public:
 	void DrawImGuiExtra(void) override;
 
 protected:
-	// x:ã–ã‚‰ã¤ã(Roughness)  y:é‡‘å±æ„Ÿ(Metallic)  z:ãƒ©ã‚¤ãƒˆæ•°
+	// x:‚´‚ç‚Â‚«(Roughness)  y:‹à‘®Š´(Metallic)  z:ƒ‰ƒCƒg”
 	XMFLOAT4 m_Parameter;
 
-	// è¿½åŠ ã—ãŸãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å¤‰æ•°
+	// ’Ç‰Á‚µ‚½ƒeƒNƒXƒ`ƒƒƒIƒuƒWƒFƒNƒg‚Ì•Ï”
 	int m_TexIDRoughness = -1;
 	int m_TexIDMetalness = -1;
 
-	// è¿½åŠ ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ãƒ‘ã‚¹ï¼ˆasset\texture ã¸é…ç½®ï¼‰
+	// ’Ç‰ÁƒeƒNƒXƒ`ƒƒ‚ÌƒpƒXiasset\texture ‚Ö”z’uj
 	const wchar_t* GetRoughnessTexturePath() const { return L"asset\\texture\\Roughness.jpg"; }
 	const wchar_t* GetMetalnessTexturePath() const { return L"asset\\texture\\Metalness.jpg"; }
 };
