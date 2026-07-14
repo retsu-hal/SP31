@@ -495,9 +495,11 @@ void BeginPe(int no)
 // 頂点シェーダ生成
 void CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName)
 {
-	FILE* file = fopen(FileName, "rb");
+	char path[256];
+	snprintf(path, sizeof(path), "cso/%s", FileName);
+	FILE* file = fopen(path, "rb");
 	if (file == NULL) {
-		MessageBoxA(NULL, FileName, "シェーダファイルが開けません", MB_ICONEXCLAMATION | MB_OK);
+		MessageBoxA(NULL, path, "シェーダファイルが開けません", MB_ICONEXCLAMATION | MB_OK);
 		return;
 	}
 	long int fsize = _filelength(_fileno(file));
@@ -534,7 +536,13 @@ void CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName)
 	FILE* file;
 	long int fsize;
 
-	file = fopen(FileName, "rb");
+	char path[256];
+	snprintf(path, sizeof(path), "cso/%s", FileName);
+	file = fopen(path, "rb");
+	if (file == NULL) {
+		MessageBoxA(NULL, path, "シェーダファイルが開けません", MB_ICONEXCLAMATION | MB_OK);
+		return;
+	}
 	fsize = _filelength(_fileno(file));
 	unsigned char* buffer = new unsigned char[fsize];
 	fread(buffer, fsize, 1, file);
