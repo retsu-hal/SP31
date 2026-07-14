@@ -123,84 +123,84 @@
     <ClCompile Include="imgui\imgui_widgets.cpp">
       <Filter>ソース ファイル\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="BumpField3D.cpp">
+    <ClCompile Include="ObjectClass\BumpField3D.cpp">
       <Filter>ソース ファイル\オブジェクトクラス\BumpField3D</Filter>
     </ClCompile>
-    <ClCompile Include="Field3D.cpp">
+    <ClCompile Include="ObjectClass\Field3D.cpp">
       <Filter>ソース ファイル\オブジェクトクラス\Field3D</Filter>
     </ClCompile>
-    <ClCompile Include="HemiSphereLighting.cpp">
+    <ClCompile Include="ObjectClass\HemiSphereLighting.cpp">
       <Filter>ソース ファイル\オブジェクトクラス\HemiSphereLighting</Filter>
     </ClCompile>
-    <ClCompile Include="LimLighting.cpp">
+    <ClCompile Include="ObjectClass\LimLighting.cpp">
       <Filter>ソース ファイル\オブジェクトクラス\LimLighting</Filter>
     </ClCompile>
-    <ClCompile Include="PixelDirectionalLighting.cpp">
+    <ClCompile Include="ObjectClass\PixelDirectionalLighting.cpp">
       <Filter>ソース ファイル\オブジェクトクラス\PixelDirectionalLighting</Filter>
     </ClCompile>
-    <ClCompile Include="PixelLightingBlinnPhong.cpp">
+    <ClCompile Include="ObjectClass\PixelLightingBlinnPhong.cpp">
       <Filter>ソース ファイル\オブジェクトクラス\PixelLightingBlinnPhong</Filter>
     </ClCompile>
-    <ClCompile Include="PointPixelLighting.cpp">
+    <ClCompile Include="ObjectClass\PointPixelLighting.cpp">
       <Filter>ソース ファイル\オブジェクトクラス\PointPixelLighting</Filter>
     </ClCompile>
-    <ClCompile Include="PolygonModel.cpp">
+    <ClCompile Include="ObjectClass\PolygonModel.cpp">
       <Filter>ソース ファイル\オブジェクトクラス\PolygonModel</Filter>
     </ClCompile>
-    <ClCompile Include="SpotLighting.cpp">
+    <ClCompile Include="ObjectClass\SpotLighting.cpp">
       <Filter>ソース ファイル\オブジェクトクラス\SpotLighting</Filter>
     </ClCompile>
-    <ClCompile Include="Sprite2D.cpp">
+    <ClCompile Include="ObjectClass\Sprite2D.cpp">
       <Filter>ソース ファイル\オブジェクトクラス\Sprite2D</Filter>
     </ClCompile>
-    <ClCompile Include="VertexDirectionalLighting.cpp">
+    <ClCompile Include="ObjectClass\VertexDirectionalLighting.cpp">
       <Filter>ソース ファイル\オブジェクトクラス\VertexDirectionalLighting</Filter>
     </ClCompile>
-    <ClCompile Include="CookTorrance.cpp">
+    <ClCompile Include="ObjectClass\CookTorrance.cpp">
       <Filter>ソース ファイル\オブジェクトクラス\CookTorrance</Filter>
     </ClCompile>
-    <ClCompile Include="DisneyPBR.cpp">
+    <ClCompile Include="ObjectClass\DisneyPBR.cpp">
       <Filter>ソース ファイル\オブジェクトクラス\DisneyPBR</Filter>
     </ClCompile>
-    <ClCompile Include="Toon1.cpp">
+    <ClCompile Include="ObjectClass\Toon1.cpp">
       <Filter>ソース ファイル\オブジェクトクラス\Toon\Toon1</Filter>
     </ClCompile>
-    <ClCompile Include="Toon2.cpp">
+    <ClCompile Include="ObjectClass\Toon2.cpp">
       <Filter>ソース ファイル\オブジェクトクラス\Toon\Toon2</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
+    <ClCompile Include="Framework\Camera.cpp">
       <Filter>ソース ファイル\フレームワーク\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="Framework\main.cpp">
       <Filter>ソース ファイル\フレームワーク\Main</Filter>
     </ClCompile>
-    <ClCompile Include="keyboard.cpp">
+    <ClCompile Include="Framework\keyboard.cpp">
       <Filter>ソース ファイル\フレームワーク\Keyboard</Filter>
     </ClCompile>
-    <ClCompile Include="sprite.cpp">
+    <ClCompile Include="Framework\sprite.cpp">
       <Filter>ソース ファイル\フレームワーク\Sprite</Filter>
     </ClCompile>
-    <ClCompile Include="model.cpp">
+    <ClCompile Include="Framework\model.cpp">
       <Filter>ソース ファイル\フレームワーク\Model</Filter>
     </ClCompile>
-    <ClCompile Include="Manager.cpp">
+    <ClCompile Include="Framework\Manager.cpp">
       <Filter>ソース ファイル\フレームワーク\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
+    <ClCompile Include="Framework\Game.cpp">
       <Filter>ソース ファイル\フレームワーク\Game</Filter>
     </ClCompile>
-    <ClCompile Include="renderer.cpp">
+    <ClCompile Include="Framework\renderer.cpp">
       <Filter>ソース ファイル\フレームワーク\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="texture.cpp">
+    <ClCompile Include="Framework\texture.cpp">
       <Filter>ソース ファイル\フレームワーク\Texture</Filter>
     </ClCompile>
-    <ClCompile Include="Toon3.cpp">
+    <ClCompile Include="ObjectClass\Toon3.cpp">
       <Filter>ソース ファイル\オブジェクトクラス\Toon\Toon3</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="debugPrintf.h">
+    <ClInclude Include="Framework\debugPrintf.h">
       <Filter>ソース ファイル\フレームワーク</Filter>
     </ClInclude>
     <ClInclude Include="DirectXTex.h">
@@ -230,85 +230,85 @@
     <ClInclude Include="imgui\imstb_truetype.h">
       <Filter>ソース ファイル\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="Vector3.h">
+    <ClInclude Include="Framework\Vector3.h">
       <Filter>ソース ファイル\フレームワーク</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
+    <ClInclude Include="ObjectClass\GameObject.h">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
-    <ClInclude Include="BumpField3D.h">
+    <ClInclude Include="ObjectClass\BumpField3D.h">
       <Filter>ソース ファイル\オブジェクトクラス\BumpField3D</Filter>
     </ClInclude>
-    <ClInclude Include="Field3D.h">
+    <ClInclude Include="ObjectClass\Field3D.h">
       <Filter>ソース ファイル\オブジェクトクラス\Field3D</Filter>
     </ClInclude>
-    <ClInclude Include="HemiSphereLighting.h">
+    <ClInclude Include="ObjectClass\HemiSphereLighting.h">
       <Filter>ソース ファイル\オブジェクトクラス\HemiSphereLighting</Filter>
     </ClInclude>
-    <ClInclude Include="LimLighting.h">
+    <ClInclude Include="ObjectClass\LimLighting.h">
       <Filter>ソース ファイル\オブジェクトクラス\LimLighting</Filter>
     </ClInclude>
-    <ClInclude Include="PixelDirectionalLighting.h">
+    <ClInclude Include="ObjectClass\PixelDirectionalLighting.h">
       <Filter>ソース ファイル\オブジェクトクラス\PixelDirectionalLighting</Filter>
     </ClInclude>
-    <ClInclude Include="PixelLightingBlinnPhong.h">
+    <ClInclude Include="ObjectClass\PixelLightingBlinnPhong.h">
       <Filter>ソース ファイル\オブジェクトクラス\PixelLightingBlinnPhong</Filter>
     </ClInclude>
-    <ClInclude Include="PointPixelLighting.h">
+    <ClInclude Include="ObjectClass\PointPixelLighting.h">
       <Filter>ソース ファイル\オブジェクトクラス\PointPixelLighting</Filter>
     </ClInclude>
-    <ClInclude Include="PolygonModel.h">
+    <ClInclude Include="ObjectClass\PolygonModel.h">
       <Filter>ソース ファイル\オブジェクトクラス\PolygonModel</Filter>
     </ClInclude>
-    <ClInclude Include="SpotLighting.h">
+    <ClInclude Include="ObjectClass\SpotLighting.h">
       <Filter>ソース ファイル\オブジェクトクラス\SpotLighting</Filter>
     </ClInclude>
-    <ClInclude Include="Sprite2D.h">
+    <ClInclude Include="ObjectClass\Sprite2D.h">
       <Filter>ソース ファイル\オブジェクトクラス\Sprite2D</Filter>
     </ClInclude>
-    <ClInclude Include="VertexDirectionalLighting.h">
+    <ClInclude Include="ObjectClass\VertexDirectionalLighting.h">
       <Filter>ソース ファイル\オブジェクトクラス\VertexDirectionalLighting</Filter>
     </ClInclude>
-    <ClInclude Include="CookTorrance.h">
+    <ClInclude Include="ObjectClass\CookTorrance.h">
       <Filter>ソース ファイル\オブジェクトクラス\CookTorrance</Filter>
     </ClInclude>
-    <ClInclude Include="DisneyPBR.h">
+    <ClInclude Include="ObjectClass\DisneyPBR.h">
       <Filter>ソース ファイル\オブジェクトクラス\DisneyPBR</Filter>
     </ClInclude>
-    <ClInclude Include="Toon1.h">
+    <ClInclude Include="ObjectClass\Toon1.h">
       <Filter>ソース ファイル\オブジェクトクラス\Toon\Toon1</Filter>
     </ClInclude>
-    <ClInclude Include="Toon2.h">
+    <ClInclude Include="ObjectClass\Toon2.h">
       <Filter>ソース ファイル\オブジェクトクラス\Toon\Toon2</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
+    <ClInclude Include="Framework\Camera.h">
       <Filter>ソース ファイル\フレームワーク\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="main.h">
+    <ClInclude Include="Framework\main.h">
       <Filter>ソース ファイル\フレームワーク\Main</Filter>
     </ClInclude>
-    <ClInclude Include="keyboard.h">
+    <ClInclude Include="Framework\keyboard.h">
       <Filter>ソース ファイル\フレームワーク\Keyboard</Filter>
     </ClInclude>
-    <ClInclude Include="sprite.h">
+    <ClInclude Include="Framework\sprite.h">
       <Filter>ソース ファイル\フレームワーク\Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="model.h">
+    <ClInclude Include="Framework\model.h">
       <Filter>ソース ファイル\フレームワーク\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Manager.h">
+    <ClInclude Include="Framework\Manager.h">
       <Filter>ソース ファイル\フレームワーク\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
+    <ClInclude Include="Framework\Game.h">
       <Filter>ソース ファイル\フレームワーク\Game</Filter>
     </ClInclude>
-    <ClInclude Include="renderer.h">
+    <ClInclude Include="Framework\renderer.h">
       <Filter>ソース ファイル\フレームワーク\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="texture.h">
+    <ClInclude Include="Framework\texture.h">
       <Filter>ソース ファイル\フレームワーク\Texture</Filter>
     </ClInclude>
-    <ClInclude Include="Toon3.h">
+    <ClInclude Include="ObjectClass\Toon3.h">
       <Filter>ソース ファイル\オブジェクトクラス\Toon\Toon3</Filter>
     </ClInclude>
   </ItemGroup>

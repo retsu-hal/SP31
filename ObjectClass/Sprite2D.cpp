@@ -51,8 +51,9 @@ void Sprite2D::Init(void)
 	m_Position = XMFLOAT3(SCREEN_WIDTH / 3/2, SCREEN_HEIGHT / 3/2 , 0.0f);
 	m_Color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	m_Scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
-	Size = XMFLOAT2(SCREEN_WIDTH /3, SCREEN_HEIGHT /3);
-	Rotate = 0.0f;
+	m_Size = XMFLOAT2(SCREEN_WIDTH /3, SCREEN_HEIGHT /3);
+	m_Rotate = 0.0f;
+	m_Parameter = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
 
 	D3D11_SAMPLER_DESC sampDesc = {};
 	sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
@@ -79,7 +80,12 @@ void Sprite2D::Uninit(void)
 //=============================================================================
 void Sprite2D::Update(void)
 {
-	
+	ImGui::SetNextWindowSize(ImVec2(300, 500), ImGuiCond_FirstUseEver);
+	ImGui::Begin(GetName());
+	{
+		ImGui::SliderFloat("Mip Level", &m_Parameter.x, 0.0f, 7.0f, "%.01f");
+	}
+	ImGui::End();
 
 }
 
@@ -88,7 +94,8 @@ void Sprite2D::Update(void)
 //=============================================================================
 void Sprite2D::Draw(void)
 {
-
+	SetParameter(m_Parameter);
+	
 	// 頂点レイアウト設定
 	GetDeviceContext()->IASetInputLayout(m_VertexLayout);
 	//頂点シェーダーをセット
@@ -118,7 +125,7 @@ void Sprite2D::Draw(void)
 			m_Position.x, m_Position.y, 0.0f);
 
 		//回転行列（Z回転）行列の作成
-		XMMATRIX	RotationMatrix = XMMatrixRotationZ(XMConvertToRadians(Rotate));
+		XMMATRIX	RotationMatrix = XMMatrixRotationZ(XMConvertToRadians(m_Rotate));
 
 		//スケーリング行列作成（倍率1.0が等倍、0倍はダメ！）
 		XMMATRIX	ScalingMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, 1.0f);
@@ -129,9 +136,10 @@ void Sprite2D::Draw(void)
 		//ワールド行列をDirectXへセット
 		SetWorldMatrix(WorldMatrix);
 
+		GetDeviceContext()->GenerateMips(tex);
 	
 		// ポリゴン描画
-		DrawSprite(Size, m_Color);
+		DrawSprite(m_Size, m_Color);
 	}
 
 

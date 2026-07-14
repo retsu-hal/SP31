@@ -400,7 +400,7 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 		ZeroMemory(&srvd, sizeof(srvd));
 		srvd.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 		srvd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-		srvd.Texture2D.MipLevels = 1;	
+		srvd.Texture2D.MipLevels = -1;	
 		g_D3DDevice->CreateShaderResourceView(ppTexture, &srvd, &g_PeShaderResourceView[0]);
 
 		ppTexture->Release();	//RTV/SRV‚ªŽQÆ‚ðŽ‚Â‚Ì‚Å‚±‚±‚Å‰ð•ú‚µ‚Ä‚æ‚¢

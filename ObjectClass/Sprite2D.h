@@ -20,9 +20,10 @@ class Sprite2D : public GameObject
 	const char* GetName() const override { return "Sprite2D"; }
 
 	protected:
-		XMFLOAT2	Size;			//サイズ
+		XMFLOAT2	m_Size;			//サイズ
 
-		float		Rotate;			//回転角度（360表現）
+		float		m_Rotate;			//回転角度（360表現）
+		XMFLOAT4 m_Parameter;
 	public:
 		void Init(void)override;
 		void Uninit(void)override;

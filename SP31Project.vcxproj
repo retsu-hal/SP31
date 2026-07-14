@@ -77,6 +77,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Framework;$(ProjectDir)ObjectClass;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -92,6 +93,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Framework;$(ProjectDir)ObjectClass;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -107,6 +109,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Framework;$(ProjectDir)ObjectClass;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -122,6 +125,7 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Framework;$(ProjectDir)ObjectClass;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -134,13 +138,13 @@
     <None Include="DirectXTex.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BumpField3D.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CookTorrance.cpp" />
-    <ClCompile Include="DisneyPBR.cpp" />
-    <ClCompile Include="Field3D.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="HemiSphereLighting.cpp" />
+    <ClCompile Include="ObjectClass\BumpField3D.cpp" />
+    <ClCompile Include="Framework\Camera.cpp" />
+    <ClCompile Include="ObjectClass\CookTorrance.cpp" />
+    <ClCompile Include="ObjectClass\DisneyPBR.cpp" />
+    <ClCompile Include="ObjectClass\Field3D.cpp" />
+    <ClCompile Include="Framework\Game.cpp" />
+    <ClCompile Include="ObjectClass\HemiSphereLighting.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
@@ -148,36 +152,36 @@
     <ClCompile Include="imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
-    <ClCompile Include="keyboard.cpp" />
-    <ClCompile Include="LimLighting.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Manager.cpp" />
-    <ClCompile Include="model.cpp" />
-    <ClCompile Include="PixelDirectionalLighting.cpp" />
-    <ClCompile Include="PixelLightingBlinnPhong.cpp" />
-    <ClCompile Include="PointPixelLighting.cpp" />
-    <ClCompile Include="PolygonModel.cpp" />
-    <ClCompile Include="SpotLighting.cpp" />
-    <ClCompile Include="Sprite2D.cpp" />
-    <ClCompile Include="renderer.cpp" />
-    <ClCompile Include="sprite.cpp" />
-    <ClCompile Include="texture.cpp" />
-    <ClCompile Include="Toon1.cpp" />
-    <ClCompile Include="Toon2.cpp" />
-    <ClCompile Include="Toon3.cpp" />
-    <ClCompile Include="VertexDirectionalLighting.cpp" />
+    <ClCompile Include="Framework\keyboard.cpp" />
+    <ClCompile Include="ObjectClass\LimLighting.cpp" />
+    <ClCompile Include="Framework\main.cpp" />
+    <ClCompile Include="Framework\Manager.cpp" />
+    <ClCompile Include="Framework\model.cpp" />
+    <ClCompile Include="ObjectClass\PixelDirectionalLighting.cpp" />
+    <ClCompile Include="ObjectClass\PixelLightingBlinnPhong.cpp" />
+    <ClCompile Include="ObjectClass\PointPixelLighting.cpp" />
+    <ClCompile Include="ObjectClass\PolygonModel.cpp" />
+    <ClCompile Include="ObjectClass\SpotLighting.cpp" />
+    <ClCompile Include="ObjectClass\Sprite2D.cpp" />
+    <ClCompile Include="Framework\renderer.cpp" />
+    <ClCompile Include="Framework\sprite.cpp" />
+    <ClCompile Include="Framework\texture.cpp" />
+    <ClCompile Include="ObjectClass\Toon1.cpp" />
+    <ClCompile Include="ObjectClass\Toon2.cpp" />
+    <ClCompile Include="ObjectClass\Toon3.cpp" />
+    <ClCompile Include="ObjectClass\VertexDirectionalLighting.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BumpField3D.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="CookTorrance.h" />
-    <ClInclude Include="debugPrintf.h" />
+    <ClInclude Include="ObjectClass\BumpField3D.h" />
+    <ClInclude Include="Framework\Camera.h" />
+    <ClInclude Include="ObjectClass\CookTorrance.h" />
+    <ClInclude Include="Framework\debugPrintf.h" />
     <ClInclude Include="DirectXTex.h" />
-    <ClInclude Include="DisneyPBR.h" />
-    <ClInclude Include="Field3D.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="HemiSphereLighting.h" />
+    <ClInclude Include="ObjectClass\DisneyPBR.h" />
+    <ClInclude Include="ObjectClass\Field3D.h" />
+    <ClInclude Include="Framework\Game.h" />
+    <ClInclude Include="ObjectClass\GameObject.h" />
+    <ClInclude Include="ObjectClass\HemiSphereLighting.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_dx11.h" />
@@ -186,25 +190,25 @@
     <ClInclude Include="imgui\imstb_rectpack.h" />
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
-    <ClInclude Include="keyboard.h" />
-    <ClInclude Include="LimLighting.h" />
-    <ClInclude Include="main.h" />
-    <ClInclude Include="Manager.h" />
-    <ClInclude Include="model.h" />
-    <ClInclude Include="PixelDirectionalLighting.h" />
-    <ClInclude Include="PixelLightingBlinnPhong.h" />
-    <ClInclude Include="PointPixelLighting.h" />
-    <ClInclude Include="PolygonModel.h" />
-    <ClInclude Include="SpotLighting.h" />
-    <ClInclude Include="Sprite2D.h" />
-    <ClInclude Include="renderer.h" />
-    <ClInclude Include="sprite.h" />
-    <ClInclude Include="texture.h" />
-    <ClInclude Include="Toon1.h" />
-    <ClInclude Include="Toon2.h" />
-    <ClInclude Include="Toon3.h" />
-    <ClInclude Include="Vector3.h" />
-    <ClInclude Include="VertexDirectionalLighting.h" />
+    <ClInclude Include="Framework\keyboard.h" />
+    <ClInclude Include="ObjectClass\LimLighting.h" />
+    <ClInclude Include="Framework\main.h" />
+    <ClInclude Include="Framework\Manager.h" />
+    <ClInclude Include="Framework\model.h" />
+    <ClInclude Include="ObjectClass\PixelDirectionalLighting.h" />
+    <ClInclude Include="ObjectClass\PixelLightingBlinnPhong.h" />
+    <ClInclude Include="ObjectClass\PointPixelLighting.h" />
+    <ClInclude Include="ObjectClass\PolygonModel.h" />
+    <ClInclude Include="ObjectClass\SpotLighting.h" />
+    <ClInclude Include="ObjectClass\Sprite2D.h" />
+    <ClInclude Include="Framework\renderer.h" />
+    <ClInclude Include="Framework\sprite.h" />
+    <ClInclude Include="Framework\texture.h" />
+    <ClInclude Include="ObjectClass\Toon1.h" />
+    <ClInclude Include="ObjectClass\Toon2.h" />
+    <ClInclude Include="ObjectClass\Toon3.h" />
+    <ClInclude Include="Framework\Vector3.h" />
+    <ClInclude Include="ObjectClass\VertexDirectionalLighting.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\BumpPS.hlsl">
