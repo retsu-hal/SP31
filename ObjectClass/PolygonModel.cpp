@@ -73,10 +73,10 @@ void PolygonModel::Init(void)
 //===================m_===========================================================
 void PolygonModel::Uninit(void)
 {
-	if (m_VertexLayout) { m_VertexLayout->Release(); m_VertexLayout = nullptr; }
-	if (m_VertexShader) { m_VertexShader->Release(); m_VertexShader = nullptr; }
-	if (m_PixelShader) { m_PixelShader->Release(); m_PixelShader = nullptr; }
-	if (m_SamplerState) { m_SamplerState->Release(); m_SamplerState = nullptr; }
+	SafeRelease(m_VertexLayout);
+	SafeRelease(m_VertexShader);
+	SafeRelease(m_PixelShader);
+	SafeRelease(m_SamplerState);
 	if (m_Model) { ModelRelease(m_Model); }
 }
 
@@ -106,11 +106,28 @@ void PolygonModel::Update(void)
 void PolygonModel::Draw(void)
 {
 	// 頂点レイアウト・シェーダー設定
+	SetParameter(m_Parameter);
+
 	GetDeviceContext()->IASetInputLayout(m_VertexLayout);
 	GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
 	GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
 
 	DrawModel();	
+}
+
+// ラベル付き3成分DragFloat行を描画する（X/Y/Zを1行に並べ、末尾にラベル）
+template<class Vec>
+static void DragFloat3Row(const char* id, const char* label, Vec& v)
+{
+	float w3 = (ImGui::CalcItemWidth() - ImGui::GetStyle().ItemSpacing.x * 2.0f) / 3.0f;
+	ImGui::PushID(id);
+	ImGui::PushItemWidth(w3);
+	ImGui::DragFloat("##X", &v.x, 0.01f, 0.0f, 0.0f, "X:%.2f"); ImGui::SameLine();
+	ImGui::DragFloat("##Y", &v.y, 0.01f, 0.0f, 0.0f, "Y:%.2f"); ImGui::SameLine();
+	ImGui::DragFloat("##Z", &v.z, 0.01f, 0.0f, 0.0f, "Z:%.2f");
+	ImGui::PopItemWidth();
+	ImGui::PopID();
+	ImGui::SameLine(); ImGui::Text("%s", label);
 }
 
 void PolygonModel::DrawImGui()
@@ -119,55 +136,19 @@ void PolygonModel::DrawImGui()
 	ImGui::PushID(this);
 	if (ImGui::CollapsingHeader(GetName()))
 	{
-		float w3 = (ImGui::CalcItemWidth() - ImGui::GetStyle().ItemSpacing.x * 2.0f) / 3.0f;
-		float w4 = (ImGui::CalcItemWidth() - ImGui::GetStyle().ItemSpacing.x * 3.0f) / 4.0f;
-
-		ImGui::SeparatorText("Transform");
-		ImGui::PushItemWidth(w3);
-		ImGui::DragFloat("##PositionX", &m_Position.x, 0.01f, 0.0f, 0.0f, "X:%.2f"); ImGui::SameLine();
-		ImGui::DragFloat("##PositionY", &m_Position.y, 0.01f, 0.0f, 0.0f, "Y:%.2f"); ImGui::SameLine();
-		ImGui::DragFloat("##PositionZ", &m_Position.z, 0.01f, 0.0f, 0.0f, "Z:%.2f");
-		ImGui::PopItemWidth();
-		ImGui::SameLine(); ImGui::Text("Position");
-
-		ImGui::PushItemWidth(w3);
-		ImGui::DragFloat("##RotationX", &m_Rotation.x, 0.01f, 0.0f, 0.0f, "X:%.2f"); ImGui::SameLine();
-		ImGui::DragFloat("##RotationY", &m_Rotation.y, 0.01f, 0.0f, 0.0f, "Y:%.2f"); ImGui::SameLine();
-		ImGui::DragFloat("##RotationZ", &m_Rotation.z, 0.01f, 0.0f, 0.0f, "Z:%.2f");
-		ImGui::PopItemWidth();
-		ImGui::SameLine(); ImGui::Text("Rotation");
-		
-		ImGui::PushItemWidth(w3);
-		ImGui::DragFloat("##ScaleX", &m_Scale.x, 0.01f, 0.0f, 0.0f, "X:%.2f"); ImGui::SameLine();
-		ImGui::DragFloat("##ScaleY", &m_Scale.y, 0.01f, 0.0f, 0.0f, "Y:%.2f"); ImGui::SameLine();
-		ImGui::DragFloat("##ScaleZ", &m_Scale.z, 0.01f, 0.0f, 0.0f, "Z:%.2f");
-		ImGui::PopItemWidth();
-		ImGui::SameLine(); ImGui::Text("Scale");
+				ImGui::SeparatorText("Transform");
+		DragFloat3Row("Position", "Position", m_Position);
+		DragFloat3Row("Rotation", "Rotation", m_Rotation);
+		DragFloat3Row("Scale",    "Scale",    m_Scale);
 
 		ImGui::SeparatorText("Light");
-		ImGui::PushItemWidth(w3);
-		ImGui::DragFloat("##Light DirectionX", &m_Light.Direction.x, 0.01f, 0.0f, 0.0f, "X:%.2f"); ImGui::SameLine();
-		ImGui::DragFloat("##Light DirectionY", &m_Light.Direction.y, 0.01f, 0.0f, 0.0f, "Y:%.2f"); ImGui::SameLine();
-		ImGui::DragFloat("##Light DirectionZ", &m_Light.Direction.z, 0.01f, 0.0f, 0.0f, "Z:%.2f");
-		ImGui::PopItemWidth();
-		ImGui::SameLine(); ImGui::Text("Light Direction");
-
-		ImGui::PushItemWidth(w3);
-		ImGui::DragFloat("##Light PositionX", &m_Light.Position.x, 0.01f, 0.0f, 0.0f, "X:%.2f"); ImGui::SameLine();
-		ImGui::DragFloat("##Light PositionY", &m_Light.Position.y, 0.01f, 0.0f, 0.0f, "Y:%.2f"); ImGui::SameLine();
-		ImGui::DragFloat("##Light PositionZ", &m_Light.Position.z, 0.01f, 0.0f, 0.0f, "Z:%.2f");
-		ImGui::PopItemWidth();
-		ImGui::SameLine(); ImGui::Text("Light Position");
+		DragFloat3Row("LightDirection", "Light Direction", m_Light.Direction);
+		DragFloat3Row("LightPosition",  "Light Position",  m_Light.Position);
 
 		ImGui::ColorEdit3("Diffuse", &m_Light.Diffuse.x);
 		ImGui::ColorEdit3("Ambient", &m_Light.Ambient.x);
 
-		ImGui::PushItemWidth(w3);
-		ImGui::DragFloat("##Point Light ParamX", &m_Light.PointLightParam.x, 0.01f, 0.0f, 0.0f, "X:%.2f"); ImGui::SameLine();
-		ImGui::DragFloat("##Point Light ParamY", &m_Light.PointLightParam.y, 0.01f, 0.0f, 0.0f, "Y:%.2f"); ImGui::SameLine();
-		ImGui::DragFloat("##Point Light ParamZ", &m_Light.PointLightParam.z, 0.01f, 0.0f, 0.0f, "Z:%.2f");
-		ImGui::PopItemWidth();
-		ImGui::SameLine(); ImGui::Text("Point Light Param");
+		DragFloat3Row("PointLightParam", "Point Light Param", m_Light.PointLightParam);
 		
 		ImGui::SeparatorText("Resources");
 		ImGui::Text("VertexShader: %s", GetVertexShaderPath());
@@ -192,12 +173,7 @@ void PolygonModel::DrawModel(void)
 	GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
 
 	//ワールド行列作成（※中身は今のまま）
-	XMMATRIX TranslationMatrix = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
-	XMMATRIX RotationMatrix = XMMatrixRotationRollPitchYaw(
-		XMConvertToRadians(m_Rotation.x), XMConvertToRadians(m_Rotation.y), XMConvertToRadians(m_Rotation.z));
-	XMMATRIX ScalingMatrix = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
-	XMMATRIX WorldMatrix = ScalingMatrix * RotationMatrix * TranslationMatrix;
-	SetWorldMatrix(WorldMatrix);
+	SetWorldMatrix(GetWorldMatrix());
 
 	GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 

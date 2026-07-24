@@ -150,9 +150,6 @@
     <ClCompile Include="ObjectClass\SpotLighting.cpp">
       <Filter>ソース ファイル\オブジェクトクラス\SpotLighting</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectClass\Sprite2D.cpp">
-      <Filter>ソース ファイル\オブジェクトクラス\Sprite2D</Filter>
-    </ClCompile>
     <ClCompile Include="ObjectClass\VertexDirectionalLighting.cpp">
       <Filter>ソース ファイル\オブジェクトクラス\VertexDirectionalLighting</Filter>
     </ClCompile>
@@ -197,6 +194,9 @@
     </ClCompile>
     <ClCompile Include="ObjectClass\Toon3.cpp">
       <Filter>ソース ファイル\オブジェクトクラス\Toon\Toon3</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectClass\Sprite2D.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス\Sprite2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -419,6 +419,12 @@
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\ToonVSEdge.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\ZukeiVS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\ZukeiPS.hlsl">
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
   </ItemGroup>

@@ -59,7 +59,6 @@ void Toon2::Update(void)
 //==============================================================================
 void Toon2::Draw(void)
 {
-	SetParameter(m_Parameter);	// 
 
 	ID3D11ShaderResourceView* tex = GetTexture(m_TexIDRamp);
 	GetDeviceContext()->PSSetShaderResources(1, 1, &tex);

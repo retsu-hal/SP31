@@ -4,6 +4,25 @@
 #include "renderer.h"
 #include "model.h"
 
+// COMインターフェース解放ヘルパー：ポインタを解放してnullを代入する
+template<class T> inline void SafeRelease(T*& p) { if (p) { p->Release(); p = nullptr; } }
+
+// シーン全体で共有するデフォルトのLIGHT設定を構築する
+inline LIGHT MakeDefaultLight()
+{
+	LIGHT light{};
+	XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f);
+	XMStoreFloat4(&light.Direction, dir);
+	light.Position        = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
+	light.Diffuse         = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	light.Ambient         = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);
+	light.SkyColor        = XMFLOAT4(0.6f, 0.0f, 0.0f, 1.0f);
+	light.GroundColor     = XMFLOAT4(0.0f, 0.6f, 0.0f, 1.0f);
+	light.PointLightParam = XMFLOAT4(10.0f, 1.0f, 1.0f, 0.0f);
+	light.Angle           = XMFLOAT4(XMConvertToRadians(30.0f), 0.0f, 0.0f, 0.0f);
+	return light;
+}
+
 class GameObject
 {
 protected:	// 継承元ではアクセス不可だが、子クラスからはアクセス可
@@ -11,6 +30,7 @@ protected:	// 継承元ではアクセス不可だが、子クラスからはアクセス可
 	XMFLOAT3 m_Rotation{ 0.0f, 0.0f, 0.0f };
 	XMFLOAT3 m_Scale{ 1.0f, 1.0f, 1.0f };
 	XMFLOAT4 m_Color{ 1.0f, 1.0f, 1.0f, 1.0f };
+	XMFLOAT4 m_Parameter{ 0.0f, 0.0f, 0.0f, 0.0f };	// x,y,z,w : シェーダーパラメータ
 	
 	int m_TexID = -1;
 
@@ -42,4 +62,14 @@ public:
 
 	virtual void  DrawImGui() {};
 	virtual void DrawImGuiExtra() {};
+
+	// このオブジェクトのトランスフォームからS*R*Tのワールド行列を生成する（3D）
+	XMMATRIX GetWorldMatrix() const
+	{
+		XMMATRIX Scaling, Rotation, Translation;
+		Scaling = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
+		Rotation = XMMatrixRotationRollPitchYaw(XMConvertToRadians(m_Rotation.x), XMConvertToRadians(m_Rotation.y), XMConvertToRadians(m_Rotation.z));
+		Translation = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
+		return Scaling * Rotation * Translation;
+	}
 };

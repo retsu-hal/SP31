@@ -36,24 +36,13 @@ void Sprite2D::Init(void)
 	CreateVertexShader(&m_VertexShader, &m_VertexLayout,GetVertexShaderPath());
 	CreatePixelShader(&m_PixelShader, GetPixelShaderPath());
 
-	//シェーダー読み込み(グレースケール)
-	/*
-	CreateVertexShader(&VertexShader, &VertexLayout, "GrayScaleVS.cso");
-	CreatePixelShader(&PixelShader, "GrayScalePS.cso");
-	*/
-
-	//シェーダー読み込み(セピア調変換）
-	/*
-	CreateVertexShader(&VertexShader, &VertexLayout, "SepiaVS.cso");
-	CreatePixelShader(&PixelShader, "SepiaPS.cso");
-	*/
 	//2Dオブジェクト初期化
-	m_Position = XMFLOAT3(SCREEN_WIDTH / 3/2, SCREEN_HEIGHT / 3/2 , 0.0f);
+	m_Position = XMFLOAT3(SCREEN_WIDTH /2, SCREEN_HEIGHT /2 , 0.0f);
 	m_Color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	m_Scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
-	m_Size = XMFLOAT2(SCREEN_WIDTH /3, SCREEN_HEIGHT /3);
+	m_Size = XMFLOAT2(SCREEN_WIDTH , SCREEN_HEIGHT );
 	m_Rotate = 0.0f;
-	m_Parameter = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
+	m_Parameter = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);	//X:サイズ, Y:ぼかし, Z:リングの幅, W:未使用
 
 	D3D11_SAMPLER_DESC sampDesc = {};
 	sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
@@ -69,10 +58,10 @@ void Sprite2D::Init(void)
 //=============================================================================
 void Sprite2D::Uninit(void)
 {
-	m_VertexLayout->Release();
-	m_VertexShader->Release();
-	m_PixelShader->Release();
-	m_SamplerState->Release();
+	SafeRelease(m_VertexLayout);
+	SafeRelease(m_VertexShader);
+	SafeRelease(m_PixelShader);
+	SafeRelease(m_SamplerState);
 }
 
 //=============================================================================
@@ -80,10 +69,15 @@ void Sprite2D::Uninit(void)
 //=============================================================================
 void Sprite2D::Update(void)
 {
+
+
 	ImGui::SetNextWindowSize(ImVec2(300, 500), ImGuiCond_FirstUseEver);
 	ImGui::Begin(GetName());
 	{
-		ImGui::SliderFloat("Mip Level", &m_Parameter.x, 0.0f, 7.0f, "%.01f");
+		ImGui::SliderFloat("Parameter.x", &m_Parameter.x, 0.0f, 1.0f, "%.4f");
+		ImGui::SliderFloat("Parameter.y", &m_Parameter.y, 0.0f, 1.0f, "%.4f");
+		ImGui::SliderFloat("Parameter.z", &m_Parameter.z, 0.0f, 1.0f, "%.4f");
+		ImGui::SliderFloat("Parameter.w", &m_Parameter.w, 0.0f, 1.0f, "%.4f");
 	}
 	ImGui::End();
 
@@ -115,14 +109,13 @@ void Sprite2D::Draw(void)
 	{//2Dポリゴン1枚ずつで必要な処理
 
 		//テクスチャをセット
-		ID3D11ShaderResourceView* tex = GetPeTexture();
+		ID3D11ShaderResourceView* tex = GetPeTexture(m_TexID);
 		GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
 
 		GetDeviceContext()->PSSetSamplers(0, 1, &m_SamplerState);
 
 		//平行移動行列の作成（表示座標を決める）
-		XMMATRIX	TranslationMatrix = XMMatrixTranslation(
-			m_Position.x, m_Position.y, 0.0f);
+		XMMATRIX	TranslationMatrix = XMMatrixTranslation(m_Position.x, m_Position.y, 0.0f);
 
 		//回転行列（Z回転）行列の作成
 		XMMATRIX	RotationMatrix = XMMatrixRotationZ(XMConvertToRadians(m_Rotate));
@@ -136,7 +129,7 @@ void Sprite2D::Draw(void)
 		//ワールド行列をDirectXへセット
 		SetWorldMatrix(WorldMatrix);
 
-		GetDeviceContext()->GenerateMips(tex);
+		//GetDeviceContext()->GenerateMips(tex);
 	
 		// ポリゴン描画
 		DrawSprite(m_Size, m_Color);

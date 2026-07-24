@@ -14,5 +14,5 @@ public:
 
 protected:
 	void DrawImGuiExtra() override;	// 標準インスペクタのヘッダ内に追記する
-	XMFLOAT4 m_Parameter;			// x:ざらつき(Roughness)  y:金属感(Metallic)
+	/* m_Parameter は GameObject から継承 */			// x:ざらつき(Roughness)  y:金属感(Metallic)
 };

@@ -26,14 +26,7 @@ void  CookTorrance::Init(void)
 	m_Parameter.y = 0.8f; //金属感(Metallic)
 
 	// ライト構造体の初期化
-	XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f);
-	XMStoreFloat4(&m_Light.Direction, dir);//コーンの向き
-	m_Light.Position = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
-	m_Light.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);	//拡散光の色
-	m_Light.Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);	//環境光の色
-	m_Light.SkyColor = XMFLOAT4(0.6f, 0.0f, 0.0f, 1.0f);
-	m_Light.GroundColor = XMFLOAT4(0.0f, 0.6f, 0.0f, 1.0f);
-	m_Light.PointLightParam = XMFLOAT4(10.0f, 1.0f, 1.0f, 0.0f);
+	m_Light = MakeDefaultLight();
 }
 //=============================================================================
 // 終了処理
@@ -56,7 +49,6 @@ void CookTorrance::Update(void)
 //=============================================================================
 void CookTorrance::Draw(void)
 {
-	SetParameter(m_Parameter);	//Parameterをシェーダーへ送る
 	PolygonModel::Draw();
 }
 

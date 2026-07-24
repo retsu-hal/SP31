@@ -44,6 +44,10 @@ void Toon3::Init(void)
 //==============================================================================
 void Toon3::Uninit(void)
 {
+	if (m_EdgeLayout) { m_EdgeLayout->Release(); m_EdgeLayout = nullptr; }
+	if (m_EdgeVS) { m_EdgeVS->Release();     m_EdgeVS = nullptr; }
+	if (m_EdgePS) { m_EdgePS->Release();     m_EdgePS = nullptr; }
+
 	PolygonModel::Uninit();
 }
 
@@ -52,9 +56,7 @@ void Toon3::Uninit(void)
 //==============================================================================
 void Toon3::Update(void)
 {
-	if (m_EdgeLayout) { m_EdgeLayout->Release(); m_EdgeLayout = nullptr; }
-	if (m_EdgeVS) { m_EdgeVS->Release();     m_EdgeVS = nullptr; }
-	if (m_EdgePS) { m_EdgePS->Release();     m_EdgePS = nullptr; }
+
 
 	PolygonModel::Update();
 }
@@ -64,7 +66,7 @@ void Toon3::Update(void)
 //==============================================================================
 void Toon3::Draw(void)
 {
-	SetParameter(m_Parameter);
+	SetParameter(m_Parameter);	
 	ID3D11ShaderResourceView* tex = GetTexture(m_TexIDRamp);
 	GetDeviceContext()->PSSetShaderResources(1, 1, &tex);
 
@@ -77,18 +79,19 @@ void Toon3::Draw(void)
 	GetDeviceContext()->VSSetShader(m_EdgeVS, nullptr, 0);
 	GetDeviceContext()->PSSetShader(m_EdgePS, nullptr, 0);
 	GetDeviceContext()->IASetInputLayout(m_EdgeLayout);
-	PolygonModel::Draw();   // ※シェーダーを再セットしない描画関数が必要
+	DrawModel();
+	//PolygonModel::Draw();   // ※シェーダーを再セットしない描画関数が必要
 
 	// ③ 裏面カリングに戻す
 	SetCullMode(D3D11_CULL_BACK);
 }
 
+
 //==============================================================================
 // ImGui描画
 //==============================================================================
-void Toon3::DrawImGui(void)
+void Toon3::DrawImGuiExtra()
 {
-	PolygonModel::DrawImGui();
 	ImGui::SeparatorText("Toon3");
 	ImGui::DragFloat("Texture V", &m_Parameter.x, 0.001f, 0.0f, 1.0f);
 	ImGui::DragFloat("EdgeModel Scale", &m_Parameter.y, 0.001f, 0.0f, 0.5f);

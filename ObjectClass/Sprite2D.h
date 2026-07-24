@@ -16,14 +16,14 @@ class Sprite2D : public GameObject
 {
 	virtual const char* GetVertexShaderPath() const { return "UnlitTextureVS.cso"; }
 	virtual const char* GetPixelShaderPath()  const { return "UnlitTexturePS.cso"; }
-	virtual const wchar_t* GetTexturePath()  const { return L"asset\\texture\\img_yuno-sengoku.jpg"; }
+	virtual const wchar_t* GetTexturePath()  const { return L"asset\\texture\\Toon2.png"; }
 	const char* GetName() const override { return "Sprite2D"; }
 
 	protected:
 		XMFLOAT2	m_Size;			//サイズ
 
 		float		m_Rotate;			//回転角度（360表現）
-		XMFLOAT4 m_Parameter;
+		/* m_Parameter は GameObject から継承 */
 	public:
 		void Init(void)override;
 		void Uninit(void)override;

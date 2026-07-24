@@ -29,7 +29,7 @@
 
 std::vector<GameObject*> g_GameObjects =
 {
-	new Camera(),
+	//new Camera(),
 	new Sprite2D(),
 	//new Field3D(),
 	new BumpField3D(),
@@ -43,7 +43,7 @@ std::vector<GameObject*> g_GameObjects =
 	//new SpotLighting(),
 	//new CookTorrance(),
 	//new DisneyPBR(),
-	new Toon1(),
+	//new Toon1(),
 	new Toon2(),
 	new Toon3(),
 };
@@ -81,15 +81,7 @@ void InitGame()
 
 
 	// ライト構造体の初期化
-	XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f);
-	XMStoreFloat4(&g_Light.Direction, dir);//コーンの向き
-	g_Light.Position = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
-	g_Light.Diffuse = XMFLOAT4(1.0f,1.0f,1.0f, 1.0f);	//拡散光の色
-	g_Light.Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);	//環境光の色
-	g_Light.SkyColor = XMFLOAT4(0.6f, 0.0f, 0.0f, 1.0f);
-	g_Light.GroundColor = XMFLOAT4(0.0f, 0.6f, 0.0f, 1.0f);
-	g_Light.PointLightParam = XMFLOAT4(10.0f, 1.0f, 1.0f, 0.0f);
-	g_Light.Angle.x = XMConvertToRadians(30.0f);//コーンの角度
+	g_Light = MakeDefaultLight();
 }
 
 //===============================================
@@ -125,7 +117,7 @@ void UpdateGame()
 
 	}
 	// 共通ライト（g_Light）の調整UI
-	ImGui::Begin("SPOT LIGHT");
+	/*ImGui::Begin("SPOT LIGHT");
 	{
 		ImGui::ColorEdit3("Diffuse", &g_Light.Diffuse.x);
 		ImGui::DragFloat3("Direction", &g_Light.Direction.x, 0.01f);
@@ -138,7 +130,7 @@ void UpdateGame()
 
 		
 	}
-	ImGui::End();
+	ImGui::End();*/
 
 }
 

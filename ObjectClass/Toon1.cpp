@@ -71,7 +71,6 @@ void Toon1::Update()
 //==============================================================================
 void Toon1::Draw()
 {
-	SetParameter(m_Parameter);
 
 	PolygonModel::Draw();
 }

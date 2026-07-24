@@ -22,7 +22,7 @@ public:
 
 protected:
 	// x:ざらつき(Roughness)  y:金属感(Metallic)  z:ライト数
-	XMFLOAT4 m_Parameter;
+	/* m_Parameter は GameObject から継承 */
 
 	// 追加したテクスチャオブジェクトの変数
 	int m_TexIDRoughness = -1;

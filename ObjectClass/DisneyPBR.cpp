@@ -62,7 +62,6 @@ void DisneyPBR::Update(void)
 //=============================================================================
 void DisneyPBR::Draw(void)
 {
-	SetParameter(m_Parameter);
 
 	//追加テクスチャを 1番・2番へそれぞれ設定
 	//（0番:アルベドは PolygonModel::Draw 内で設定される）

@@ -13,6 +13,6 @@ public:
 	virtual void Update() override;
 	virtual void Draw() override;
 	
-	XMFLOAT4 m_Parameter;
+	/* m_Parameter ÇÕ GameObject Ç©ÇÁåpè≥ */
 };
 

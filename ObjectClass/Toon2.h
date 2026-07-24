@@ -16,7 +16,7 @@ public:
 protected:
 	void DrawImGuiExtra() override;
 
-	XMFLOAT4 m_Parameter;	// x:ランプテクスチャのV座標（縦方向の固定位置）
+	/* m_Parameter は GameObject から継承 */	// x:ランプテクスチャのV座標（縦方向の固定位置）
 
 	// 追加テクスチャ（ランプ＝明るさのLUT）
 	int m_TexIDRamp = -1;
