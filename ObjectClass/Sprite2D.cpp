@@ -42,6 +42,8 @@ void Sprite2D::Init(void)
 	m_Scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
 	m_Size = XMFLOAT2(SCREEN_WIDTH , SCREEN_HEIGHT );
 	m_Rotate = 0.0f;
+	m_RampSize = XMFLOAT2(SCREEN_WIDTH / 6.0f, SCREEN_HEIGHT / 5.0f);
+	m_RampPosition = XMFLOAT3(m_RampSize.x * 0.5f + 16.0f,m_RampSize.y * 0.5f + 16.0f, 0.0f);	
 	m_Parameter = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);	//X:サイズ, Y:ぼかし, Z:リングの幅, W:未使用
 
 	D3D11_SAMPLER_DESC sampDesc = {};
@@ -109,7 +111,7 @@ void Sprite2D::Draw(void)
 	{//2Dポリゴン1枚ずつで必要な処理
 
 		//テクスチャをセット
-		ID3D11ShaderResourceView* tex = GetPeTexture(m_TexID);
+		ID3D11ShaderResourceView* tex = GetPeTexture(0);
 		GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
 
 		GetDeviceContext()->PSSetSamplers(0, 1, &m_SamplerState);
@@ -135,5 +137,13 @@ void Sprite2D::Draw(void)
 		DrawSprite(m_Size, m_Color);
 	}
 
+	{
+		ID3D11ShaderResourceView* tex = GetTexture(m_TexID);	// ★Toon2.png
+		GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
 
+		XMMATRIX T = XMMatrixTranslation(m_RampPosition.x, m_RampPosition.y, 0.0f);
+		SetWorldMatrix(T);
+
+		DrawSprite(m_RampSize, m_Color);
+	}
 }

@@ -21,6 +21,8 @@ class Sprite2D : public GameObject
 
 	protected:
 		XMFLOAT2	m_Size;			//サイズ
+		XMFLOAT2	m_RampSize;		//★ランプ表示用サイズ
+		XMFLOAT3	m_RampPosition;	//★ランプ表示用位置
 
 		float		m_Rotate;			//回転角度（360表現）
 		/* m_Parameter は GameObject から継承 */

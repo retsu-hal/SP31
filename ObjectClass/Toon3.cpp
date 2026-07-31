@@ -25,7 +25,7 @@ void Toon3::Init(void)
 	CreateVertexShader(&m_EdgeVS, &m_EdgeLayout, "ToonVSEdge.cso");
 	CreatePixelShader(&m_EdgePS, "ToonPSEdge.cso");
 
-	m_Position = XMFLOAT3(0.5f, 0.5f, 0.0f);
+	m_Position = XMFLOAT3(1.0f, 0.5f, 0.0f);
 	m_Parameter = XMFLOAT4(0.5f, 0.02f, 0.0f, 0.0f);	// x:ランプV  y:エッジ幅
 	m_TexIDRamp = TextureLoad(GetRampTexturePath());
 

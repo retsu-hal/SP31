@@ -29,7 +29,7 @@
 
 std::vector<GameObject*> g_GameObjects =
 {
-	//new Camera(),
+	new Camera(),
 	new Sprite2D(),
 	//new Field3D(),
 	new BumpField3D(),
@@ -43,7 +43,7 @@ std::vector<GameObject*> g_GameObjects =
 	//new SpotLighting(),
 	//new CookTorrance(),
 	//new DisneyPBR(),
-	//new Toon1(),
+	new Toon1(),
 	new Toon2(),
 	new Toon3(),
 };
