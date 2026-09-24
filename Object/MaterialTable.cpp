@@ -16,7 +16,7 @@
 //==============================================================================
 #include <cstring>
 #include "Material.h"
-#include "GameObject.h"		// MakeDefaultLight
+#include "GameObject.h"
 
 //==============================================================================
 //ライト初期値のひな形
@@ -59,129 +59,20 @@ namespace
 //==============================================================================
 //各マテリアルの定義
 //==============================================================================
+	MaterialDesc UnlitColor()
+	{
+		return MakeMaterial("UnlitColor", "UnlitColorVS.cso", "UnlitColorPS.cso");
+	}
+	
+	
 	MaterialDesc UnlitTexture()
 	{
 		return MakeMaterial("UnlitTexture", "UnlitTextureVS.cso", "UnlitTexturePS.cso");
 	}
 
-	MaterialDesc VertexDirectionalLighting()
+	MaterialDesc GrayscaleTexture()
 	{
-		return MakeMaterial("VertexDirectionalLighting", "VertexDirectionalLightingVS.cso", "VertexDirectionalLightingPS.cso");
-	}
-
-	MaterialDesc PixelDirectionalLighting()
-	{
-		return MakeMaterial("PixelDirectionalLighting", "PixelDirectionalLightingVS.cso", "PixelDirectionalLightingPS.cso");
-	}
-
-	MaterialDesc PixelLightingBlinnPhong()
-	{
-		MaterialDesc m = MakeMaterial("PixelLightingBlinnPhong", "PixelLightingBlinnPhongVS.cso", "PixelLightingBlinnPhongPS.cso");
-		m.Model         = "asset\\model\\cube.fbx";
-		m.Light.Diffuse = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
-		m.Light.Ambient = XMFLOAT4(0.5f, 0.3f, 0.3f, 1.0f);
-		return m;
-	}
-
-	MaterialDesc HemiSphereLighting()
-	{
-		MaterialDesc m = MakeMaterial("HemiSphereLighting", "HemiSphereLightingVS.cso", "HemiSphereLightingPS.cso");
-		m.Light.Diffuse      = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);	// 拡散光の色
-		m.Light.Ambient      = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);	// 環境光の色
-		m.Light.GroundNormal = XMFLOAT4(0.0f, 1.0f, 0.0f, 0.0f);
-		m.Light.SkyColor     = XMFLOAT4(0.6f, 0.0f, 0.0f, 1.0f);
-		m.Light.GroundColor  = XMFLOAT4(0.0f, 0.6f, 0.0f, 1.0f);
-		return m;
-	}
-
-	MaterialDesc PointPixelLighting()
-	{
-		MaterialDesc m = MakeMaterial("PointPixelLighting", "PointPixelLightingVS.cso", "PointPixelLightingPS.cso");
-		m.Light = PointLight();
-		return m;
-	}
-
-	MaterialDesc LimLighting()
-	{
-		MaterialDesc m = MakeMaterial("LimLighting", "LimLightingVS.cso", "LimLightingPS.cso");
-		m.Light = PointLight();
-		m.Light.PointLightParam = XMFLOAT4(3.0f, 3.0f, 0.0f, 1.0f);
-		return m;
-	}
-
-	MaterialDesc SpotLighting()
-	{
-		MaterialDesc m = MakeMaterial("SpotLighting", "SpotLightingVS.cso", "SpotLightingPS.cso");
-		m.UseGlobalLight = true;	// Game.cpp の g_Light を使う
-		return m;
-	}
-
-	MaterialDesc CookTorrance()
-	{
-		MaterialDesc m = MakeMaterial("CookTorrance", "CookTorranceVS.cso", "CookTorrancePS.cso");
-		m.Parameter = XMFLOAT4(0.3f, 0.8f, 0.0f, 0.0f);	// x:ざらつき(Roughness) y:金属感(Metallic)
-		m.Light     = MakeDefaultLight();
-		m.ParamUIs  = {
-			{ "Roughness", 0, 0.0f, 1.0f, "%.1f" },
-			{ "Metallic",  1, 0.0f, 1.0f, "%.1f" },
-		};
-		return m;
-	}
-
-	MaterialDesc DisneyPBR()
-	{
-		MaterialDesc m = MakeMaterial("DisneyPBR", "DisneyPBRVS.cso", "DisneyPBRPS.cso");
-		m.Parameter = XMFLOAT4(0.5f, 0.5f, 3.0f, 0.0f);	// x:Roughness y:Metallic z:ライト数
-		m.Light.Direction       = XMFLOAT4(0.0f, -1.0f, 0.0f, 0.0f);
-		m.Light.Position        = XMFLOAT4(0.0f, 1.0f, 0.0f, 0.0f);
-		m.Light.Diffuse         = XMFLOAT4(0.9f, 0.9f, 0.9f, 1.0f);
-		m.Light.Ambient         = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
-		m.Light.PointLightParam = XMFLOAT4(2000.0f, 1.5f, 0.0f, 0.0f);
-		m.ExtraTextures = {
-			{ 1, L"asset\\texture\\Roughness.jpg" },	// t1:粗さ
-			{ 2, L"asset\\texture\\Metalness.jpg" },	// t2:金属度
-		};
-		m.ParamUIs = {
-			{ "Light", 2, 1.0f, 15.0f, "%.0f" },
-		};
-		return m;
-	}
-
-	MaterialDesc Toon1()
-	{
-		MaterialDesc m = MakeMaterial("Toon1", "Toon1VS.cso", "Toon1PS.cso");
-		m.Parameter = XMFLOAT4(0.4f, 0.7f, 0.0f, 0.0f);	// x:Level-1 のしきい値 y:Level-2 のしきい値
-		m.Light     = PointLight();
-		m.ParamUIs  = {
-			{ "Level1", 0, 0.0f, 1.0f, "%.2f" },
-			{ "Level2", 1, 0.0f, 1.0f, "%.2f" },
-		};
-		return m;
-	}
-
-	MaterialDesc Toon2()
-	{
-		MaterialDesc m = MakeMaterial("Toon2", "Toon2VS.cso", "Toon2PS.cso");
-		m.Parameter     = XMFLOAT4(0.03f, 0.0f, 0.0f, 0.0f);	// x:ランプテクスチャのV座標
-		m.Light         = PointLight();
-		m.ExtraTextures = { { 1, L"asset\\texture\\Toon2.png" } };	// t1:ランプ(明るさのLUT)
-		m.ParamUIs      = { { "Texture V", 0, 0.0f, 1.0f, "%.4f" } };
-		return m;
-	}
-
-	MaterialDesc Toon3()
-	{
-		// Toon2 + アウトライン（背面法）
-		MaterialDesc m = Toon2();
-		m.Name                = "Toon3";
-		m.Parameter           = XMFLOAT4(0.03f, 0.02f, 0.0f, 0.0f);	// x:ランプV y:エッジ幅
-		m.OutlineVertexShader = "ToonVSEdge.cso";
-		m.OutlinePixelShader  = "ToonPSEdge.cso";
-		m.ParamUIs = {
-			{ "Texture V",       0, 0.0f, 1.0f, "%.3f", 0.001f },
-			{ "EdgeModel Scale", 1, 0.0f, 0.5f, "%.3f", 0.001f },
-		};
-		return m;
+		return MakeMaterial("GrayscaleTexture", "GrayscaleVS.cso", "GrayscalePS.cso");
 	}
 }
 
@@ -193,19 +84,9 @@ const std::vector<MaterialDesc>& GetMaterialTable()
 	// ★シェーダーを追加したらここに1行足す
 	static const std::vector<MaterialDesc> table =
 	{
+		UnlitColor(),
 		UnlitTexture(),
-		VertexDirectionalLighting(),
-		PixelDirectionalLighting(),
-		PixelLightingBlinnPhong(),
-		HemiSphereLighting(),
-		PointPixelLighting(),
-		LimLighting(),
-		SpotLighting(),
-		CookTorrance(),
-		DisneyPBR(),
-		Toon1(),
-		Toon2(),
-		Toon3(),
+		GrayscaleTexture(),
 	};
 	return table;
 }

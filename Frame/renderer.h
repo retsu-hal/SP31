@@ -59,6 +59,7 @@ ID3D11Device *GetDevice( void );
 ID3D11DeviceContext *GetDeviceContext( void );
 
 void SetDepthEnable( bool Enable );
+void SetCullMode( D3D11_CULL_MODE CullMode );
 
 void SetWorldViewProjection2D(void);
 void ResetWorldViewProjection3D(void);

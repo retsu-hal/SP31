@@ -87,6 +87,9 @@
     <ClCompile Include="Object\Material.cpp">
       <Filter>ソース ファイル\フレームワーク</Filter>
     </ClCompile>
+    <ClCompile Include="Object\MaterialTable.cpp">
+      <Filter>ソース ファイル\フレームワーク</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -151,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="Object\Material.h">
       <Filter>ソース ファイル\フレームワーク</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\GameObject.h">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

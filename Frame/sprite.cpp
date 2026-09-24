@@ -88,6 +88,11 @@ void DrawSprite(XMFLOAT2 size, XMFLOAT4 color)
 	vertex[3].Position = XMFLOAT3(size_W, size_H, 0.0f);
 	vertex[3].Diffuse = color;
 	vertex[3].TexCoord = XMFLOAT2(1.0f, 1.0f);
+	//法線（画面手前向き：ライティング系シェーダー用）
+	for (int i = 0; i < NUM_SPRITEVERTEX; i++)
+	{
+		vertex[i].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
+	}
 	//書き込み完了
 	GetDeviceContext()->Unmap(g_VertexBuffer, 0);
 

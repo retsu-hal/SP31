@@ -47,8 +47,8 @@ struct MaterialDesc
 	const char*    Name         = "Material";
 	const char*    VertexShader = "UnlitTextureVS.cso";
 	const char*    PixelShader  = "UnlitTexturePS.cso";
-	//const char*    Model        = "asset\\model\\model.fbx";
-	//const wchar_t* Texture      = L"asset\\texture\\sura.jpg";	// t0 にセットする基本テクスチャ
+	const char*    Model        = "asset\\model\\model.fbx";
+	const wchar_t* Texture      = L"asset\\texture\\sura.jpg";	// t0 にセットする基本テクスチャ
 
 	XMFLOAT4 Parameter{ 0.0f, 0.0f, 0.0f, 0.0f };	// m_Parameter の初期値
 	LIGHT    Light{};								// m_Light の初期値
@@ -105,3 +105,9 @@ void ReleaseShaderCache();					// FinalizeGame で呼ぶ
 //------------------------------------------------------------------------------
 const std::vector<MaterialDesc>& GetMaterialTable();
 int FindMaterialIndex(const char* name);	// 見つからなければ -1
+
+//------------------------------------------------------------------------------
+// ImGui（PolygonModel / Field3D で共通）
+//------------------------------------------------------------------------------
+int  MaterialCombo(int currentIndex);	// 選び直されたらその添字、変わらなければ -1
+void DrawMaterialSettings(const MaterialDesc& desc, LIGHT& light, XMFLOAT4& parameter);	// ライト・固有パラメータ

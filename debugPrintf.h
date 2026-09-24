@@ -1,20 +1,20 @@
 
 //==============================================================================
-//DebugPrintfã‚’ä½œã£ã¦ä½¿ãŠã† [debugPrintf.h]
+//DebugPrintf‚ğì‚Á‚Äg‚¨‚¤ [debugPrintf.h]
 //=============================================================================
 
 #pragma once
 #include <windows.h>
 #include <stdio.h>
-// ãƒ‡ãƒãƒƒã‚¯ç”¨printf...VisualStudioã®å‡ºåŠ›ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«å‡ºåŠ›ã•ã‚Œã‚‹
+// ƒfƒoƒbƒN—pprintf...VisualStudio‚Ìo—ÍƒEƒBƒ“ƒhƒE‚Éo—Í‚³‚ê‚é
 inline void DebugPrintf(const char* pFormat, ...)
 {
-// ã“ã‚“ãªãµã†ã«æ›¸ãã¨Releaseãƒ“ãƒ«ãƒ‰æ™‚ã¯ãƒ“ãƒ«ãƒ‰ã•ã‚Œãªã„ç¯„å›²ã‚’è¨­å®šã§ãã‚‹
+// ‚±‚ñ‚È‚Ó‚¤‚É‘‚­‚ÆReleaseƒrƒ‹ƒh‚Íƒrƒ‹ƒh‚³‚ê‚È‚¢”ÍˆÍ‚ğİ’è‚Å‚«‚é
 #if defined(_DEBUG) || defined(DEBUG)
 	va_list argp;
-	char buf[256]; // ãƒãƒƒãƒ•ã‚¡ã¯å¤§ãã‚ã«å–ã‚Šã¾ã—ã‚‡ã†
+	char buf[256]; // ƒoƒbƒtƒ@‚Í‘å‚«‚ß‚Éæ‚è‚Ü‚µ‚å‚¤
 	va_start(argp, pFormat);
-	vsprintf_s(buf, 256, pFormat, argp); // ãƒãƒƒãƒ•ã‚¡é‡ã¨ç¬¬ï¼’å¼•æ•°ã‚’åˆã‚ã›ã‚‹ã“ã¨
+	vsprintf_s(buf, 256, pFormat, argp); // ƒoƒbƒtƒ@—Ê‚Æ‘æ‚Qˆø”‚ğ‡‚í‚¹‚é‚±‚Æ
 	va_end(argp);
 	OutputDebugStringA(buf);
 #endif // _DEBUG || DEBUG

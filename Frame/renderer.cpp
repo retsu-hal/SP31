@@ -53,6 +53,8 @@ XMMATRIX				g_ProjectionMatrix;
 ID3D11DepthStencilState* g_DepthStateEnable;
 ID3D11DepthStencilState* g_DepthStateDisable;
 
+ID3D11RasterizerState*	g_RasterizerState[3] = {};	//[CullMode - 1] NONE / FRONT / BACK
+
 
 
 ID3D11Device* GetDevice( void )
@@ -74,6 +76,11 @@ void SetDepthEnable( bool Enable )
 	else
 		g_ImmediateContext->OMSetDepthStencilState( g_DepthStateDisable, NULL );
 
+}
+
+void SetCullMode( D3D11_CULL_MODE CullMode )
+{
+	g_ImmediateContext->RSSetState( g_RasterizerState[CullMode - 1] );
 }
 
 void ResetWorldViewProjection3D(void)
@@ -241,10 +248,15 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	rd.DepthClipEnable = TRUE; 
 	rd.MultisampleEnable = FALSE; 
 
-	ID3D11RasterizerState *rs;
-	g_D3DDevice->CreateRasterizerState( &rd, &rs );
+	//カリングモードごとに作っておき、SetCullMode で切り替える
+	rd.CullMode = D3D11_CULL_NONE;
+	g_D3DDevice->CreateRasterizerState( &rd, &g_RasterizerState[D3D11_CULL_NONE - 1] );
+	rd.CullMode = D3D11_CULL_FRONT;
+	g_D3DDevice->CreateRasterizerState( &rd, &g_RasterizerState[D3D11_CULL_FRONT - 1] );
+	rd.CullMode = D3D11_CULL_BACK;
+	g_D3DDevice->CreateRasterizerState( &rd, &g_RasterizerState[D3D11_CULL_BACK - 1] );
 
-	g_ImmediateContext->RSSetState( rs );
+	SetCullMode( D3D11_CULL_BACK );
 
 
 
@@ -370,6 +382,10 @@ void FinalizeRenderer(void)
 	if( g_VertexLayout )		g_VertexLayout->Release();
 	if( g_VertexShader )		g_VertexShader->Release();
 	if( g_PixelShader )			g_PixelShader->Release();
+	for( ID3D11RasterizerState* rs : g_RasterizerState )
+	{
+		if( rs )	rs->Release();
+	}
 
 	if( g_ImmediateContext )	g_ImmediateContext->ClearState();
 	if( g_RenderTargetView )	g_RenderTargetView->Release();
@@ -409,8 +425,7 @@ void CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** V
 	FILE* file;
 	long int fsize;
 
-	file = fopen(FileName, "rb");
-	if (file == NULL)
+	if (fopen_s(&file, FileName, "rb") != 0)
 	{
 		MessageBoxA(NULL, FileName, "Shader file open failed", MB_OK | MB_ICONERROR);
 		return;
@@ -449,8 +464,7 @@ void CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName)
 	FILE* file;
 	long int fsize;
 
-	file = fopen(FileName, "rb");
-	if (file == NULL)
+	if (fopen_s(&file, FileName, "rb") != 0)
 	{
 		MessageBoxA(NULL, FileName, "Shader file open failed", MB_OK | MB_ICONERROR);
 		return;

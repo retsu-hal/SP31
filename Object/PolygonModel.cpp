@@ -157,33 +157,6 @@ void PolygonModel::Draw(void)
 	}
 }
 
-// ラベル付き3成分DragFloat行を描画する（X/Y/Zを1行に並べ、末尾にラベル）
-template<class Vec>
-static void DragFloat3Row(const char* id, const char* label, Vec& v)
-{
-	float w3 = (ImGui::CalcItemWidth() - ImGui::GetStyle().ItemSpacing.x * 2.0f) / 3.0f;
-	ImGui::PushID(id);
-	ImGui::PushItemWidth(w3);
-	ImGui::DragFloat("##X", &v.x, 0.01f, 0.0f, 0.0f, "X:%.2f"); ImGui::SameLine();
-	ImGui::DragFloat("##Y", &v.y, 0.01f, 0.0f, 0.0f, "Y:%.2f"); ImGui::SameLine();
-	ImGui::DragFloat("##Z", &v.z, 0.01f, 0.0f, 0.0f, "Z:%.2f");
-	ImGui::PopItemWidth();
-	ImGui::PopID();
-	ImGui::SameLine(); ImGui::Text("%s", label);
-}
-
-// m_Parameter の index 番目（0:x 1:y 2:z 3:w）への参照
-static float& ParamComponent(XMFLOAT4& p, int index)
-{
-	switch (index)
-	{
-	case 0:  return p.x;
-	case 1:  return p.y;
-	case 2:  return p.z;
-	default: return p.w;
-	}
-}
-
 void PolygonModel::DrawImGui()
 {
 	ImGui::Begin("Inspecter");
@@ -197,19 +170,10 @@ void PolygonModel::DrawImGui()
 	{
 		// マテリアル（シェーダー）切り替え
 		ImGui::SeparatorText("Material");
-		const std::vector<MaterialDesc>& table = GetMaterialTable();
-		if (ImGui::BeginCombo("Material", GetName()))
+		int selected = MaterialCombo(m_MaterialIndex);
+		if (selected >= 0)
 		{
-			for (int i = 0; i < (int)table.size(); i++)
-			{
-				bool selected = (i == m_MaterialIndex);
-				if (ImGui::Selectable(table[i].Name, selected))
-				{
-					ChangeMaterial(i, true);
-				}
-				if (selected) ImGui::SetItemDefaultFocus();
-			}
-			ImGui::EndCombo();
+			ChangeMaterial(selected, true);
 		}
 
 		ImGui::SeparatorText("Transform");
@@ -217,37 +181,9 @@ void PolygonModel::DrawImGui()
 		DragFloat3Row("Rotation", "Rotation", m_Rotation);
 		DragFloat3Row("Scale",    "Scale",    m_Scale);
 
+		// ライト・マテリアル固有のパラメータ
 		const MaterialDesc& desc = GetDesc();
-
-		ImGui::SeparatorText("Light");
-		if (desc.UseGlobalLight)
-		{
-			ImGui::TextDisabled("Using g_Light (Game.cpp)");	// ImGuiは日本語フォント未設定のため英語
-		}
-		else
-		{
-			DragFloat3Row("LightDirection", "Light Direction", m_Light.Direction);
-			DragFloat3Row("LightPosition",  "Light Position",  m_Light.Position);
-
-			ImGui::ColorEdit3("Diffuse", &m_Light.Diffuse.x);
-			ImGui::ColorEdit3("Ambient", &m_Light.Ambient.x);
-
-			DragFloat3Row("PointLightParam", "Point Light Param", m_Light.PointLightParam);
-		}
-
-		// マテリアル固有のパラメータ（MaterialDesc::ParamUIs から自動生成）
-		if (!desc.ParamUIs.empty())
-		{
-			ImGui::SeparatorText(desc.Name);
-			for (const ParamUI& ui : desc.ParamUIs)
-			{
-				float& value = ParamComponent(m_Parameter, ui.Index);
-				if (ui.DragSpeed > 0.0f)
-					ImGui::DragFloat(ui.Label, &value, ui.DragSpeed, ui.Min, ui.Max, ui.Format);
-				else
-					ImGui::SliderFloat(ui.Label, &value, ui.Min, ui.Max, ui.Format);
-			}
-		}
+		DrawMaterialSettings(desc, m_Light, m_Parameter);
 
 		ImGui::SeparatorText("Resources");
 		ImGui::Text("VertexShader: %s", GetVertexShaderPath());

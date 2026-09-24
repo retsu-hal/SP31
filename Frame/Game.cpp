@@ -5,38 +5,23 @@
 #include "texture.h"
 
 #include	"Sprite2D.h"
-
 #include "Field3D.h"
 #include "PolygonModel.h"
 #include "Material.h"
-#include "BumpField3D.h"
 
 
 //===============================================
 //グローバル変数
 //===============================================
 
-// PolygonModel の第1引数はマテリアル名（MaterialTable.cpp に定義）
+// PolygonModel / Field3D / Sprite2D の第1引数はマテリアル名（MaterialTable.cpp に定義）
 // 実行中は ImGui の Inspecter → Material で切り替えられる
+// ※カメラは GameObject ではないので InitCamera などを直接呼ぶ
 std::vector<GameObject*> g_GameObjects =
 {
-	new Camera(),
-	new Sprite2D(),
-	//new Field3D(),
-	new BumpField3D(),
-	//new PolygonModel("UnlitTexture",              XMFLOAT3(0.0f, 0.5f, 0.0f)),
-	//new PolygonModel("VertexDirectionalLighting", XMFLOAT3(0.0f, 0.5f, 0.0f)),
-	//new PolygonModel("PixelDirectionalLighting",  XMFLOAT3(0.5f, 0.5f, 0.0f)),
-	//new PolygonModel("PixelLightingBlinnPhong",   XMFLOAT3(1.0f, 0.5f, 0.0f)),
-	//new PolygonModel("HemiSphereLighting",        XMFLOAT3(1.5f, 0.5f, 0.0f)),
-	//new PolygonModel("PointPixelLighting",        XMFLOAT3(0.0f, 0.5f, 0.0f)),
-	//new PolygonModel("LimLighting",               XMFLOAT3(0.5f, 0.5f, 0.0f)),
-	//new PolygonModel("SpotLighting",              XMFLOAT3(1.0f, 0.5f, 0.0f)),
-	//new PolygonModel("CookTorrance",              XMFLOAT3(1.5f, 0.5f, 0.0f)),
-	//new PolygonModel("DisneyPBR",                 XMFLOAT3(2.0f, 0.5f, 0.0f)),
-	//new PolygonModel("Toon1",                     XMFLOAT3(0.0f, 0.5f, 0.0f)),
-	new PolygonModel("Toon2",                     XMFLOAT3(0.5f, 0.5f, 0.0f)),
-	new PolygonModel("Toon3",                     XMFLOAT3(1.0f, 0.5f, 0.0f)),
+	new Sprite2D("UnlitColor", L"asset\\texture\\texture.jpg"),
+	new PolygonModel("UnlitTexture",  XMFLOAT3(0.0f, 0.5f, 0.0f)),
+	new Field3D("UnlitTexture", XMFLOAT3(0.0f, 0.0f, 0.0f)),
 };
 
 //ポーズフラグ
@@ -61,6 +46,7 @@ bool	GetPause()
 void InitGame()
 {
 	TextureInitialize(GetDevice());
+	InitCamera();
 	
 	for(GameObject	*GameObj:g_GameObjects)
 	{
@@ -89,7 +75,8 @@ void FinalizeGame()
 	}
 	g_GameObjects.clear();
 
-	ReleaseShaderCache();	// PolygonModel が共有していたシェーダーを解放
+	FinalizeCamera();
+	ReleaseShaderCache();	// PolygonModel / Field3D / Sprite2D が共有していたシェーダーを解放
 	TextureFinalize();
 }
 
@@ -100,6 +87,7 @@ void UpdateGame()
 
 	if (GetPause() == false)//ポーズ中でなければ更新実行
 	{
+		UpdateCamera();
 		for (GameObject* gameObject : g_GameObjects)
 		{
 			if (gameObject != nullptr)
@@ -131,19 +119,18 @@ void UpdateGame()
 //ゲームシーン描画
 void DrawGame()
 {
-	//===== パス1：レンダリングテクスチャへ描画 =====
-	BeginPe();		//レンダリングテクスチャをレンダリングターゲットにする（緑クリア）
+	//===== 3D描画 =====（バックバッファのクリアは main.cpp の Draw で行う）
 	{
+		DrawCamera();				//ビュー・プロジェクション行列をセット
 		SetDepthEnable(true);		//奥行き処理有効
 		for (GameObject* gameObject : g_GameObjects)
 		{
 			if (gameObject != nullptr && !gameObject->m_Is2D)
-				gameObject->Draw();		//Camera→BumpField3D→Toon1 の順で描かれる
+				gameObject->Draw();
 		}
 	}
 
-	//===== パス2：バックバッファへ描画 =====
-	Clear();		//★レンダリングターゲットをデフォルトへ戻す（赤クリア）★
+	//===== 2D描画 =====
 	{
 		SetWorldViewProjection2D();
 		SetDepthEnable(false);
