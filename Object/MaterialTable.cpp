@@ -80,7 +80,13 @@ namespace
 		return MakeMaterial("SepiaTexture", "SepiaVS.cso", "SepiaPS.cso");
 	}
 
-
+	MaterialDesc PixelDirectionalLighting()
+	{
+		MaterialDesc m = MakeMaterial("PixelDirectionalLighting", "PixelDirectionalLightingVS.cso", "PixelDirectionalLightingPS.cso");
+		m.Parameter=XMFLOAT4(30.0f, 0.0f, 0.0f, 0.0f);
+		m.ParamUIs = { { "Specular Power", 0, 1.0f, 128.0f, "%.0f" } };
+		return m;
+	}
 }
 
 //==============================================================================
@@ -95,6 +101,7 @@ const std::vector<MaterialDesc>& GetMaterialTable()
 		UnlitTexture(),
 		GrayscaleTexture(),
 		SepiaTexture(),
+		PixelDirectionalLighting(),
 	};
 	return table;
 }
