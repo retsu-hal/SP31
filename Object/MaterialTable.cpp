@@ -74,6 +74,13 @@ namespace
 	{
 		return MakeMaterial("GrayscaleTexture", "GrayscaleVS.cso", "GrayscalePS.cso");
 	}
+
+	MaterialDesc SepiaTexture()
+	{
+		return MakeMaterial("SepiaTexture", "SepiaVS.cso", "SepiaPS.cso");
+	}
+
+
 }
 
 //==============================================================================
@@ -87,6 +94,7 @@ const std::vector<MaterialDesc>& GetMaterialTable()
 		UnlitColor(),
 		UnlitTexture(),
 		GrayscaleTexture(),
+		SepiaTexture(),
 	};
 	return table;
 }
