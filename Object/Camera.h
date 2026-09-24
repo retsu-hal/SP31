@@ -17,10 +17,16 @@ class Camera
 		float		Farclip;		//どこまで遠くが見えるか
 		float		Rotation;
 
+		XMFLOAT3 Offset;
+
+		float Yaw;		// 横回転（度）
+		float Pitch;	// 縦回転（度）
+		float Distance;	// 注視点からの距離
 };
 
 void	InitCamera();
 void	FinalizeCamera();
 void	UpdateCamera();
 void	DrawCamera();
+void SetCameraTarget(XMFLOAT3 target);
 

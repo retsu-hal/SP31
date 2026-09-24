@@ -93,6 +93,9 @@ void UpdateGame()
 			if (gameObject != nullptr)
 			{
 				gameObject->Update();
+
+				SetCameraTarget(g_GameObjects[0]->GetPosition());	//カメラの注視点を更新
+				UpdateCamera();
 			}
 		}
 

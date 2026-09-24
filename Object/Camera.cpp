@@ -17,6 +17,11 @@ void	InitCamera()
 	g_Camera.Nearclip = 0.5f;							//近面クリップ
 	g_Camera.Farclip = 1000.0f;							//遠面クリップ
 	g_Camera.Rotation = 0.0f;
+	g_Camera.Offset = XMFLOAT3(0.0f, 1.0f, -1.5f);
+
+	g_Camera.Yaw = 0.0f;
+	g_Camera.Pitch = 30.0f;	// 少し上から見下ろす
+	g_Camera.Distance = 1.5f;
 }
 
 void	FinalizeCamera()
@@ -26,26 +31,28 @@ void	FinalizeCamera()
 
 void	UpdateCamera()
 {
+	float speed = 1.0f;	// 1フレームに回す角度（度）
 
-	g_Camera.Rotation = 0;
+	if (Keyboard_IsKeyDown(KK_LEFT))	g_Camera.Yaw += speed;
+	if (Keyboard_IsKeyDown(KK_RIGHT))	g_Camera.Yaw -= speed;
+	if (Keyboard_IsKeyDown(KK_UP))		g_Camera.Pitch += speed;
+	if (Keyboard_IsKeyDown(KK_DOWN))	g_Camera.Pitch -= speed;
 
-	if (Keyboard_IsKeyDown(KK_A))
-	{
-		g_Camera.Rotation = 0.3f;
-	}
-	else if (Keyboard_IsKeyDown(KK_D))
-	{
-		g_Camera.Rotation = -0.3f;
-	}
+	// 真上・真下まで行くと LookAt が壊れるので制限する
+	if (g_Camera.Pitch > 80.0f) g_Camera.Pitch = 80.0f;
+	if (g_Camera.Pitch < -10.0f) g_Camera.Pitch = -10.0f;
 
-	float co = cosf(XMConvertToRadians(g_Camera.Rotation));
-	float si = sinf(XMConvertToRadians(g_Camera.Rotation));
-	float posx = (g_Camera.Position.x * co) - (g_Camera.Position.z * si);
-	float posz = (g_Camera.Position.x * si) + (g_Camera.Position.z * co);
+	float yaw = XMConvertToRadians(g_Camera.Yaw);
+	float pitch = XMConvertToRadians(g_Camera.Pitch);
 
-	g_Camera.Position.x = posx;
-	g_Camera.Position.z = posz;
+	// 角度と距離からオフセットを作る（Yaw=0 のとき注視点の真後ろ＝-Z側）
+	g_Camera.Offset.x = -sinf(yaw) * cosf(pitch) * g_Camera.Distance;
+	g_Camera.Offset.y = sinf(pitch) * g_Camera.Distance;
+	g_Camera.Offset.z = -cosf(yaw) * cosf(pitch) * g_Camera.Distance;
 
+	g_Camera.Position.x = g_Camera.AtPosition.x + g_Camera.Offset.x;
+	g_Camera.Position.y = g_Camera.AtPosition.y + g_Camera.Offset.y;
+	g_Camera.Position.z = g_Camera.AtPosition.z + g_Camera.Offset.z;
 }
 
 void	DrawCamera()//3D使用時
@@ -72,6 +79,11 @@ void	DrawCamera()//3D使用時
 	SetViewMatrix(ViewMatrix);
 	//カメラ座標セット
 	SetCameraPosition(g_Camera.Position);
+}
+
+void SetCameraTarget(XMFLOAT3 target)
+{
+	g_Camera.AtPosition = target;
 }
 
 
