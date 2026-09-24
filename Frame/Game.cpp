@@ -19,7 +19,7 @@
 // ¦ƒJƒƒ‰‚Í GameObject ‚Å‚Í‚È‚¢‚Ì‚Å InitCamera ‚È‚Ç‚ğ’¼ÚŒÄ‚Ô
 std::vector<GameObject*> g_GameObjects =
 {
-	new Sprite2D("UnlitColor", L"asset\\texture\\texture.jpg"),
+	//new Sprite2D("UnlitColor", L"asset\\texture\\texture.jpg"),
 	new PolygonModel("UnlitTexture",  XMFLOAT3(0.0f, 0.5f, 0.0f)),
 	new Field3D("UnlitTexture", XMFLOAT3(0.0f, 0.0f, 0.0f)),
 };

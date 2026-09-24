@@ -83,8 +83,17 @@ namespace
 	MaterialDesc PixelDirectionalLighting()
 	{
 		MaterialDesc m = MakeMaterial("PixelDirectionalLighting", "PixelDirectionalLightingVS.cso", "PixelDirectionalLightingPS.cso");
-		m.Parameter=XMFLOAT4(30.0f, 0.0f, 0.0f, 0.0f);
+		m.Parameter = XMFLOAT4(30.0f, 0.0f, 0.0f, 0.0f);	// x:スペキュラの強さ、y:スペキュラの色、z:スペキュラの光沢度
 		m.ParamUIs = { { "Specular Power", 0, 1.0f, 128.0f, "%.0f" } };
+		return m;
+	}
+
+	MaterialDesc PixelLightingBlinnPhong()
+	{
+		MaterialDesc m = MakeMaterial("PixelLightingBlinnPhong", "PixelLightingBlinnPhongVS.cso", "PixelLightingBlinnPhongPS.cso");
+		m.Model = "asset\\model\\cube.fbx";
+		m.Light.Diffuse = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);		// 光の色
+		m.Light.Ambient = XMFLOAT4(0.5f, 0.3f, 0.3f, 1.0f);	// 環境光
 		return m;
 	}
 }
@@ -102,6 +111,7 @@ const std::vector<MaterialDesc>& GetMaterialTable()
 		GrayscaleTexture(),
 		SepiaTexture(),
 		PixelDirectionalLighting(),
+		PixelLightingBlinnPhong(),
 	};
 	return table;
 }
