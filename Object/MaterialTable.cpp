@@ -110,6 +110,13 @@ namespace
 		m.UseGlobalLight = true;	// g_Light ‚ðŽg‚¤
 		return m;
 	}
+
+	MaterialDesc PointPixelLighting()
+	{
+		MaterialDesc m = MakeMaterial("PointPixelLighting", "PointPixelLightingVS.cso", "PointPixelLightingPS.cso");
+		m.Light = PointLight(); 
+		return m;
+	}
 }
 
 //==============================================================================
@@ -127,6 +134,7 @@ const std::vector<MaterialDesc>& GetMaterialTable()
 		PixelDirectionalLighting(),
 		PixelLightingBlinnPhong(),
 		SpotLighting(),
+		PointPixelLighting(),
 	};
 	return table;
 }
