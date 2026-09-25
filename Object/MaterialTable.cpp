@@ -214,6 +214,19 @@ namespace
 		};
 		return m;
 	}
+
+	MaterialDesc Zukei()
+	{
+		MaterialDesc m = MakeMaterial("Zukei", "UnlitTextureVS.cso", "ZukeiPS.cso");
+		m.Parameter = XMFLOAT4(0.8f, 0.01f, 0.05f, 0.0f);	// x:サイズ y:ぼかし幅 z:幅/くぼみ/花びら w:図形番号
+		m.ParamUIs = {
+			{ "Size",  0, 0.0f, 1.0f, "%.3f" },
+			{ "Edge",  1, 0.0f, 0.3f, "%.3f" },
+			{ "Z (Ring:width / Heart:kubomi / Flower:petal)", 2, 0.0f, 6.0f, "%.3f", 0.005f },	// DragFloat
+			{ "Shape (0:円 1:リング 2:ひし形 3:ハート 4:花)", 3, 0.0f, 4.0f, "%.0f" },
+		};
+		return m;
+	}
 }
 
 //==============================================================================
@@ -240,6 +253,7 @@ const std::vector<MaterialDesc>& GetMaterialTable()
 		Toon1(),
 		Toon2(),
 		Toon3(),
+		Zukei(),
 	};
 	return table;
 }
