@@ -361,6 +361,7 @@ HRESULT Renderer::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 	g_D3DDevice->CreateBuffer(&hBufferDesc, NULL, &g_ParameterBuffer);
 	g_ImmediateContext->PSSetConstantBuffers(6, 1, &g_ParameterBuffer);
+	g_ImmediateContext->VSSetConstantBuffers(6, 1, &g_ParameterBuffer); 
 
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));

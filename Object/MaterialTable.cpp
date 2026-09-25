@@ -178,6 +178,42 @@ namespace
 		};
 		return m;
 	}
+
+	MaterialDesc Toon1()
+	{
+		MaterialDesc m = MakeMaterial("Toon1", "PointPixelLightingVS.cso", "Toon1PS.cso");
+		m.Light = PointLight();
+		m.Parameter = XMFLOAT4(0.4f, 0.7f, 0.0f, 0.0f);   // x:Level-1 y:Level-2
+		m.ParamUIs = {
+			{ "Level-1", 0, 0.0f, 1.0f, "%.2f" },
+			{ "Level-2", 1, 0.0f, 1.0f, "%.2f" },
+		};
+		return m;
+	}
+
+	MaterialDesc Toon2()
+	{
+		MaterialDesc m = MakeMaterial("Toon2", "PointPixelLightingVS.cso", "Toon2PS.cso");
+		m.Light = PointLight();
+		m.Parameter = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);   // x:Texture V
+		m.ExtraTextures = { { 1, L"asset\\texture\\Toon.png" } };   // t1
+		m.ParamUIs = { { "Texture V", 0, 0.0f, 1.0f, "%.4f" } };
+		return m;
+	}
+
+	MaterialDesc Toon3()
+	{
+		MaterialDesc m = Toon2();          // 本体はToon2を流用
+		m.Name = "Toon3";
+		m.Parameter = XMFLOAT4(0.0f, 0.02f, 0.0f, 0.0f);   // x:Texture V  y:エッジ太さ
+		m.OutlineVertexShader = "ToonEdgeVS.cso";
+		m.OutlinePixelShader = "ToonEdgePS.cso";
+		m.ParamUIs = {
+			{ "Texture V",       0, 0.0f, 1.0f, "%.4f" },
+			{ "EdgeModel Scale", 1, 0.0f, 0.5f, "%.3f", 0.001f },  // DragFloat
+		};
+		return m;
+	}
 }
 
 //==============================================================================
@@ -201,6 +237,9 @@ const std::vector<MaterialDesc>& GetMaterialTable()
 		CookTorrance(),
 		DisneyPBR(),
 		Bump(),
+		Toon1(),
+		Toon2(),
+		Toon3(),
 	};
 	return table;
 }
