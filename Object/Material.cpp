@@ -36,7 +36,7 @@ void GetCachedVertexShader(const char* fileName, ID3D11VertexShader** vs, ID3D11
 	{
 		// 初回だけ読み込む（失敗して nullptr のままでも登録し、エラー表示を繰り返さない）
 		VertexShaderEntry entry;
-		CreateVertexShader(&entry.VS, &entry.Layout, (std::string("shader/") + fileName).c_str());	// .cso は shader フォルダにある
+		Renderer::CreateVertexShader(&entry.VS, &entry.Layout, (std::string("shader/") + fileName).c_str());	// .cso は shader フォルダにある
 		it = g_VertexShaderCache.emplace(fileName, entry).first;
 	}
 	*vs     = it->second.VS;
@@ -49,7 +49,7 @@ void GetCachedPixelShader(const char* fileName, ID3D11PixelShader** ps)
 	if (it == g_PixelShaderCache.end())
 	{
 		ID3D11PixelShader* shader = nullptr;
-		CreatePixelShader(&shader, (std::string("shader/") + fileName).c_str());
+		Renderer::CreatePixelShader(&shader, (std::string("shader/") + fileName).c_str());
 		it = g_PixelShaderCache.emplace(fileName, shader).first;
 	}
 	*ps = it->second;
@@ -108,19 +108,19 @@ void Material::Bind() const
 	for (size_t i = 0; i < m_Desc->ExtraTextures.size(); i++)
 	{
 		ID3D11ShaderResourceView* tex = GetTexture(m_ExtraTexIDs[i]);
-		GetDeviceContext()->PSSetShaderResources(m_Desc->ExtraTextures[i].Slot, 1, &tex);
+		Renderer::GetDeviceContext()->PSSetShaderResources(m_Desc->ExtraTextures[i].Slot, 1, &tex);
 	}
 
-	GetDeviceContext()->IASetInputLayout(m_VertexLayout);
-	GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
-	GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
+	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
+	Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
+	Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
 }
 
 void Material::BindOutline() const
 {
-	GetDeviceContext()->IASetInputLayout(m_OutlineVertexLayout);
-	GetDeviceContext()->VSSetShader(m_OutlineVertexShader, NULL, 0);
-	GetDeviceContext()->PSSetShader(m_OutlinePixelShader, NULL, 0);
+	Renderer::GetDeviceContext()->IASetInputLayout(m_OutlineVertexLayout);
+	Renderer::GetDeviceContext()->VSSetShader(m_OutlineVertexShader, NULL, 0);
+	Renderer::GetDeviceContext()->PSSetShader(m_OutlinePixelShader, NULL, 0);
 }
 
 //==============================================================================

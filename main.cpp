@@ -223,11 +223,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 HRESULT	Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 {
 	//DirectX関連の初期化
-	InitRenderer(hInstance, hWnd, bWindow);
+	Renderer::Init(hInstance, hWnd, bWindow);
 	//キー入力初期化
 	Keyboard_Initialize();
 	//マネージャ初期化
-	InitManager();
+	Manager::Init();
 
 	//==================
 	IMGUI_CHECKVERSION();
@@ -236,7 +236,7 @@ HRESULT	Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
 	ImGui_ImplWin32_Init(hWnd);
-	ImGui_ImplDX11_Init(GetDevice(), GetDeviceContext());
+	ImGui_ImplDX11_Init(Renderer::GetDevice(), Renderer::GetDeviceContext());
 	//==================
 
 	return	S_OK;
@@ -254,9 +254,9 @@ void	Finalize(void)
 	//================
 
 	//マネージャ終了
-	FinalizeManager();
+	Manager::Finalize();
 	//DirectX関連の終了処理
-	FinalizeRenderer();
+	Renderer::Finalize();
 
 
 }
@@ -276,7 +276,7 @@ void	Update(void)
 	//===========================
 
 	//マネージャ更新
-	UpdateManager();
+	Manager::Update();
 
 
 
@@ -288,9 +288,9 @@ void	Update(void)
 void	Draw(void)
 {
 	//バックバッファのクリア
-	Clear();
+	Renderer::Clear();
 	//マネージャ描画
-	DrawManager();
+	Manager::Draw();
 
 	//====================
 	ImGui::Render();
@@ -298,7 +298,7 @@ void	Draw(void)
 	//====================
 
 	//バックバッファをフロントバッファへコピー
-	Present();
+	Renderer::Present();
 
 }
 

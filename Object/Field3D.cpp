@@ -82,17 +82,17 @@ void Field3D::Init(void)
 		bd.ByteWidth = sizeof(VERTEX_3D) * NUM_VERTEX;
 		bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 		bd.CPUAccessFlags = D3D10_CPU_ACCESS_WRITE;
-		GetDevice()->CreateBuffer(&bd, NULL, &m_vertexBuffer);
+		Renderer::GetDevice()->CreateBuffer(&bd, NULL, &m_vertexBuffer);
 
 		//頂点バッファの書き込み先のポインターを取得
 		D3D11_MAPPED_SUBRESOURCE	msr;
-		GetDeviceContext()->Map(m_vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
+		Renderer::GetDeviceContext()->Map(m_vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
 		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
 		//頂点データをコピー
 		CopyMemory(&vertex[0], &Box[0], sizeof(VERTEX_3D) * NUM_VERTEX);
 		//書き込み完了
-		GetDeviceContext()->Unmap(m_vertexBuffer, 0);
+		Renderer::GetDeviceContext()->Unmap(m_vertexBuffer, 0);
 	}
 
 	//3Dオブジェクト管理構造体の初期化
@@ -168,22 +168,22 @@ void Field3D::Draw(void)
 
 	// パラメータ・追加テクスチャ・頂点レイアウト・シェーダー設定
 	// （板ポリゴンなのでアウトライン用の2パス目は描かない）
-	SetParameter(m_Parameter);
+	Renderer::SetParameter(m_Parameter);
 	m_Material.Bind();
-	SetLight(m_Light);
+	Renderer::SetLight(m_Light);
 
 	{
 		//テクスチャをセット
 		ID3D11ShaderResourceView* tex = GetTexture(m_TexID);
-		GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
+		Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
 
 		//ワールド行列をDirectXへセット
-		SetWorldMatrix(GetWorldMatrix());
+		Renderer::SetWorldMatrix(GetWorldMatrix());
 
 		//頂点バッファをセット
 		UINT	stride = sizeof(VERTEX_3D);
 		UINT	offset = 0;
-		GetDeviceContext()->IASetVertexBuffers(
+		Renderer::GetDeviceContext()->IASetVertexBuffers(
 			0,
 			1,
 			&m_vertexBuffer,
@@ -192,17 +192,17 @@ void Field3D::Draw(void)
 		);
 
 		//プリミティブトポロジーの設定
-		GetDeviceContext()->IASetPrimitiveTopology(
+		Renderer::GetDeviceContext()->IASetPrimitiveTopology(
 			D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP
 		);
 		//マテリアル設定
 		MATERIAL	material;
 		ZeroMemory(&material, sizeof(MATERIAL));
 		material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		SetMaterial(material);
+		Renderer::SetMaterial(material);
 
 		//描画
-		GetDeviceContext()->Draw(NUM_VERTEX, 0);//インデックス無し描画
+		Renderer::GetDeviceContext()->Draw(NUM_VERTEX, 0);//インデックス無し描画
 	}
 
 

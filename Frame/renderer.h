@@ -46,39 +46,39 @@ struct LIGHT
 	XMFLOAT4	PointLightParam;
 };
 
-//*****************************************************************************
-// プロトタイプ宣言
-//*****************************************************************************
-HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow);
-void FinalizeRenderer(void);
+class Renderer
+{
+public:
+	static HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow);
+	static void Finalize(void);
 
-void Clear(void);
-void Present(void);
+	static void Clear(void);
+	static void Present(void);
 
-ID3D11Device *GetDevice( void );
-ID3D11DeviceContext *GetDeviceContext( void );
+	static ID3D11Device* GetDevice(void);
+	static ID3D11DeviceContext* GetDeviceContext(void);
 
-void SetDepthEnable( bool Enable );
-void SetCullMode( D3D11_CULL_MODE CullMode );
+	static void SetDepthEnable(bool Enable);
+	static void SetCullMode(D3D11_CULL_MODE CullMode);
 
-void SetWorldViewProjection2D(void);
-void ResetWorldViewProjection3D(void);
+	static void SetWorldViewProjection2D(void);
+	static void ResetWorldViewProjection3D(void);
 
+	static void SetWorldMatrix(XMMATRIX WorldMatrix);
+	static void SetViewMatrix(XMMATRIX ViewMatrix);
+	static void SetProjectionMatrix(XMMATRIX ProjectionMatrix);
 
-void SetWorldMatrix(XMMATRIX WorldMatrix );
-void SetViewMatrix(XMMATRIX ViewMatrix );
-void SetProjectionMatrix(XMMATRIX ProjectionMatrix );
+	static void SetCameraPosition(XMFLOAT3 CameraPosition);
 
-void SetCameraPosition(XMFLOAT3 CameraPosition);
+	static void SetParameter(XMFLOAT4 Parameter);
 
-void SetParameter(XMFLOAT4 Parameter);
+	static void SetMaterial(MATERIAL Material);
 
+	static void CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName);
+	static void CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName);
 
+	static void SetLight(LIGHT Light);
 
-void SetMaterial( MATERIAL Material );
-
-void CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName);
-void CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName);
-
-void SetLight(LIGHT Light);
-
+	// レンダーターゲットの作成
+	static ID3D10ShaderResourceView* GetTexture(int TexID);
+};

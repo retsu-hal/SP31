@@ -51,7 +51,7 @@ MODEL* ModelLoad( const char *FileName )
 			ZeroMemory(&sd, sizeof(sd));
 			sd.pSysMem = vertex;
 
-			GetDevice()->CreateBuffer(&bd, &sd, &model->VertexBuffer[m]);
+			Renderer::GetDevice()->CreateBuffer(&bd, &sd, &model->VertexBuffer[m]);
 
 			delete[] vertex;
 		}
@@ -83,7 +83,7 @@ MODEL* ModelLoad( const char *FileName )
 			ZeroMemory(&sd, sizeof(sd));
 			sd.pSysMem = index;
 
-			GetDevice()->CreateBuffer(&bd, &sd, &model->IndexBuffer[m]);
+			Renderer::GetDevice()->CreateBuffer(&bd, &sd, &model->IndexBuffer[m]);
 
 			delete[] index;
 		}
@@ -99,7 +99,7 @@ MODEL* ModelLoad( const char *FileName )
 		TexMetadata metadata;
 		ScratchImage image;
 		LoadFromWICMemory(aitexture->pcData, aitexture->mWidth, WIC_FLAGS_NONE, &metadata, image);
-		CreateShaderResourceView(GetDevice(), image.GetImages(), image.GetImageCount(), metadata, &texture);
+		CreateShaderResourceView(Renderer::GetDevice(), image.GetImages(), image.GetImageCount(), metadata, &texture);
 		assert(texture);
 
 		model->Texture[aitexture->mFilename.data] = texture;
@@ -141,7 +141,7 @@ void ModelRelease(MODEL* model)
 void ModelDraw(MODEL* model)
 {
 	// プリミティブトポロジ設定
-	GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 
 	for (unsigned int m = 0; m < model->AiScene->mNumMeshes; m++)
@@ -154,18 +154,18 @@ void ModelDraw(MODEL* model)
 		aimaterial->GetTexture(aiTextureType_DIFFUSE, 0, &texture);
 
 		if (texture != aiString(""))
-			GetDeviceContext()->PSSetShaderResources(0, 1, &model->Texture[texture.data]);
+			Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &model->Texture[texture.data]);
 
 		// 頂点バッファ設定
 		UINT stride = sizeof(VERTEX_3D);
 		UINT offset = 0;
-		GetDeviceContext()->IASetVertexBuffers(0, 1, &model->VertexBuffer[m], &stride, &offset);
+		Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &model->VertexBuffer[m], &stride, &offset);
 
 		// インデックスバッファ設定
-		GetDeviceContext()->IASetIndexBuffer(model->IndexBuffer[m], DXGI_FORMAT_R32_UINT, 0);
+		Renderer::GetDeviceContext()->IASetIndexBuffer(model->IndexBuffer[m], DXGI_FORMAT_R32_UINT, 0);
 
 		// ポリゴン描画
-		GetDeviceContext()->DrawIndexed(mesh->mNumFaces * 3, 0, 0);
+		Renderer::GetDeviceContext()->DrawIndexed(mesh->mNumFaces * 3, 0, 0);
 	}
 }
 

@@ -69,6 +69,9 @@ ID3D11ShaderResourceView* GetTexture(int id)
 	return g_Textures[id].shader_resource_view;
 }
 
+void BeginPe(int TexID)
+{}
+
 int TextureGetWidth(int id)
 {
 	return g_Textures[id].width;

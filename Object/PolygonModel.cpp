@@ -44,7 +44,7 @@ void PolygonModel::Init(void)
 	sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 	sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
 	sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
-	GetDevice()->CreateSamplerState(&sampDesc, &m_SamplerState);
+	Renderer::GetDevice()->CreateSamplerState(&sampDesc, &m_SamplerState);
 
 	//マテリアル名 → 表の添字
 	int index = FindMaterialIndex(m_MaterialName.c_str());
@@ -134,22 +134,22 @@ void PolygonModel::Draw(void)
 	}
 
 	// パラメータ・追加テクスチャ・頂点レイアウト・シェーダー設定
-	SetParameter(m_Parameter);
+	Renderer::SetParameter(m_Parameter);
 	m_Material.Bind();
 
 	if (desc.HasOutline())
 	{
 		// ① 通常描画（裏面カリング）
-		SetCullMode(D3D11_CULL_BACK);
+		Renderer::SetCullMode(D3D11_CULL_BACK);
 		DrawModel();
 
 		// ② アウトライン描画（表面カリング＋アウトライン用シェーダー）
-		SetCullMode(D3D11_CULL_FRONT);
+		Renderer::SetCullMode(D3D11_CULL_FRONT);
 		m_Material.BindOutline();
 		DrawModel();
 
 		// ③ 裏面カリングに戻す
-		SetCullMode(D3D11_CULL_BACK);
+		Renderer::SetCullMode(D3D11_CULL_BACK);
 	}
 	else
 	{
@@ -210,21 +210,21 @@ void PolygonModel::DrawImGui()
 
 void PolygonModel::DrawModel(void)
 {
-	SetLight(m_Light);
+	Renderer::SetLight(m_Light);
 
 	//テクスチャをセット
 	ID3D11ShaderResourceView* tex = GetTexture(m_TexID);
-	GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
+	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
 
 	//ワールド行列作成
-	SetWorldMatrix(GetWorldMatrix());
+	Renderer::SetWorldMatrix(GetWorldMatrix());
 
-	GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(MATERIAL));
 	material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	SetMaterial(material);
+	Renderer::SetMaterial(material);
 
 	ModelDraw(m_Model);
 }

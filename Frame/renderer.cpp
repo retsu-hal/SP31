@@ -9,7 +9,7 @@
 #include <io.h>
 #include "renderer.h"
 
-
+#define RT_MAX (1)		//レンダリングテクスチャの枚数
 
 //*********************************************************
 // 構造体
@@ -55,21 +55,24 @@ ID3D11DepthStencilState* g_DepthStateDisable;
 
 ID3D11RasterizerState*	g_RasterizerState[3] = {};	//[CullMode - 1] NONE / FRONT / BACK
 
+ID3D11RenderTargetView* g_PeRenderTargetView[RT_MAX] = {};
+ID3D11ShaderResourceView* g_PeShaderResourceView[RT_MAX] = {};
 
 
-ID3D11Device* GetDevice( void )
+
+ID3D11Device* Renderer::GetDevice( void )
 {
 	return g_D3DDevice;
 }
 
 
-ID3D11DeviceContext* GetDeviceContext( void )
+ID3D11DeviceContext* Renderer::GetDeviceContext( void )
 {
 	return g_ImmediateContext;
 }
 
 
-void SetDepthEnable( bool Enable )
+void Renderer::SetDepthEnable( bool Enable )
 {
 	if( Enable )
 		g_ImmediateContext->OMSetDepthStencilState( g_DepthStateEnable, NULL );
@@ -78,12 +81,12 @@ void SetDepthEnable( bool Enable )
 
 }
 
-void SetCullMode( D3D11_CULL_MODE CullMode )
+void Renderer::SetCullMode( D3D11_CULL_MODE CullMode )
 {
 	g_ImmediateContext->RSSetState( g_RasterizerState[CullMode - 1] );
 }
 
-void ResetWorldViewProjection3D(void)
+void Renderer::ResetWorldViewProjection3D(void)
 {
 	//行列を単位行列にして初期化
 	g_ProjectionMatrix = XMMatrixIdentity();
@@ -91,7 +94,7 @@ void ResetWorldViewProjection3D(void)
 	g_WorldMatrix = XMMatrixIdentity();
 }
 
-void SetWorldViewProjection2D( void )
+void Renderer::SetWorldViewProjection2D( void )
 {
 	//2D用正射影行列をセット
 	g_ProjectionMatrix = XMMatrixOrthographicOffCenterLH(0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0.0f, 1.0f);
@@ -105,7 +108,7 @@ void SetWorldViewProjection2D( void )
 }
 
 
-void SetWorldMatrix( XMMATRIX WorldMatrix )
+void Renderer::SetWorldMatrix( XMMATRIX WorldMatrix )
 {
 	XMMATRIX world;
 	world = XMMatrixTranspose(WorldMatrix);
@@ -114,7 +117,7 @@ void SetWorldMatrix( XMMATRIX WorldMatrix )
 	g_ImmediateContext->UpdateSubresource(g_WorldBuffer, 0, NULL, &matrix, 0, 0);
 }
 
-void SetViewMatrix( XMMATRIX ViewMatrix )
+void Renderer::SetViewMatrix( XMMATRIX ViewMatrix )
 {
 	XMMATRIX view;
 	view = XMMatrixTranspose(ViewMatrix);
@@ -123,7 +126,7 @@ void SetViewMatrix( XMMATRIX ViewMatrix )
 	g_ImmediateContext->UpdateSubresource(g_ViewBuffer, 0, NULL, &matrix, 0, 0);
 }
 
-void SetProjectionMatrix( XMMATRIX ProjectionMatrix )
+void Renderer::SetProjectionMatrix( XMMATRIX ProjectionMatrix )
 {
 	XMMATRIX projection;
 	projection = XMMatrixTranspose(ProjectionMatrix);
@@ -134,20 +137,20 @@ void SetProjectionMatrix( XMMATRIX ProjectionMatrix )
 
 
 
-void SetMaterial( MATERIAL Material )
+void Renderer::SetMaterial( MATERIAL Material )
 {
 
 	GetDeviceContext()->UpdateSubresource( g_MaterialBuffer, 0, NULL, &Material, 0, 0 );
 
 }
 
-void SetCameraPosition(XMFLOAT3 CameraPosition)
+void Renderer::SetCameraPosition(XMFLOAT3 CameraPosition)
 {
 	XMFLOAT4	temp = XMFLOAT4(CameraPosition.x, CameraPosition.y, CameraPosition.z, 0.0f);
 	GetDeviceContext()->UpdateSubresource(g_CameraBuffer, 0, NULL, &temp, 0, 0);
 }
 
-void SetParameter(XMFLOAT4 Parameter)
+void Renderer::SetParameter(XMFLOAT4 Parameter)
 {
 	GetDeviceContext()->UpdateSubresource(g_ParameterBuffer, 0, NULL, &Parameter, 0, 0);
 }
@@ -156,7 +159,7 @@ void SetParameter(XMFLOAT4 Parameter)
 //=============================================================================
 // 初期化処理
 //=============================================================================
-HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
+HRESULT Renderer::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 {
 	HRESULT hr = S_OK;
 
@@ -374,7 +377,7 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 //=============================================================================
 // 終了処理
 //=============================================================================
-void FinalizeRenderer(void)
+void Renderer::Finalize(void)
 {
 	// オブジェクト解放
 	if(g_WorldViewProjection)	g_WorldViewProjection->Release();
@@ -398,7 +401,7 @@ void FinalizeRenderer(void)
 //=============================================================================
 // バックバッファクリア
 //=============================================================================
-void Clear(void)
+void Renderer::Clear(void)
 {
 	// バックバッファクリア色
 	float ClearColor[4] = { 0.4f, 0.2f, 0.2f, 1.0f };//純黒は避ける
@@ -412,14 +415,14 @@ void Clear(void)
 //=============================================================================
 // プレゼント
 //=============================================================================
-void Present(void)
+void Renderer::Present(void)
 {
 	g_SwapChain->Present( 0, 0 );
 }
 
 
 // 頂点シェーダ生成
-void CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName)
+void Renderer::CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName)
 {
 
 	FILE* file;
@@ -427,7 +430,7 @@ void CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** V
 
 	if (fopen_s(&file, FileName, "rb") != 0)
 	{
-		MessageBoxA(NULL, FileName, "Shader file open failed", MB_OK | MB_ICONERROR);
+		MessageBoxA(NULL, FileName, "頂点シェーダーファイルが読み込めませんでした。", MB_OK | MB_ICONERROR);
 		return;
 	}
 	fsize = _filelength(_fileno(file));
@@ -459,14 +462,14 @@ void CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** V
 
 
 // ピクセルシェーダ生成
-void CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName)
+void Renderer::CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName)
 {
 	FILE* file;
 	long int fsize;
 
 	if (fopen_s(&file, FileName, "rb") != 0)
 	{
-		MessageBoxA(NULL, FileName, "Shader file open failed", MB_OK | MB_ICONERROR);
+		MessageBoxA(NULL, FileName, "ピクセルシェーダーファイルが読み込めませんでした。", MB_OK | MB_ICONERROR);
 		return;
 	}
 	fsize = _filelength(_fileno(file));
@@ -479,7 +482,7 @@ void CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName)
 	delete[] buffer;
 }
 
-void SetLight(LIGHT Light)
+void Renderer::SetLight(LIGHT Light)
 {
 	g_ImmediateContext->UpdateSubresource(g_LightBuffer, 0, NULL, &Light, 0, 0);
 }

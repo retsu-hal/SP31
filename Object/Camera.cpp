@@ -4,86 +4,83 @@
 #include	"Camera.h"
 #include	"keyboard.h"
 
-Camera		g_Camera;	//カメラ管理構造体
-
-
-void	InitCamera()
+void	Camera::Init()
 {
 	//カメラの初期化
-	g_Camera.Position = XMFLOAT3(0.0f, 1.0f, -1.5f);	//カメラ基本座標
-	g_Camera.UpVector = XMFLOAT3(0.0f, 1.0f, 0.0f);		//カメラの上方ベクトル
-	g_Camera.AtPosition = XMFLOAT3(0.0f, 0.0f, 0.0f);	//カメラの注視点座標
-	g_Camera.Fov = 45.0f;								//画角
-	g_Camera.Nearclip = 0.5f;							//近面クリップ
-	g_Camera.Farclip = 1000.0f;							//遠面クリップ
-	g_Camera.Rotation = 0.0f;
-	g_Camera.Offset = XMFLOAT3(0.0f, 1.0f, -1.5f);
+	m_Position = XMFLOAT3(0.0f, 1.0f, -1.5f);	//カメラ基本座標
+	m_UpVector = XMFLOAT3(0.0f, 1.0f, 0.0f);		//カメラの上方ベクトル
+	m_AtPosition = XMFLOAT3(0.0f, 0.0f, 0.0f);	//カメラの注視点座標
+	m_Fov = 45.0f;								//画角
+	m_Nearclip = 0.5f;							//近面クリップ
+	m_Farclip = 1000.0f;							//遠面クリップ
+	m_Rotation = 0.0f;
+	m_Offset = XMFLOAT3(0.0f, 1.0f, -1.5f);
 
-	g_Camera.Yaw = 0.0f;
-	g_Camera.Pitch = 30.0f;	// 少し上から見下ろす
-	g_Camera.Distance = 1.5f;
+	m_Yaw = 0.0f;
+	m_Pitch = 30.0f;	// 少し上から見下ろす
+	m_Distance = 1.5f;
 }
 
-void	FinalizeCamera()
+void	Camera::Finalize()
 {
 
 }
 
-void	UpdateCamera()
+void	Camera::Update()
 {
 	float speed = 1.0f;	// 1フレームに回す角度（度）
 
-	if (Keyboard_IsKeyDown(KK_LEFT))	g_Camera.Yaw += speed;
-	if (Keyboard_IsKeyDown(KK_RIGHT))	g_Camera.Yaw -= speed;
-	if (Keyboard_IsKeyDown(KK_UP))		g_Camera.Pitch += speed;
-	if (Keyboard_IsKeyDown(KK_DOWN))	g_Camera.Pitch -= speed;
+	if (Keyboard_IsKeyDown(KK_LEFT))	m_Yaw += speed;
+	if (Keyboard_IsKeyDown(KK_RIGHT))	m_Yaw -= speed;
+	if (Keyboard_IsKeyDown(KK_UP))		m_Pitch += speed;
+	if (Keyboard_IsKeyDown(KK_DOWN))	m_Pitch -= speed;
 
 	// 真上・真下まで行くと LookAt が壊れるので制限する
-	if (g_Camera.Pitch > 80.0f) g_Camera.Pitch = 80.0f;
-	if (g_Camera.Pitch < -10.0f) g_Camera.Pitch = -10.0f;
+	if (m_Pitch > 80.0f) m_Pitch = 80.0f;
+	if (m_Pitch < -10.0f) m_Pitch = -10.0f;
 
-	float yaw = XMConvertToRadians(g_Camera.Yaw);
-	float pitch = XMConvertToRadians(g_Camera.Pitch);
+	float yaw = XMConvertToRadians(m_Yaw);
+	float pitch = XMConvertToRadians(m_Pitch);
 
 	// 角度と距離からオフセットを作る（Yaw=0 のとき注視点の真後ろ＝-Z側）
-	g_Camera.Offset.x = -sinf(yaw) * cosf(pitch) * g_Camera.Distance;
-	g_Camera.Offset.y = sinf(pitch) * g_Camera.Distance;
-	g_Camera.Offset.z = -cosf(yaw) * cosf(pitch) * g_Camera.Distance;
+	m_Offset.x = -sinf(yaw) * cosf(pitch) * m_Distance;
+	m_Offset.y = sinf(pitch) * m_Distance;
+	m_Offset.z = -cosf(yaw) * cosf(pitch) * m_Distance;
 
-	g_Camera.Position.x = g_Camera.AtPosition.x + g_Camera.Offset.x;
-	g_Camera.Position.y = g_Camera.AtPosition.y + g_Camera.Offset.y;
-	g_Camera.Position.z = g_Camera.AtPosition.z + g_Camera.Offset.z;
+	m_Position.x = m_AtPosition.x + m_Offset.x;
+	m_Position.y = m_AtPosition.y + m_Offset.y;
+	m_Position.z = m_AtPosition.z + m_Offset.z;
 }
 
-void	DrawCamera()//3D使用時
+void	Camera::Draw()//3D使用時
 {
 	//プロジェクション行列を作成
 	XMMATRIX	ProjectionMatrix =
 		XMMatrixPerspectiveFovLH(
-			XMConvertToRadians(g_Camera.Fov),
+			XMConvertToRadians(m_Fov),
 			(float)SCREEN_WIDTH / (float)SCREEN_HEIGHT,
-			g_Camera.Nearclip,
-			g_Camera.Farclip
+			m_Nearclip,
+			m_Farclip
 		);
 	//プロジェクション行列をセット
-	SetProjectionMatrix(ProjectionMatrix);
+	Renderer::SetProjectionMatrix(ProjectionMatrix);
 
 	//カメラ行列を作成
-	XMVECTOR	eyev = XMLoadFloat3(&g_Camera.AtPosition);
-	XMVECTOR	pos = XMLoadFloat3(&g_Camera.Position);
-	XMVECTOR	up = XMLoadFloat3(&g_Camera.UpVector);
+	XMVECTOR	eyev = XMLoadFloat3(&m_AtPosition);
+	XMVECTOR	pos = XMLoadFloat3(&m_Position);
+	XMVECTOR	up = XMLoadFloat3(&m_UpVector);
 	XMMATRIX	ViewMatrix =
 		XMMatrixLookAtLH(pos, eyev, up);
 
 	//カメラ行列をセット
-	SetViewMatrix(ViewMatrix);
+	Renderer::SetViewMatrix(ViewMatrix);
 	//カメラ座標セット
-	SetCameraPosition(g_Camera.Position);
+	Renderer::SetCameraPosition(m_Position);
 }
 
-void SetCameraTarget(XMFLOAT3 target)
+void Camera::SetCameraTarget(XMFLOAT3 target)
 {
-	g_Camera.AtPosition = target;
+	m_AtPosition = target;
 }
 
 

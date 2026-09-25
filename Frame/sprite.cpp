@@ -28,9 +28,9 @@ static ID3D11Buffer				*g_VertexBuffer = NULL;		// 頂点バッファ
 //=============================================================================
 // 初期化処理
 //=============================================================================
-HRESULT InitSprite(void)
+HRESULT Sprite::Init(void)
 {
-	ID3D11Device *pDevice = GetDevice();
+	ID3D11Device *pDevice = Renderer::GetDevice();
 
 	// 頂点バッファ生成
 	D3D11_BUFFER_DESC bd;
@@ -39,7 +39,7 @@ HRESULT InitSprite(void)
 	bd.ByteWidth = sizeof(VERTEX_3D) * NUM_SPRITEVERTEX;
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;//CPUで書き込みする
-	GetDevice()->CreateBuffer(&bd, NULL, &g_VertexBuffer);
+	Renderer::GetDevice()->CreateBuffer(&bd, NULL, &g_VertexBuffer);
 
 	return S_OK;
 }
@@ -47,7 +47,7 @@ HRESULT InitSprite(void)
 //=============================================================================
 // 終了処理
 //=============================================================================
-void FinalizeSprite(void)
+void Sprite::Finalize(void)
 {
 	// 頂点バッファの解放
 	if (g_VertexBuffer)
@@ -61,12 +61,12 @@ void FinalizeSprite(void)
 // 描画処理
 //====================
 
-void DrawSprite(XMFLOAT2 size, XMFLOAT4 color)
+void Sprite::Draw(XMFLOAT2 size, XMFLOAT4 color)
 {
 
 	//頂点バッファの書き込み先ポインターを取得
 	D3D11_MAPPED_SUBRESOURCE msr;
-	GetDeviceContext()->Map(g_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
+	Renderer::GetDeviceContext()->Map(g_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
 	VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
 	float size_W = size.x * 0.5f;
@@ -94,21 +94,21 @@ void DrawSprite(XMFLOAT2 size, XMFLOAT4 color)
 		vertex[i].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 	}
 	//書き込み完了
-	GetDeviceContext()->Unmap(g_VertexBuffer, 0);
+	Renderer::GetDeviceContext()->Unmap(g_VertexBuffer, 0);
 
 
 	// 頂点バッファをDirectXへセット
 	UINT stride = sizeof(VERTEX_3D);
 	UINT offset = 0;
-	GetDeviceContext()->IASetVertexBuffers(0, 1, &g_VertexBuffer, &stride, &offset);
+	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &g_VertexBuffer, &stride, &offset);
 	// プリミティブトポロジ設定
-	GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 	// マテリアルをシェーダーへ送る
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
 	material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	SetMaterial(material);
+	Renderer::SetMaterial(material);
 	// ポリゴン描画
-	GetDeviceContext()->Draw(4, 0);
+	Renderer::GetDeviceContext()->Draw(4, 0);
 }
 

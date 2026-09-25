@@ -7,22 +7,22 @@
 
 static SCENE g_Scene = SCENE_NONE;
 
-void InitManager()
+void Manager::Init()
 {
-	InitSprite();
+	Sprite::Init();
 	SetScene(SCENE_GAME);
 
 
 }
 
-void FinalizeManager()
+void Manager::Finalize()
 {
-	FinalizeSprite();
+	Sprite::Finalize();
 	SetScene(SCENE_NONE);
 
 }
 
-void UpdateManager()
+void Manager::Update()
 {
 
 
@@ -47,7 +47,7 @@ void UpdateManager()
 
 }
 
-void DrawManager()
+void Manager::Draw()
 {
 
 	switch (g_Scene)
@@ -73,7 +73,7 @@ void DrawManager()
 
 
 
-void SetScene(SCENE Scene)
+void Manager::SetScene(SCENE Scene)
 {
 	//åªç›ÇÃÉVÅ[ÉìÇèIóπ
 	switch (g_Scene)

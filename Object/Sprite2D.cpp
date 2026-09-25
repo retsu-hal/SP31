@@ -131,24 +131,24 @@ void Sprite2D::Draw(void)
 
 	// パラメータ・追加テクスチャ・頂点レイアウト・シェーダー設定
 	// （スプライトなのでアウトライン用の2パス目は描かない）
-	SetParameter(m_Parameter);
+	Renderer::SetParameter(m_Parameter);
 	m_Material.Bind();
-	SetLight(m_Light);
+	Renderer::SetLight(m_Light);
 
 	//奥行き処理をOFF
-	SetDepthEnable(false);
+	Renderer::SetDepthEnable(false);
 
 	{//2Dポリゴン1枚ずつで必要な処理
 
 		//テクスチャをセット
 		ID3D11ShaderResourceView* tex = GetTexture(m_TexID);
-		GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
+		Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
 
 		//ワールド行列をDirectXへセット（拡大縮小 → Z回転 → 平行移動）
-		SetWorldMatrix(GetWorldMatrix());
+		Renderer::SetWorldMatrix(GetWorldMatrix());
 
 		// ポリゴン描画（マテリアル設定も DrawSprite 内で行う）
-		DrawSprite(Size, Color);
+		Sprite::Draw(Size, Color);
 	}
 
 

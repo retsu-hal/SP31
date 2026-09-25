@@ -24,6 +24,7 @@ std::vector<GameObject*> g_GameObjects =
 	new Field3D("UnlitTexture", XMFLOAT3(0.0f, 0.0f, 0.0f)),
 };
 
+Camera g_Camera;	//カメラ
 //ポーズフラグ
 static	bool	pause = false;
 
@@ -45,8 +46,8 @@ bool	GetPause()
 //ゲームシーン初期化
 void InitGame()
 {
-	TextureInitialize(GetDevice());
-	InitCamera();
+	TextureInitialize(Renderer::GetDevice());
+	g_Camera.Init();
 	
 	for(GameObject	*GameObj:g_GameObjects)
 	{
@@ -75,7 +76,7 @@ void FinalizeGame()
 	}
 	g_GameObjects.clear();
 
-	FinalizeCamera();
+	g_Camera.Finalize();
 	ReleaseShaderCache();	// PolygonModel / Field3D / Sprite2D が共有していたシェーダーを解放
 	TextureFinalize();
 }
@@ -87,15 +88,15 @@ void UpdateGame()
 
 	if (GetPause() == false)//ポーズ中でなければ更新実行
 	{
-		UpdateCamera();
+		g_Camera.Update();
 		for (GameObject* gameObject : g_GameObjects)
 		{
 			if (gameObject != nullptr)
 			{
 				gameObject->Update();
 
-				SetCameraTarget(g_GameObjects[0]->GetPosition());	//カメラの注視点を更新
-				UpdateCamera();
+				g_Camera.SetCameraTarget(g_GameObjects[0]->GetPosition());	//カメラの注視点を更新
+				g_Camera.Update();
 			}
 		}
 
@@ -124,8 +125,8 @@ void DrawGame()
 {
 	//===== 3D描画 =====（バックバッファのクリアは main.cpp の Draw で行う）
 	{
-		DrawCamera();				//ビュー・プロジェクション行列をセット
-		SetDepthEnable(true);		//奥行き処理有効
+		g_Camera.Draw();				//ビュー・プロジェクション行列をセット
+		Renderer::SetDepthEnable(true);		//奥行き処理有効
 		for (GameObject* gameObject : g_GameObjects)
 		{
 			if (gameObject != nullptr && !gameObject->m_Is2D)
@@ -135,8 +136,8 @@ void DrawGame()
 
 	//===== 2D描画 =====
 	{
-		SetWorldViewProjection2D();
-		SetDepthEnable(false);
+		Renderer::SetWorldViewProjection2D();
+		Renderer::SetDepthEnable(false);
 		for (GameObject* gameObject : g_GameObjects)
 		{
 			if (gameObject != nullptr && gameObject->m_Is2D)

@@ -9,10 +9,13 @@ enum SCENE
 	SCENE_RESULT,
 };
 
+class Manager
+{
+public:
+	static void Init();
+	static void Finalize();
+	static void Update();
+	static void Draw();
 
-void InitManager();
-void FinalizeManager();
-void UpdateManager();
-void DrawManager();
-
-void SetScene(SCENE Scene);
+	static void SetScene(SCENE Scene);
+};
