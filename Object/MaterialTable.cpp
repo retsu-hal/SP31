@@ -137,6 +137,37 @@ namespace
 		};
 		return m;
 	}
+
+	MaterialDesc CookTorrance()
+	{
+		// VSはポイントライトのものをそのまま使う
+		MaterialDesc m = MakeMaterial("CookTorrance", "PointPixelLightingVS.cso", "CookTorrancePS.cso");
+		m.Model = "asset\\model\\ball.fbx";
+		m.Light = PointLight();
+		m.Parameter = XMFLOAT4(0.3f, 0.8f, 0.0f, 0.0f);	// x:ざらつき y:金属感
+		m.ParamUIs = {
+			{ "Roughness", 0, 0.05f, 1.0f, "%.2f" },	// 0だとBeckmannが0を返すので下限0.05
+			{ "Metallic",  1, 0.0f,  1.0f, "%.2f" },
+		};
+		return m;
+	}
+
+	MaterialDesc DisneyPBR()
+	{
+		MaterialDesc m = MakeMaterial("DisneyPBR", "PointPixelLightingVS.cso", "DisneyPBRPS.cso");
+		m.Model = "asset\\model\\ball.fbx";
+		m.Light = PointLight();
+		m.Light.Diffuse = XMFLOAT4(0.9f, 0.9f, 0.9f, 1.0f);
+		m.Light.Ambient = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);	// 少し大きめ
+		m.Light.PointLightParam = XMFLOAT4(2000.0f, 1.5f, 0.0f, 0.0f);	// 減衰率
+		m.Parameter = XMFLOAT4(0.5f, 0.5f, 3.0f, 0.0f);	// z:ライト数
+		m.ExtraTextures = {
+			{ 1, L"asset\\texture\\Roughness.jpg" },	// t1
+			{ 2, L"asset\\texture\\Metalness.jpg" },	// t2
+		};
+		m.ParamUIs = { { "Light", 2, 1.0f, 15.0f, "%.0f" } };
+		return m;
+	}
 }
 
 //==============================================================================
@@ -157,6 +188,8 @@ const std::vector<MaterialDesc>& GetMaterialTable()
 		PointPixelLighting(),
 		LimLighting(),
 		RGBShift(),
+		CookTorrance(),
+		DisneyPBR(),
 	};
 	return table;
 }
