@@ -21,9 +21,9 @@
 std::vector<GameObject*> g_GameObjects =
 {
 	//new Sprite2D("UnlitColor"),
-	new PolygonModel("UnlitTexture",  XMFLOAT3(0.0f, 0.5f, 0.0f)),
+	new PolygonModel("SpotLighting",  XMFLOAT3(0.0f, 0.5f, 0.0f)),
 	new Field3D("UnlitTexture", XMFLOAT3(0.0f, 0.0f, 0.0f)),
-	new MipMapSprite("UnlitTexture"),
+	//new MipMapSprite("UnlitTexture"),
 };
 
 Camera g_Camera;	//カメラ
@@ -62,6 +62,15 @@ void InitGame()
 
 	// ライト構造体の初期化
 	g_Light = MakeDefaultLight();
+
+	//スポットライト用
+	XMVECTOR dir = XMVector4Normalize(XMVectorSet(0.0f, -1.0f, 0.0f, 0.0f));
+	XMStoreFloat4(&g_Light.Direction, dir);						//コーンの向き
+	g_Light.Position = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
+	g_Light.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	g_Light.Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);
+	g_Light.PointLightParam = XMFLOAT4(10.0f, 1.0f, 0.0f, 0.0f);	//x:距離 y:POW
+	g_Light.Angle.x = XMConvertToRadians(30.0f);					//コーン角度
 }
 
 //===============================================
@@ -104,7 +113,7 @@ void UpdateGame()
 
 	}
 	// 共通ライト（g_Light）の調整UI
-	/*ImGui::Begin("SPOT LIGHT");
+	ImGui::Begin("SPOT LIGHT");
 	{
 		ImGui::ColorEdit3("Diffuse", &g_Light.Diffuse.x);
 		ImGui::DragFloat3("Direction", &g_Light.Direction.x, 0.01f);
@@ -117,7 +126,7 @@ void UpdateGame()
 
 		
 	}
-	ImGui::End();*/
+	ImGui::End();
 
 }
 

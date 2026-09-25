@@ -197,5 +197,11 @@
     <FxCompile Include="shader\PixellightingblinnphongVS.hlsl">
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
+    <FxCompile Include="shader\SpotLightingVS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\SpotLightingPS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

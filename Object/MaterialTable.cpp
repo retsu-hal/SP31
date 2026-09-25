@@ -103,6 +103,13 @@ namespace
 		m.Light.Ambient = XMFLOAT4(0.5f, 0.3f, 0.3f, 1.0f);	// ŠÂ‹«Œõ
 		return m;
 	}
+
+	MaterialDesc SpotLighting()
+	{
+		MaterialDesc m = MakeMaterial("SpotLighting", "SpotLightingVS.cso", "SpotLightingPS.cso");
+		m.UseGlobalLight = true;	// g_Light ‚ðŽg‚¤
+		return m;
+	}
 }
 
 //==============================================================================
@@ -119,6 +126,7 @@ const std::vector<MaterialDesc>& GetMaterialTable()
 		SepiaTexture(),
 		PixelDirectionalLighting(),
 		PixelLightingBlinnPhong(),
+		SpotLighting(),
 	};
 	return table;
 }

@@ -48,6 +48,7 @@ struct LIGHT
     float4 Ambient;
     float4 Position;
     float4 PointLightParam;
+    float4 Angle;
 };
 
 cbuffer LightBuffer : register(b4)
