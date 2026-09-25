@@ -8,7 +8,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
     // 光源からピクセルへのベクトル
     float4 lv = In.WorldPosition - Light.Position;
     // 物体と光源の距離（正規化する前に取る）
-    float4 ld = length(lv);
+    float ld = length(lv);
     // ベクトルの正規化
     lv = normalize(lv);
 

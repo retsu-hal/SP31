@@ -3,30 +3,30 @@
 #include "sprite.h"		// DrawSprite
 
 MipMapSprite::MipMapSprite(const char* materialName, int peNo)
-	: Sprite2D(materialName)	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ‘ã‚¹ã¯æ—¢å®šå€¤ã®ã¾ã¾ï¼ˆInitã§ã®èª­ã¿è¾¼ã¿ç”¨ï¼‰
+	: Sprite2D(materialName)	// ƒeƒNƒXƒ`ƒƒƒpƒX‚ÍŠù’è’l‚Ì‚Ü‚ÜiInit‚Å‚Ì“Ç‚Ýž‚Ý—pj
 	, m_PeNo(peNo)
 {}
 
 //=============================================================================
-// åˆæœŸåŒ–
+// ‰Šú‰»
 //=============================================================================
 void MipMapSprite::Init(void)
 {
-	Sprite2D::Init();	// ãƒžãƒ†ãƒªã‚¢ãƒ«ãƒ»ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®èª­ã¿è¾¼ã¿ã¯è¦ªã«ä»»ã›ã‚‹
+	Sprite2D::Init();	// ƒ}ƒeƒŠƒAƒ‹EƒVƒF[ƒ_[‚Ì“Ç‚Ýž‚Ý‚Íe‚É”C‚¹‚é
 
-	// ç”»é¢ã®1/3ã‚µã‚¤ã‚ºã§å·¦ä¸Šã«è¡¨ç¤º
+	// ‰æ–Ê‚Ì1/3ƒTƒCƒY‚Å¶ã‚É•\Ž¦
 	m_Position = XMFLOAT3(SCREEN_WIDTH / 3 / 2, SCREEN_HEIGHT / 3 / 2, 0.0f);
 	Size = XMFLOAT2(SCREEN_WIDTH / 3, SCREEN_HEIGHT / 3);
 
-	m_Parameter = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);	// x = ãƒŸãƒƒãƒ—ãƒ¬ãƒ™ãƒ«
+	m_Parameter = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);	// x = ƒ~ƒbƒvƒŒƒxƒ‹
 }
 
 //=============================================================================
-// æ›´æ–°
+// XV
 //=============================================================================
 void MipMapSprite::Update(void)
 {
-	Sprite2D::Update();	// Inspecterï¼ˆä½ç½®ãƒ»ã‚µã‚¤ã‚ºãƒ»ãƒžãƒ†ãƒªã‚¢ãƒ«åˆ‡æ›¿ï¼‰
+	Sprite2D::Update();	// InspecteriˆÊ’uEƒTƒCƒYEƒ}ƒeƒŠƒAƒ‹Ø‘Öj
 
 	ImGui::SetNextWindowSize(ImVec2(300, 100), ImGuiCond_FirstUseEver);
 	ImGui::Begin("MIPMAP");
@@ -37,7 +37,7 @@ void MipMapSprite::Update(void)
 }
 
 //=============================================================================
-// æç”»
+// •`‰æ
 //=============================================================================
 void MipMapSprite::Draw(void)
 {
@@ -47,19 +47,19 @@ void MipMapSprite::Draw(void)
 		m_Light = g_Light;
 	}
 
-	Renderer::SetParameter(m_Parameter);	// Parameter.x = ãƒŸãƒƒãƒ—ãƒ¬ãƒ™ãƒ« â†’ ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã® b6 ã¸
+	Renderer::SetParameter(m_Parameter);	// Parameter.x = ƒ~ƒbƒvƒŒƒxƒ‹ ¨ ƒVƒF[ƒ_[‚Ì b6 ‚Ö
 	m_Material.Bind();
 	Renderer::SetLight(m_Light);
 
 	Renderer::SetDepthEnable(false);
 
-	//ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ã‚»ãƒƒãƒˆ
+	//ƒŒƒ“ƒ_ƒŠƒ“ƒOƒeƒNƒXƒ`ƒƒ‚ðƒZƒbƒg
 	ID3D11ShaderResourceView* tex = Renderer::GetPeTexture(m_PeNo);
 	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
 
 	Renderer::SetWorldMatrix(GetWorldMatrix());
 
-	//ãƒŸãƒƒãƒ—ãƒžãƒƒãƒ—ä½œæˆï¼ˆãƒ†ã‚¯ã‚¹ãƒãƒ£ã¸ã®æ›¸ãè¾¼ã¿ãŒçµ‚ã‚ã£ãŸå¾Œãƒ»æç”»ã®å‰ï¼‰
+	//ƒ~ƒbƒvƒ}ƒbƒvì¬iƒeƒNƒXƒ`ƒƒ‚Ö‚Ì‘‚«ž‚Ý‚ªI‚í‚Á‚½ŒãE•`‰æ‚Ì‘Oj
 	Renderer::GetDeviceContext()->GenerateMips(tex);
 
 	Sprite::Draw(Size, Color);

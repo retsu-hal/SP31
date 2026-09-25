@@ -18,7 +18,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
     if (angle <= Light.Angle.x)
     {
         //スポットライト明るさを補間する（中心1.0 → 端0.0、POWでイージング）
-        spot = saturate(1.0f - pow(1.0f / Light.Angle.x * abs(angle), Light.PointLightParam.y));
+        spot = saturate(1.0f - pow(abs(angle / Light.Angle.x), Light.PointLightParam.y));
 
         //フォンで光源計算
         float4 normal = normalize(In.Normal);
