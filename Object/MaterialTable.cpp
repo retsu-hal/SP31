@@ -223,7 +223,7 @@ namespace
 			{ "Size",  0, 0.0f, 1.0f, "%.3f" },
 			{ "Edge",  1, 0.0f, 0.3f, "%.3f" },
 			{ "Z (Ring:width / Heart:kubomi / Flower:petal)", 2, 0.0f, 6.0f, "%.3f", 0.005f },	// DragFloat
-			{ "Shape (0:円 1:リング 2:ひし形 3:ハート 4:花)", 3, 0.0f, 4.0f, "%.0f" },
+			{ u8"Shape (0:円 1:リング 2:ひし形 3:ハート 4:花)", 3, 0.0f, 4.0f, "%.0f" },
 		};
 		return m;
 	}

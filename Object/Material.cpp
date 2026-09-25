@@ -170,13 +170,13 @@ void DrawMaterialSettings(const MaterialDesc& desc, LIGHT& light, XMFLOAT4& para
 	}
 	else
 	{
-		DragFloat3Row("LightDirection", "Light Direction", light.Direction);
-		DragFloat3Row("LightPosition",  "Light Position",  light.Position);
+		DragFloat3Row("LightDirection", u8"ライトの向き", light.Direction);
+		DragFloat3Row("LightPosition",  u8"ライトの位置",  light.Position);
 
-		ImGui::ColorEdit3("Diffuse", &light.Diffuse.x);
-		ImGui::ColorEdit3("Ambient", &light.Ambient.x);
+		ImGui::ColorEdit3(u8"拡散光", &light.Diffuse.x);
+		ImGui::ColorEdit3(u8"環境光", &light.Ambient.x);
 
-		DragFloat3Row("PointLightParam", "Point Light Param", light.PointLightParam);
+		DragFloat3Row("PointLightParam", u8"パラメータ", light.PointLightParam);
 	}
 
 	// マテリアル固有のパラメータ（MaterialDesc::ParamUIs から自動生成）

@@ -114,18 +114,13 @@ void UpdateGame()
 
 	}
 	// 共通ライト（g_Light）の調整UI
-	ImGui::Begin("SPOT LIGHT");
+	ImGui::Begin(u8"スポットライト###SPOT LIGHT");
 	{
-		ImGui::ColorEdit3("Diffuse", &g_Light.Diffuse.x);
-		ImGui::DragFloat3("Direction", &g_Light.Direction.x, 0.01f);
-		ImGui::DragFloat4("Position", &g_Light.Position.x, 0.1f);
-		ImGui::DragFloat4("PointLightParam", &g_Light.PointLightParam.x, 0.1f);
-
-		float angle = XMConvertToDegrees(g_Light.Angle.x);
-		ImGui::SliderFloat("Cone Angle", &angle, 5.0f, 45.0f, "%.1f");
-		g_Light.Angle.x = XMConvertToRadians(angle);
-
-		
+		ImGui::ColorEdit3(u8"拡散光##Diffuse", &g_Light.Diffuse.x);
+		ImGui::DragFloat3(u8"向き##Direction", &g_Light.Direction.x, 0.01f);
+		ImGui::DragFloat4(u8"位置##Position", &g_Light.Position.x, 0.1f);
+		ImGui::DragFloat4(u8"点光源パラメータ##PointLightParam", &g_Light.PointLightParam.x, 0.1f);
+		ImGui::SliderFloat(u8"照射角##ConeAngle", &g_Light.Angle.x, 5.0f, 45.0f, "%.1f");
 	}
 	ImGui::End();
 

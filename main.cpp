@@ -236,6 +236,16 @@ HRESULT	Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
+	//日本語フォント
+	ImFont* font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\meiryo.ttc", 18.0f);
+	if (font == nullptr)
+	{
+		// メイリオが無い環境用の予備
+		font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\msgothic.ttc", 18.0f);
+	}
+	IM_ASSERT(font != nullptr);
+
 	ImGui_ImplWin32_Init(hWnd);
 	ImGui_ImplDX11_Init(Renderer::GetDevice(), Renderer::GetDeviceContext());
 	//==================
