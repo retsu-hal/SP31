@@ -227,8 +227,18 @@ namespace
 		};
 		return m;
 	}
-}
 
+	MaterialDesc MosaicMaterial()
+	{
+			MaterialDesc m = MakeMaterial("Mosaic", "UnlitTextureVS.cso", "MosaicPS.cso");
+			m.Parameter = XMFLOAT4(SCREEN_WIDTH, SCREEN_HEIGHT, 16.0f, 0.3f);
+			m.ParamUIs = {
+				{ u8"粗さ",   2, 1.0f, 64.0f, "%.0f px" },	// z
+				{ u8"サイズ", 3, 0.0f, 1.1f,  "%.2f" },		// w
+			};
+			return m;
+		}
+	}
 //==============================================================================
 //マテリアル表
 //==============================================================================
@@ -254,6 +264,7 @@ const std::vector<MaterialDesc>& GetMaterialTable()
 		Toon2(),
 		Toon3(),
 		Zukei(),
+		MosaicMaterial(),
 	};
 	return table;
 }
