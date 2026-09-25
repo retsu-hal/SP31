@@ -120,7 +120,9 @@ void UpdateGame()
 		ImGui::DragFloat3(u8"向き##Direction", &g_Light.Direction.x, 0.01f);
 		ImGui::DragFloat4(u8"位置##Position", &g_Light.Position.x, 0.1f);
 		ImGui::DragFloat4(u8"点光源パラメータ##PointLightParam", &g_Light.PointLightParam.x, 0.1f);
-		ImGui::SliderFloat(u8"照射角##ConeAngle", &g_Light.Angle.x, 5.0f, 45.0f, "%.1f");
+		float angle = XMConvertToDegrees(g_Light.Angle.x);	// ラジアン → 度に変換して表示
+		ImGui::SliderFloat(u8"照射角##ConeAngle", &angle, 5.0f, 45.0f, "%.1f");
+		g_Light.Angle.x = XMConvertToRadians(angle);
 	}
 	ImGui::End();
 
