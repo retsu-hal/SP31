@@ -59,7 +59,6 @@ ID3D11RenderTargetView* g_PeRenderTargetView[RT_MAX] = {};
 ID3D11ShaderResourceView* g_PeShaderResourceView[RT_MAX] = {};
 
 
-
 ID3D11Device* Renderer::GetDevice( void )
 {
 	return g_D3DDevice;
@@ -369,6 +368,41 @@ HRESULT Renderer::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	material.Ambient = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	SetMaterial(material);
 
+	//===== レンダリングテクスチャ[0] 作成 =====
+	{
+		//① テクスチャ本体
+		ID3D11Texture2D* ppTexture = NULL;
+		D3D11_TEXTURE2D_DESC td;
+		ZeroMemory(&td, sizeof(td));
+		td.Width = sd.BufferDesc.Width;
+		td.Height = sd.BufferDesc.Height;
+		td.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+		td.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+		td.ArraySize = 1;
+		td.SampleDesc = sd.SampleDesc;
+		td.Usage = D3D11_USAGE_DEFAULT;
+		td.CPUAccessFlags = 0;
+		td.MipLevels = 0;	//0 = 1x1まで全段
+		td.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
+		g_D3DDevice->CreateTexture2D(&td, NULL, &ppTexture);
+
+		//② レンダーターゲットビュー（書き込み用）
+		D3D11_RENDER_TARGET_VIEW_DESC rtvd;
+		ZeroMemory(&rtvd, sizeof(rtvd));
+		rtvd.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+		rtvd.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+		g_D3DDevice->CreateRenderTargetView(ppTexture, &rtvd, &g_PeRenderTargetView[0]);
+
+		//③ シェーダーリソースビュー（読み込み用）
+		D3D11_SHADER_RESOURCE_VIEW_DESC srvd;
+		ZeroMemory(&srvd, sizeof(srvd));
+		srvd.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+		srvd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+		srvd.Texture2D.MipLevels = -1;	//全ミップ段を読めるようにする（準備3）
+		g_D3DDevice->CreateShaderResourceView(ppTexture, &srvd, &g_PeShaderResourceView[0]);
+
+		ppTexture->Release();	//ビューが参照を持っているので本体のポインタは手放してOK
+	}
 
 	return S_OK;
 }
@@ -395,6 +429,12 @@ void Renderer::Finalize(void)
 	if( g_SwapChain )			g_SwapChain->Release();
 	if( g_ImmediateContext )	g_ImmediateContext->Release();
 	if( g_D3DDevice )			g_D3DDevice->Release();
+
+	for (int i = 0; i < RT_MAX; i++)
+	{
+		if (g_PeRenderTargetView[i])	g_PeRenderTargetView[i]->Release();
+		if (g_PeShaderResourceView[i])	g_PeShaderResourceView[i]->Release();
+	}
 }
 
 
@@ -403,6 +443,9 @@ void Renderer::Finalize(void)
 //=============================================================================
 void Renderer::Clear(void)
 {
+	//デフォルトのレンダーターゲットに戻す
+	g_ImmediateContext->OMSetRenderTargets(1, &g_RenderTargetView, g_DepthStencilView);
+	
 	// バックバッファクリア色
 	float ClearColor[4] = { 0.4f, 0.2f, 0.2f, 1.0f };//純黒は避ける
 	//バックバッファをクリア
@@ -485,5 +528,20 @@ void Renderer::CreatePixelShader(ID3D11PixelShader** PixelShader, const char* Fi
 void Renderer::SetLight(LIGHT Light)
 {
 	g_ImmediateContext->UpdateSubresource(g_LightBuffer, 0, NULL, &Light, 0, 0);
+}
+
+
+ID3D11ShaderResourceView* Renderer::GetPeTexture(int TexID)
+{
+	return g_PeShaderResourceView[TexID];
+}
+
+void Renderer::BeginPe(int TexID)
+{
+	g_ImmediateContext->OMSetRenderTargets(1, &g_PeRenderTargetView[TexID], g_DepthStencilView);
+	float ClearColor[4] = { 0.0f, 0.5f, 0.0f, 1.0f };	//緑
+	g_ImmediateContext->ClearRenderTargetView(g_PeRenderTargetView[TexID], ClearColor);
+	g_ImmediateContext->ClearDepthStencilView(g_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+
 }
 

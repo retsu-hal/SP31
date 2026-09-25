@@ -96,7 +96,7 @@ void Material::Load(const MaterialDesc* desc)
 	m_ExtraTexIDs.clear();
 	for (const TextureSlot& slot : desc->ExtraTextures)
 	{
-		m_ExtraTexIDs.push_back(TextureLoad(slot.Path));
+		m_ExtraTexIDs.push_back(Texture::Load(slot.Path));
 	}
 }
 
@@ -107,7 +107,7 @@ void Material::Bind() const
 	// 追加テクスチャを t1 以降へ（t0 は PolygonModel::DrawModel でセット）
 	for (size_t i = 0; i < m_Desc->ExtraTextures.size(); i++)
 	{
-		ID3D11ShaderResourceView* tex = GetTexture(m_ExtraTexIDs[i]);
+		ID3D11ShaderResourceView* tex = Texture::GetTexture(m_ExtraTexIDs[i]);
 		Renderer::GetDeviceContext()->PSSetShaderResources(m_Desc->ExtraTextures[i].Slot, 1, &tex);
 	}
 

@@ -70,6 +70,13 @@ namespace
 		return MakeMaterial("UnlitTexture", "UnlitTextureVS.cso", "UnlitTexturePS.cso");
 	}
 
+	MaterialDesc UnlitTextureMipMap()
+	{
+		MaterialDesc m = MakeMaterial("UnlitTexture", "UnlitTextureVS.cso", "UnlitTexturePS.cso");
+		m.ParamUIs = { { "MipMap Level", 0, 0.0f, 7.0f, "%.0f" } };	// x:ミップレベル
+		return m;
+	}
+
 	MaterialDesc GrayscaleTexture()
 	{
 		return MakeMaterial("GrayscaleTexture", "GrayscaleVS.cso", "GrayscalePS.cso");

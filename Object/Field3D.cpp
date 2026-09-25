@@ -127,7 +127,7 @@ void Field3D::ChangeMaterial(int materialIndex, bool resetParams)
 	m_Material.Load(&desc);
 
 	//基本テクスチャ（同名は再利用される）
-	m_TexID = TextureLoad(desc.Texture);
+	m_TexID = Texture::Load(desc.Texture);
 
 	if (resetParams)
 	{
@@ -174,7 +174,7 @@ void Field3D::Draw(void)
 
 	{
 		//テクスチャをセット
-		ID3D11ShaderResourceView* tex = GetTexture(m_TexID);
+		ID3D11ShaderResourceView* tex = Texture::GetTexture(m_TexID);
 		Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
 
 		//ワールド行列をDirectXへセット

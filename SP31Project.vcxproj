@@ -154,6 +154,7 @@
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MipMapSprite.cpp" />
     <ClCompile Include="Object\Camera.cpp" />
     <ClCompile Include="Object\Field3D.cpp" />
     <ClCompile Include="Object\Material.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="MipMapSprite.h" />
     <ClInclude Include="Object\Camera.h" />
     <ClInclude Include="Object\Field3D.h" />
     <ClInclude Include="Object\GameObject.h" />

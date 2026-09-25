@@ -82,6 +82,9 @@
     <ClCompile Include="Object\MaterialTable.cpp">
       <Filter>ソース ファイル\フレームワーク</Filter>
     </ClCompile>
+    <ClCompile Include="MipMapSprite.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -148,6 +151,9 @@
       <Filter>ソース ファイル\フレームワーク</Filter>
     </ClInclude>
     <ClInclude Include="Object\GameObject.h">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClInclude>
+    <ClInclude Include="MipMapSprite.h">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
   </ItemGroup>

@@ -8,6 +8,7 @@
 #include "Field3D.h"
 #include "PolygonModel.h"
 #include "Material.h"
+#include "MipMapSprite.h"
 
 
 //===============================================
@@ -19,9 +20,10 @@
 // ※カメラは GameObject ではないので InitCamera などを直接呼ぶ
 std::vector<GameObject*> g_GameObjects =
 {
-	//new Sprite2D("UnlitColor", L"asset\\texture\\texture.jpg"),
+	//new Sprite2D("UnlitColor"),
 	new PolygonModel("UnlitTexture",  XMFLOAT3(0.0f, 0.5f, 0.0f)),
 	new Field3D("UnlitTexture", XMFLOAT3(0.0f, 0.0f, 0.0f)),
+	new MipMapSprite("UnlitTexture"),
 };
 
 Camera g_Camera;	//カメラ
@@ -46,7 +48,7 @@ bool	GetPause()
 //ゲームシーン初期化
 void InitGame()
 {
-	TextureInitialize(Renderer::GetDevice());
+	Texture::Initialize(Renderer::GetDevice());
 	g_Camera.Init();
 	
 	for(GameObject	*GameObj:g_GameObjects)
@@ -78,7 +80,7 @@ void FinalizeGame()
 
 	g_Camera.Finalize();
 	ReleaseShaderCache();	// PolygonModel / Field3D / Sprite2D が共有していたシェーダーを解放
-	TextureFinalize();
+	Texture::Finalize();
 }
 
 //===============================================
@@ -123,14 +125,28 @@ void UpdateGame()
 //ゲームシーン描画
 void DrawGame()
 {
-	//===== 3D描画 =====（バックバッファのクリアは main.cpp の Draw で行う）
+	//===== 3D描画 =====
 	{
-		g_Camera.Draw();				//ビュー・プロジェクション行列をセット
-		Renderer::SetDepthEnable(true);		//奥行き処理有効
-		for (GameObject* gameObject : g_GameObjects)
+		Renderer::BeginPe();
 		{
-			if (gameObject != nullptr && !gameObject->m_Is2D)
-				gameObject->Draw();
+			g_Camera.Draw();				//ビュー・プロジェクション行列をセット
+			Renderer::SetDepthEnable(true);		//奥行き処理有効
+			for (GameObject* gameObject : g_GameObjects)
+			{
+				if (gameObject != nullptr && !gameObject->m_Is2D)
+					gameObject->Draw();
+			}
+		}
+		Renderer::Clear();	//レンダーターゲットをクリア
+
+		{
+			g_Camera.Draw();				//ビュー・プロジェクション行列をセット
+			Renderer::SetDepthEnable(true);		//奥行き処理有効
+			for (GameObject* gameObject : g_GameObjects)
+			{
+				if (gameObject != nullptr && !gameObject->m_Is2D)
+					gameObject->Draw();
+			}
 		}
 	}
 

@@ -288,7 +288,7 @@ void	Update(void)
 void	Draw(void)
 {
 	//バックバッファのクリア
-	Renderer::Clear();
+	//Renderer::Clear();
 	//マネージャ描画
 	Manager::Draw();
 

@@ -80,5 +80,6 @@ public:
 	static void SetLight(LIGHT Light);
 
 	// レンダーターゲットの作成
-	static ID3D10ShaderResourceView* GetTexture(int TexID);
+	static ID3D11ShaderResourceView* GetPeTexture(int TexID = 0);
+	static void BeginPe(int TexID = 0);
 };

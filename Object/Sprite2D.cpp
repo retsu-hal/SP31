@@ -58,11 +58,11 @@ void Sprite2D::Init(void)
 
 
 	//2Dオブジェクト初期化
-	m_Position = XMFLOAT3(SCREEN_WIDTH / 3 / 2, SCREEN_WIDTH / 3 / 2, 0.0f);
+	m_Position = XMFLOAT3(SCREEN_WIDTH / 3 / 2, SCREEN_HEIGHT / 4, 0.0f);
 	m_Rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	m_Scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
 	Color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	Size = XMFLOAT2(SCREEN_WIDTH / 3, SCREEN_WIDTH / 3);
+	Size = XMFLOAT2(SCREEN_WIDTH / 3, SCREEN_HEIGHT / 2);
 
 	//マテリアル名 → 表の添字
 	int index = FindMaterialIndex(m_MaterialName.c_str());
@@ -91,7 +91,7 @@ void Sprite2D::ChangeMaterial(int materialIndex, bool resetParams)
 	m_Material.Load(&desc);
 
 	//テクスチャ（同名は再利用される）
-	m_TexID = TextureLoad(GetTexturePath());
+	m_TexID = Texture::Load(GetTexturePath());
 
 	if (resetParams)
 	{
@@ -141,7 +141,7 @@ void Sprite2D::Draw(void)
 	{//2Dポリゴン1枚ずつで必要な処理
 
 		//テクスチャをセット
-		ID3D11ShaderResourceView* tex = GetTexture(m_TexID);
+		ID3D11ShaderResourceView* tex = Texture::GetTexture(m_TexID);
 		Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
 
 		//ワールド行列をDirectXへセット（拡大縮小 → Z回転 → 平行移動）

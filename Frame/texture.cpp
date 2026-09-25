@@ -24,7 +24,8 @@ static int g_TextureCount = 0;
 static ID3D11Device* g_Device = NULL;
 
 
-void TextureInitialize(ID3D11Device* device)
+
+void Texture::Initialize(ID3D11Device* device)
 {
 	for (int i = 0; i < TEXTURE_MAX; i++) {
 		g_Textures[i].shader_resource_view = NULL;
@@ -35,7 +36,7 @@ void TextureInitialize(ID3D11Device* device)
 	g_Device = device;
 }
 
-int TextureLoad(const std::wstring& texture_filename)
+int Texture::Load(const std::wstring& texture_filename)
 {
 	// すでに同名のテクスチャが読み込まれていないか確認する
 	for (int i = 0; i < g_TextureCount; i++) {
@@ -60,7 +61,7 @@ int TextureLoad(const std::wstring& texture_filename)
 	return g_TextureCount++;
 }
 
-ID3D11ShaderResourceView* GetTexture(int id)
+ID3D11ShaderResourceView* Texture::GetTexture(int id)
 {
 	if (id < 0 || id >= g_TextureCount) {
 		return NULL;
@@ -69,20 +70,17 @@ ID3D11ShaderResourceView* GetTexture(int id)
 	return g_Textures[id].shader_resource_view;
 }
 
-void BeginPe(int TexID)
-{}
-
-int TextureGetWidth(int id)
+int Texture::GetWidth(int id)
 {
 	return g_Textures[id].width;
 }
 
-int TextureGetHeight(int id)
+int Texture::GetHeight(int id)
 {
 	return g_Textures[id].height;
 }
 
-void TextureFinalize(void)
+void Texture::Finalize(void)
 {
 	for (int i = 0; i < g_TextureCount; i++) {
 		// g_Textures[i].shader_resource_view->Release();
