@@ -126,6 +126,17 @@ namespace
 		m.ParamUIs = { { "Rim Power", 0, 1.0f, 10.0f, "%.1f" } };
 		return m;
 	}
+
+	MaterialDesc RGBShift()
+	{
+		MaterialDesc m = MakeMaterial("RGBShift", "UnlitTextureVS.cso", "RGBShiftPS.cso");
+		m.Parameter = XMFLOAT4(0.01f, 0.01f, 0.0f, 0.0f);	// x:ƒVƒtƒg—Ê
+		m.ParamUIs = {
+			{ "RShift", 0, 0.0f, 0.5f, "%.4f" },
+			{ "BShift", 1, 0.0f, 0.5f, "%.4f" },
+		};
+		return m;
+	}
 }
 
 //==============================================================================
@@ -145,6 +156,7 @@ const std::vector<MaterialDesc>& GetMaterialTable()
 		SpotLighting(),
 		PointPixelLighting(),
 		LimLighting(),
+		RGBShift(),
 	};
 	return table;
 }

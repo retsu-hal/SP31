@@ -164,7 +164,7 @@ void PolygonModel::DrawImGui()
 
 	// "###" 以降をIDにして、マテリアルを切り替えても開閉状態を保つ
 	char header[128];
-	snprintf(header, sizeof(header), "%s###PolygonModel", GetName());
+	snprintf(header, sizeof(header), "PolygonModel :%s###PolygonModel", GetName());
 
 	if (ImGui::CollapsingHeader(header))
 	{
