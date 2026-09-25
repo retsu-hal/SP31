@@ -168,6 +168,16 @@ namespace
 		m.ParamUIs = { { "Light", 2, 1.0f, 15.0f, "%.0f" } };
 		return m;
 	}
+
+	MaterialDesc Bump()
+	{
+		MaterialDesc m = MakeMaterial("Bump", "PointPixelLightingVS.cso", "BumpPS.cso");
+		m.UseGlobalLight = true;	// g_Light（SPOT LIGHTウィンドウ）で光源を動かす
+		m.ExtraTextures = {
+			{ 1, L"asset\\texture\\Normal.png" },	// t1：法線マップ
+		};
+		return m;
+	}
 }
 
 //==============================================================================
@@ -190,6 +200,7 @@ const std::vector<MaterialDesc>& GetMaterialTable()
 		RGBShift(),
 		CookTorrance(),
 		DisneyPBR(),
+		Bump(),
 	};
 	return table;
 }
