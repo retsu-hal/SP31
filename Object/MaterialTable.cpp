@@ -117,6 +117,15 @@ namespace
 		m.Light = PointLight(); 
 		return m;
 	}
+
+	MaterialDesc LimLighting()
+	{
+		MaterialDesc m = MakeMaterial("LimLighting", "LimLightingVS.cso", "LimLightingPS.cso");
+		m.Light = PointLight();                          // ì_åıåπÇÃê›íËÇó¨óp
+		m.Parameter = XMFLOAT4(3.0f, 0.0f, 0.0f, 0.0f);      // x:ÉäÉÄÇÃ pow éwêî
+		m.ParamUIs = { { "Rim Power", 0, 1.0f, 10.0f, "%.1f" } };
+		return m;
+	}
 }
 
 //==============================================================================
@@ -135,6 +144,7 @@ const std::vector<MaterialDesc>& GetMaterialTable()
 		PixelLightingBlinnPhong(),
 		SpotLighting(),
 		PointPixelLighting(),
+		LimLighting(),
 	};
 	return table;
 }
