@@ -8,14 +8,14 @@
     <Filter Include="ソース ファイル\オブジェクトクラス">
       <UniqueIdentifier>{084be035-9f73-4d13-91c1-379bae451cf8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\フレームワーク">
-      <UniqueIdentifier>{53506c2f-9179-4b93-ae68-1ab6ada22e31}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\shader">
       <UniqueIdentifier>{8f3c70a4-c6ee-4ded-9a60-39687a50e54c}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\imgui">
       <UniqueIdentifier>{d944efe8-9a25-4bd6-97f3-a85185aa8d90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="フレームワーク">
+      <UniqueIdentifier>{53506c2f-9179-4b93-ae68-1ab6ada22e31}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -53,39 +53,42 @@
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClCompile>
     <ClCompile Include="Frame\Game.cpp">
-      <Filter>ソース ファイル\フレームワーク</Filter>
+      <Filter>フレームワーク</Filter>
     </ClCompile>
     <ClCompile Include="Frame\keyboard.cpp">
-      <Filter>ソース ファイル\フレームワーク</Filter>
+      <Filter>フレームワーク</Filter>
     </ClCompile>
     <ClCompile Include="Frame\Manager.cpp">
-      <Filter>ソース ファイル\フレームワーク</Filter>
+      <Filter>フレームワーク</Filter>
     </ClCompile>
     <ClCompile Include="Frame\model.cpp">
-      <Filter>ソース ファイル\フレームワーク</Filter>
+      <Filter>フレームワーク</Filter>
     </ClCompile>
     <ClCompile Include="Frame\renderer.cpp">
-      <Filter>ソース ファイル\フレームワーク</Filter>
+      <Filter>フレームワーク</Filter>
     </ClCompile>
     <ClCompile Include="Frame\sprite.cpp">
-      <Filter>ソース ファイル\フレームワーク</Filter>
+      <Filter>フレームワーク</Filter>
     </ClCompile>
     <ClCompile Include="Frame\texture.cpp">
-      <Filter>ソース ファイル\フレームワーク</Filter>
+      <Filter>フレームワーク</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>ソース ファイル\フレームワーク</Filter>
+      <Filter>フレームワーク</Filter>
     </ClCompile>
     <ClCompile Include="Object\Material.cpp">
-      <Filter>ソース ファイル\フレームワーク</Filter>
+      <Filter>フレームワーク</Filter>
     </ClCompile>
     <ClCompile Include="Object\MaterialTable.cpp">
-      <Filter>ソース ファイル\フレームワーク</Filter>
+      <Filter>フレームワーク</Filter>
     </ClCompile>
-    <ClCompile Include="MipMapSprite.cpp">
+    <ClCompile Include="Object\Horror.cpp">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClCompile>
-    <ClCompile Include="Horror.cpp">
+    <ClCompile Include="Object\MipMapSprite.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Gaussian.cpp">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClCompile>
   </ItemGroup>
@@ -127,39 +130,42 @@
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
     <ClInclude Include="Frame\Game.h">
-      <Filter>ソース ファイル\フレームワーク</Filter>
+      <Filter>フレームワーク</Filter>
     </ClInclude>
     <ClInclude Include="Frame\keyboard.h">
-      <Filter>ソース ファイル\フレームワーク</Filter>
+      <Filter>フレームワーク</Filter>
     </ClInclude>
     <ClInclude Include="Frame\Manager.h">
-      <Filter>ソース ファイル\フレームワーク</Filter>
+      <Filter>フレームワーク</Filter>
     </ClInclude>
     <ClInclude Include="Frame\model.h">
-      <Filter>ソース ファイル\フレームワーク</Filter>
+      <Filter>フレームワーク</Filter>
     </ClInclude>
     <ClInclude Include="Frame\renderer.h">
-      <Filter>ソース ファイル\フレームワーク</Filter>
+      <Filter>フレームワーク</Filter>
     </ClInclude>
     <ClInclude Include="Frame\sprite.h">
-      <Filter>ソース ファイル\フレームワーク</Filter>
+      <Filter>フレームワーク</Filter>
     </ClInclude>
     <ClInclude Include="Frame\texture.h">
-      <Filter>ソース ファイル\フレームワーク</Filter>
+      <Filter>フレームワーク</Filter>
     </ClInclude>
     <ClInclude Include="main.h">
-      <Filter>ソース ファイル\フレームワーク</Filter>
+      <Filter>フレームワーク</Filter>
     </ClInclude>
     <ClInclude Include="Object\Material.h">
-      <Filter>ソース ファイル\フレームワーク</Filter>
+      <Filter>フレームワーク</Filter>
     </ClInclude>
     <ClInclude Include="Object\GameObject.h">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
-    <ClInclude Include="MipMapSprite.h">
+    <ClInclude Include="Object\Horror.h">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
-    <ClInclude Include="Horror.h">
+    <ClInclude Include="Object\MipMapSprite.h">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Gaussian.h">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
   </ItemGroup>
@@ -258,6 +264,12 @@
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\HorrorPS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\GaussianPS_H.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\GaussianPS_V.hlsl">
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
   </ItemGroup>

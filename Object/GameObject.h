@@ -74,6 +74,7 @@ protected://外部からアクセスできないが、継承したクラスか�
 	virtual const char*    GetModelPath()        const { return ""; }
 	virtual const wchar_t* GetTexturePath()      const { return L""; }
 	virtual const char*    GetName()             const { return "GameObject"; }
+	virtual const char* GetTypeName()             const { return "GameObject"; }
 	virtual void DrawImGuiExtra() {}	// DrawImGui の最後に項目を足したいとき用
 
 public:

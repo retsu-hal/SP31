@@ -245,6 +245,20 @@ namespace
 		m.Parameter = XMFLOAT4(0.0f, 0.2f, 0.7f, 1.0f);	// x:Seed y:MIN z:MAX w:POW
 		return m;
 	}
+
+	MaterialDesc GaussianH()
+	{
+		MaterialDesc m = MakeMaterial("GaussianH", "UnlitTextureVS.cso", "GaussianPS_H.cso");
+		m.Parameter = XMFLOAT4(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 1.0f);	// x:幅 y:高さ z:分散 w:間隔
+		return m;
+	}
+
+	MaterialDesc GaussianV()
+	{
+		MaterialDesc m = MakeMaterial("GaussianV", "UnlitTextureVS.cso", "GaussianPS_V.cso");
+		m.Parameter = XMFLOAT4(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 1.0f);
+		return m;
+	}
 }
 //==============================================================================
 //マテリアル表
@@ -273,6 +287,8 @@ const std::vector<MaterialDesc>& GetMaterialTable()
 		Zukei(),
 		Mosaic(),
 		Horror(),
+		GaussianH(),
+		GaussianV(),
 	};
 	return table;
 }

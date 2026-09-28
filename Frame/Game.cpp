@@ -10,6 +10,8 @@
 #include "Material.h"
 #include "MipMapSprite.h"
 #include "Horror.h"
+#include "Gaussian.h"
+#include <algorithm>
 
 //===============================================
 //グローバル変数
@@ -18,14 +20,17 @@
 // PolygonModel / Field3D / Sprite2D の第1引数はマテリアル名（MaterialTable.cpp に定義）
 // 実行中は ImGui の Inspecter → Material で切り替えられる
 // ※カメラは GameObject ではないので InitCamera などを直接呼ぶ
+Gaussian* g_Gaussian = new Gaussian();
+
 std::vector<GameObject*> g_GameObjects =
 {
 
 	new PolygonModel("UnlitTexture",  XMFLOAT3(0.0f, 0.5f, 0.0f)),
 	new Field3D("UnlitTexture", XMFLOAT3(0.0f, 0.0f, 0.0f)),
 	//new Horror("Horror"),
-	new Sprite2D("UnlitTexture"),
-	//new MipMapSprite("UnlitTexture"),
+	//new Sprite2D("UnlitTexture"),
+	//g_Gaussian,
+	new MipMapSprite("UnlitTexture"),
 };
 
 Camera g_Camera;	//カメラ
@@ -44,6 +49,27 @@ void	SetPause(bool flg)
 bool	GetPause()
 {
 	return pause;
+}
+
+//===============================================
+//g_Gaussian が g_GameObjects に登録されているか
+//（コメントアウトされていればブラーなしで描画する）
+static bool IsGaussianEnabled()
+{
+	return std::find(g_GameObjects.begin(), g_GameObjects.end(), g_Gaussian) != g_GameObjects.end();
+}
+
+//===============================================
+//3Dオブジェクトの描画
+static void Draw3DObjects()
+{
+	g_Camera.Draw();				//ビュー・プロジェクション行列をセット
+	Renderer::SetDepthEnable(true);		//奥行き処理有効
+	for (GameObject* gameObject : g_GameObjects)
+	{
+		if (gameObject != nullptr && !gameObject->m_Is2D)
+			gameObject->Draw();
+	}
 }
 
 //===============================================
@@ -79,6 +105,13 @@ void InitGame()
 //ゲームシーン終了
 void FinalizeGame()
 {
+	//未登録の g_Gaussian はここで解放（登録されていれば下のループで解放される）
+	if (!IsGaussianEnabled())
+	{
+		delete g_Gaussian;
+	}
+	g_Gaussian = nullptr;
+
 	for (GameObject* gameObject : g_GameObjects)
 	{
 		if (gameObject != nullptr)
@@ -134,38 +167,43 @@ void UpdateGame()
 void DrawGame()
 {
 	//===== 3D描画 =====
+	//=====1.3DをRT0へ==========（MipMapSprite などが RT0 を参照する）
+	Renderer::BeginPe(0);
 	{
-		Renderer::BeginPe();
-		{
-			g_Camera.Draw();				//ビュー・プロジェクション行列をセット
-			Renderer::SetDepthEnable(true);		//奥行き処理有効
-			for (GameObject* gameObject : g_GameObjects)
-			{
-				if (gameObject != nullptr && !gameObject->m_Is2D)
-					gameObject->Draw();
-			}
-		}
-		Renderer::Clear();	//レンダーターゲットをクリア
+		Draw3DObjects();
+	}
 
+	if (IsGaussianEnabled())
+	{
+		//=====2.RT0を横ブラーしてRT1へ==========
+		Renderer::BeginPe(1);
 		{
-			g_Camera.Draw();				//ビュー・プロジェクション行列をセット
-			Renderer::SetDepthEnable(true);		//奥行き処理有効
-			for (GameObject* gameObject : g_GameObjects)
-			{
-				if (gameObject != nullptr && !gameObject->m_Is2D)
-					gameObject->Draw();
-			}
+			Renderer::SetWorldViewProjection2D();
+			g_Gaussian->DrawPass(0);		//0:横ブラー	1:縦ブラー
+		}
+
+		//=====3.RT1を縦ブラーしてバックバッファへ==========
+		Renderer::Clear();
+		{
+			Renderer::SetWorldViewProjection2D();
+			g_Gaussian->DrawPass(1);		//0:横ブラー	1:縦ブラー
+		}
+	}
+	else
+	{
+		//=====2.ブラーなし：3Dをバックバッファへ直接描画==========
+		Renderer::Clear();
+		{
+			Draw3DObjects();
 		}
 	}
 
-	//===== 2D描画 =====
+	//=====4.2D描画==========
+	Renderer::SetWorldViewProjection2D();
+	Renderer::SetDepthEnable(false);	//奥行き処理無効
+	for (GameObject* gameObject : g_GameObjects)
 	{
-		Renderer::SetWorldViewProjection2D();
-		Renderer::SetDepthEnable(false);
-		for (GameObject* gameObject : g_GameObjects)
-		{
-			if (gameObject != nullptr && gameObject->m_Is2D)
-				gameObject->Draw();
-		}
+		if (gameObject != nullptr && gameObject->m_Is2D)
+			gameObject->Draw();
 	}
 }

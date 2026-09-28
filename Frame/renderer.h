@@ -82,4 +82,6 @@ public:
 	// レンダーターゲットの作成
 	static ID3D11ShaderResourceView* GetPeTexture(int TexID = 0);
 	static void BeginPe(int TexID = 0);
+
+	static void SetWeight(float* Weight);
 };

@@ -68,6 +68,11 @@ cbuffer ParameterBuffer : register(b6)
     float4 Parameter;
 }
 
+// b7 : ガウスブラーの重み（C++側は float Weight[8] = 32byte）
+cbuffer GaussianBuffer : register(b7)
+{
+    float4 Weight[2]; // float4 × ? 個で 8個ぶん
+}
 //------------------------------------------------------------------------------
 // 頂点シェーダー入力（renderer.h の VERTEX_3D / renderer.cpp の入力レイアウト）
 //------------------------------------------------------------------------------

@@ -15,8 +15,8 @@ void MipMapSprite::Init(void)
 	Sprite2D::Init();	// マテリアル・シェーダーの読み込みは親に任せる
 
 	// 画面の1/3サイズで左上に表示
-	m_Position = XMFLOAT3(SCREEN_WIDTH / 3 / 2, SCREEN_HEIGHT / 3 / 2, 0.0f);
-	Size = XMFLOAT2(SCREEN_WIDTH / 3, SCREEN_HEIGHT / 3);
+	m_Position = XMFLOAT3(SCREEN_WIDTH / 5, SCREEN_HEIGHT / 4, 0.0f);
+	Size = XMFLOAT2(SCREEN_WIDTH/2.5 , SCREEN_HEIGHT / 2);
 
 	m_Parameter = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);	// x = ミップレベル
 }

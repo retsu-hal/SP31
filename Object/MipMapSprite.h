@@ -8,6 +8,8 @@ class MipMapSprite : public Sprite2D
 protected:
 	int m_PeNo;		// 何番のレンダリングテクスチャを貼るか
 
+	const char* GetTypeName() const override { return "MipMapSprite"; }
+
 public:
 	explicit MipMapSprite(const char* materialName = "UnlitTexture", int peNo = 0);
 

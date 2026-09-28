@@ -8,6 +8,9 @@ class Horror : public Sprite2D
 protected:
 	int m_PeNo;		// 何番のレンダリングテクスチャを貼るか
 
+	void DrawImGuiExtra() override;
+	const char* GetTypeName() const override { return "Horror"; }
+
 public:
 	explicit Horror(const char* materialName = "Horror", int peNo = 0);
 

@@ -46,6 +46,8 @@ class Sprite2D : public GameObject
 		Material       m_Material;
 		const wchar_t* m_TexturePath;			// nullptr ならマテリアルの基本テクスチャを使う
 
+		const char* GetTypeName() const override { return "Sprite2D"; }
+
 	public:
 		explicit Sprite2D(const char* materialName = "UnlitColor",
 			const wchar_t* texturePath = L"asset\\texture\\texture.jpg");
@@ -60,7 +62,3 @@ class Sprite2D : public GameObject
 		// マテリアルを切り替える（resetParams が true ならパラメータ・ライトを初期値に戻す）
 		void ChangeMaterial(int materialIndex, bool resetParams = true);
 };
-
-//*****************************************************************************
-// プロトタイプ宣言
-//*****************************************************************************

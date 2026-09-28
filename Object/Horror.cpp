@@ -3,6 +3,8 @@
 #include "Game.h"		// g_Light
 #include "sprite.h"		// Sprite::Draw
 
+
+
 Horror::Horror(const char* materialName, int peNo)
 	: Sprite2D(materialName)
 	, m_PeNo(peNo)
@@ -35,14 +37,6 @@ void Horror::Update(void)
 	{
 		m_Parameter.x -= 100.0f;
 	}
-
-	ImGui::Begin("Horror");
-	{
-		ImGui::SliderFloat("MIN", &m_Parameter.y, 0.0f, 1.0f, "%.3f");
-		ImGui::SliderFloat("MAX", &m_Parameter.z, 0.0f, 1.0f, "%.3f");
-		ImGui::SliderFloat("POW", &m_Parameter.w, 1.0f, 30.0f, "%.0f");
-	}
-	ImGui::End();
 }
 
 //=============================================================================
@@ -69,4 +63,15 @@ void Horror::Draw(void)
 	Renderer::SetWorldMatrix(GetWorldMatrix());
 
 	Sprite::Draw(Size, Color);
+}
+
+void Horror::DrawImGuiExtra()
+{
+	ImGui::Begin("Horror");
+	{
+		ImGui::SliderFloat("MIN", &m_Parameter.y, 0.0f, 1.0f, "%.3f");
+		ImGui::SliderFloat("MAX", &m_Parameter.z, 0.0f, 1.0f, "%.3f");
+		ImGui::SliderFloat("POW", &m_Parameter.w, 1.0f, 30.0f, "%.0f");
+	}
+	ImGui::End();
 }

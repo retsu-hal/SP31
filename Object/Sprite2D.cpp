@@ -164,17 +164,20 @@ void Sprite2D::DrawImGui()
 
 	// "###" 以降をIDにして、マテリアルを切り替えても開閉状態を保つ
 	char header[128];
-	snprintf(header, sizeof(header), "Sprite2D : %s###Sprite2D", GetName());
+	snprintf(header, sizeof(header), "%s : %s###%s", GetTypeName(), GetName(), GetTypeName());
 
 	if (ImGui::CollapsingHeader(header))
 	{
-		// マテリアル（シェーダー）切り替え
-		ImGui::SeparatorText("Material");
-		int selected = MaterialCombo(m_MaterialIndex);
-		if (selected >= 0)
+
 		{
-			ChangeMaterial(selected, true);
-		}
+			// マテリアル（シェーダー）切り替え
+			ImGui::SeparatorText("Material");
+			int selected = MaterialCombo(m_MaterialIndex);
+			if (selected >= 0)
+			{
+				ChangeMaterial(selected, true);
+			}
+		}		
 
 		ImGui::SeparatorText("Transform");
 		ImGui::DragFloat2("Position", &m_Position.x, 1.0f);
@@ -196,6 +199,8 @@ void Sprite2D::DrawImGui()
 			ImGui::Text("Texture(t%u) : %ls", slot.Slot, slot.Path);
 		}
 	}
+
+	DrawImGuiExtra();
 
 	ImGui::PopID();
 	ImGui::End();
