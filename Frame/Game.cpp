@@ -9,7 +9,7 @@
 #include "PolygonModel.h"
 #include "Material.h"
 #include "MipMapSprite.h"
-
+#include "Horror.h"
 
 //===============================================
 //ƒOƒ[ƒoƒ‹•Ï”
@@ -23,7 +23,8 @@ std::vector<GameObject*> g_GameObjects =
 
 	new PolygonModel("UnlitTexture",  XMFLOAT3(0.0f, 0.5f, 0.0f)),
 	new Field3D("UnlitTexture", XMFLOAT3(0.0f, 0.0f, 0.0f)),
-	new Sprite2D("UnlitColor"),
+	//new Horror("Horror"),
+	new Sprite2D("UnlitTexture"),
 	//new MipMapSprite("UnlitTexture"),
 };
 

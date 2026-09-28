@@ -228,7 +228,7 @@ namespace
 		return m;
 	}
 
-	MaterialDesc MosaicMaterial()
+	MaterialDesc Mosaic()
 	{
 			MaterialDesc m = MakeMaterial("Mosaic", "UnlitTextureVS.cso", "MosaicPS.cso");
 			m.Parameter = XMFLOAT4(SCREEN_WIDTH, SCREEN_HEIGHT, 16.0f, 0.3f);
@@ -238,7 +238,14 @@ namespace
 			};
 			return m;
 		}
+
+	MaterialDesc Horror()
+	{
+		MaterialDesc m = MakeMaterial("Horror", "UnlitTextureVS.cso", "HorrorPS.cso");
+		m.Parameter = XMFLOAT4(0.0f, 0.2f, 0.7f, 1.0f);	// x:Seed y:MIN z:MAX w:POW
+		return m;
 	}
+}
 //==============================================================================
 //マテリアル表
 //==============================================================================
@@ -264,7 +271,8 @@ const std::vector<MaterialDesc>& GetMaterialTable()
 		Toon2(),
 		Toon3(),
 		Zukei(),
-		MosaicMaterial(),
+		Mosaic(),
+		Horror(),
 	};
 	return table;
 }
