@@ -14,7 +14,7 @@
     <Filter Include="ソース ファイル\imgui">
       <UniqueIdentifier>{d944efe8-9a25-4bd6-97f3-a85185aa8d90}</UniqueIdentifier>
     </Filter>
-    <Filter Include="フレームワーク">
+    <Filter Include="ソース ファイル\フレームワーク">
       <UniqueIdentifier>{53506c2f-9179-4b93-ae68-1ab6ada22e31}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -53,34 +53,34 @@
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClCompile>
     <ClCompile Include="Frame\Game.cpp">
-      <Filter>フレームワーク</Filter>
+      <Filter>ソース ファイル\フレームワーク</Filter>
     </ClCompile>
     <ClCompile Include="Frame\keyboard.cpp">
-      <Filter>フレームワーク</Filter>
+      <Filter>ソース ファイル\フレームワーク</Filter>
     </ClCompile>
     <ClCompile Include="Frame\Manager.cpp">
-      <Filter>フレームワーク</Filter>
+      <Filter>ソース ファイル\フレームワーク</Filter>
     </ClCompile>
     <ClCompile Include="Frame\model.cpp">
-      <Filter>フレームワーク</Filter>
+      <Filter>ソース ファイル\フレームワーク</Filter>
     </ClCompile>
     <ClCompile Include="Frame\renderer.cpp">
-      <Filter>フレームワーク</Filter>
+      <Filter>ソース ファイル\フレームワーク</Filter>
     </ClCompile>
     <ClCompile Include="Frame\sprite.cpp">
-      <Filter>フレームワーク</Filter>
+      <Filter>ソース ファイル\フレームワーク</Filter>
     </ClCompile>
     <ClCompile Include="Frame\texture.cpp">
-      <Filter>フレームワーク</Filter>
+      <Filter>ソース ファイル\フレームワーク</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>フレームワーク</Filter>
+      <Filter>ソース ファイル\フレームワーク</Filter>
     </ClCompile>
     <ClCompile Include="Object\Material.cpp">
-      <Filter>フレームワーク</Filter>
+      <Filter>ソース ファイル\フレームワーク</Filter>
     </ClCompile>
     <ClCompile Include="Object\MaterialTable.cpp">
-      <Filter>フレームワーク</Filter>
+      <Filter>ソース ファイル\フレームワーク</Filter>
     </ClCompile>
     <ClCompile Include="Object\Horror.cpp">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
@@ -89,6 +89,9 @@
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClCompile>
     <ClCompile Include="Object\Gaussian.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClCompile>
+    <ClCompile Include="Bloom.cpp">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClCompile>
   </ItemGroup>
@@ -130,31 +133,31 @@
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
     <ClInclude Include="Frame\Game.h">
-      <Filter>フレームワーク</Filter>
+      <Filter>ソース ファイル\フレームワーク</Filter>
     </ClInclude>
     <ClInclude Include="Frame\keyboard.h">
-      <Filter>フレームワーク</Filter>
+      <Filter>ソース ファイル\フレームワーク</Filter>
     </ClInclude>
     <ClInclude Include="Frame\Manager.h">
-      <Filter>フレームワーク</Filter>
+      <Filter>ソース ファイル\フレームワーク</Filter>
     </ClInclude>
     <ClInclude Include="Frame\model.h">
-      <Filter>フレームワーク</Filter>
+      <Filter>ソース ファイル\フレームワーク</Filter>
     </ClInclude>
     <ClInclude Include="Frame\renderer.h">
-      <Filter>フレームワーク</Filter>
+      <Filter>ソース ファイル\フレームワーク</Filter>
     </ClInclude>
     <ClInclude Include="Frame\sprite.h">
-      <Filter>フレームワーク</Filter>
+      <Filter>ソース ファイル\フレームワーク</Filter>
     </ClInclude>
     <ClInclude Include="Frame\texture.h">
-      <Filter>フレームワーク</Filter>
+      <Filter>ソース ファイル\フレームワーク</Filter>
     </ClInclude>
     <ClInclude Include="main.h">
-      <Filter>フレームワーク</Filter>
+      <Filter>ソース ファイル\フレームワーク</Filter>
     </ClInclude>
     <ClInclude Include="Object\Material.h">
-      <Filter>フレームワーク</Filter>
+      <Filter>ソース ファイル\フレームワーク</Filter>
     </ClInclude>
     <ClInclude Include="Object\GameObject.h">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
@@ -166,6 +169,9 @@
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
     <ClInclude Include="Object\Gaussian.h">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClInclude>
+    <ClInclude Include="Bloom.h">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
   </ItemGroup>
@@ -270,6 +276,12 @@
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\GaussianPS_V.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\BloomPS01.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\BloomPS02.hlsl">
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
   </ItemGroup>

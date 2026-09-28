@@ -11,6 +11,7 @@
 #include "MipMapSprite.h"
 #include "Horror.h"
 #include "Gaussian.h"
+#include "Bloom.h"
 #include <algorithm>
 
 //===============================================
@@ -21,6 +22,8 @@
 // 実行中は ImGui の Inspecter → Material で切り替えられる
 // ※カメラは GameObject ではないので InitCamera などを直接呼ぶ
 Gaussian* g_Gaussian = new Gaussian();
+Bloom* g_Bloom = new Bloom();
+
 
 std::vector<GameObject*> g_GameObjects =
 {
@@ -30,6 +33,7 @@ std::vector<GameObject*> g_GameObjects =
 	//new Horror("Horror"),
 	//new Sprite2D("UnlitTexture"),
 	//g_Gaussian,
+	g_Bloom,
 	new MipMapSprite("UnlitTexture"),
 };
 
@@ -57,6 +61,11 @@ bool	GetPause()
 static bool IsGaussianEnabled()
 {
 	return std::find(g_GameObjects.begin(), g_GameObjects.end(), g_Gaussian) != g_GameObjects.end();
+}
+
+static bool IsBloomEnabled()
+{
+	return std::find(g_GameObjects.begin(), g_GameObjects.end(), g_Bloom) != g_GameObjects.end();
 }
 
 //===============================================
@@ -111,6 +120,12 @@ void FinalizeGame()
 		delete g_Gaussian;
 	}
 	g_Gaussian = nullptr;
+
+	if (!IsBloomEnabled())
+	{
+		delete g_Bloom;
+	}
+	g_Bloom = nullptr;
 
 	for (GameObject* gameObject : g_GameObjects)
 	{
@@ -173,7 +188,22 @@ void DrawGame()
 		Draw3DObjects();
 	}
 
-	if (IsGaussianEnabled())
+	if (IsBloomEnabled())
+	{
+		//=====2.RT0を横ブラーしてRT1へ==========
+		Renderer::BeginPe(1);
+		{
+			Renderer::SetWorldViewProjection2D();
+			g_Bloom->DrawPass(0);		//0:横ブラー	1:縦ブラー
+		}
+		//=====3.RT1を縦ブラーしてバックバッファへ==========
+		Renderer::Clear();
+		{
+			Renderer::SetWorldViewProjection2D();
+			g_Bloom->DrawPass(1);		//0:横ブラー	1:縦ブラー
+		}
+	}
+	else if (IsGaussianEnabled())
 	{
 		//=====2.RT0を横ブラーしてRT1へ==========
 		Renderer::BeginPe(1);

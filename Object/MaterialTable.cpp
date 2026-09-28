@@ -259,6 +259,18 @@ namespace
 		m.Parameter = XMFLOAT4(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 1.0f);
 		return m;
 	}
+
+	MaterialDesc BloomLuminance()	// パス2：輝度抽出
+	{
+		MaterialDesc m = MakeMaterial("BloomLuminance", "UnlitTextureVS.cso", "BloomPS01.cso");
+		m.Parameter = XMFLOAT4(0.6f, 1.0f, 1.3f, 1.6f);	// x:しきい値 y,z,w:ミップ2.5/4.5/6.5の強さ
+		return m;
+	}
+
+	MaterialDesc BloomComposite()	// パス3：加算合成
+	{
+		return MakeMaterial("BloomComposite", "UnlitTextureVS.cso", "BloomPS02.cso");
+	}
 }
 //==============================================================================
 //マテリアル表
@@ -289,6 +301,8 @@ const std::vector<MaterialDesc>& GetMaterialTable()
 		Horror(),
 		GaussianH(),
 		GaussianV(),
+		BloomLuminance(),
+		BloomComposite(),
 	};
 	return table;
 }
