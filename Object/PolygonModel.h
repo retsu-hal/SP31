@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <string>
 #include "Game.h"
@@ -6,11 +6,11 @@
 #include "Material.h"
 
 //------------------------------------------------------------------------------
-// 3Dƒ‚ƒfƒ‹‚ğ1‚Â•`‰æ‚·‚éƒIƒuƒWƒFƒNƒg
-//   ƒVƒF[ƒ_[‚²‚Æ‚Ìˆá‚¢‚Í MaterialDesciMaterialTable.cppj‚Å•\‚·‚Ì‚ÅA
-//   ƒVƒF[ƒ_[‚ğ‘‚â‚µ‚Ä‚à”h¶ƒNƒ‰ƒX‚ğì‚é•K—v‚Í‚È‚¢B
+// 3Dãƒ¢ãƒ‡ãƒ«ã‚’1ã¤æç”»ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+//   ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã”ã¨ã®é•ã„ã¯ MaterialDescï¼ˆMaterialTable.cppï¼‰ã§è¡¨ã™ã®ã§ã€
+//   ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‚’å¢—ã‚„ã—ã¦ã‚‚æ´¾ç”Ÿã‚¯ãƒ©ã‚¹ã‚’ä½œã‚‹å¿…è¦ã¯ãªã„ã€‚
 //
-//   —á) new PolygonModel("Toon2", XMFLOAT3(0.5f, 0.5f, 0.0f))
+//   ä¾‹) new PolygonModel("Toon2", XMFLOAT3(0.5f, 0.5f, 0.0f))
 //------------------------------------------------------------------------------
 class PolygonModel : public GameObject
 {
@@ -26,7 +26,7 @@ public:
 
 	void DrawImGui() override;
 
-	// ƒ}ƒeƒŠƒAƒ‹‚ğØ‚è‘Ö‚¦‚éiresetParams ‚ª true ‚È‚çƒpƒ‰ƒ[ƒ^Eƒ‰ƒCƒg‚ğ‰Šú’l‚É–ß‚·j
+	// ãƒãƒ†ãƒªã‚¢ãƒ«ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹ï¼ˆresetParams ãŒ true ãªã‚‰ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ»ãƒ©ã‚¤ãƒˆã‚’åˆæœŸå€¤ã«æˆ»ã™ï¼‰
 	void ChangeMaterial(int materialIndex, bool resetParams = true);
 
 protected:
@@ -38,9 +38,9 @@ protected:
 	const wchar_t* GetTexturePath()      const override { return GetDesc().Texture; }
 	const char*    GetName()             const override { return GetDesc().Name; }
 
-	std::string m_MaterialName;			// ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Åw’è‚³‚ê‚½–¼‘OiInit ‚Å‰ğŒˆj
-	int         m_MaterialIndex = 0;	// GetMaterialTable() ‚Ì“Yš
+	std::string m_MaterialName;			// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§æŒ‡å®šã•ã‚ŒãŸåå‰ï¼ˆInit ã§è§£æ±ºï¼‰
+	int         m_MaterialIndex = 0;	// GetMaterialTable() ã®æ·»å­—
 	Material    m_Material;
-	std::string m_LoadedModelPath;		// “Ç‚İ‚İÏ‚İƒ‚ƒfƒ‹iØ‚è‘Ö‚¦‚ÌÄ“Ç‚İ‚İ”»’è—pj
+	std::string m_LoadedModelPath;		// èª­ã¿è¾¼ã¿æ¸ˆã¿ãƒ¢ãƒ‡ãƒ«ï¼ˆåˆ‡ã‚Šæ›¿ãˆæ™‚ã®å†èª­ã¿è¾¼ã¿åˆ¤å®šç”¨ï¼‰
 	XMFLOAT3    m_InitialPosition;
 };

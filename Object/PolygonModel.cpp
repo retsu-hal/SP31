@@ -1,14 +1,14 @@
-/*==============================================================================
+ï»¿/*==============================================================================
 
 [PolygonModel.cpp]
 														Author :Watanabe Retsu
 														Date   :
 --------------------------------------------------------------------------------
-	ƒVƒF[ƒ_[‚²‚Æ‚Ìİ’è‚Í MaterialTable.cpp ‚Ì MaterialDesc ‚©‚ç“Ç‚İ‚ŞB
+	ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã”ã¨ã®è¨­å®šã¯ MaterialTable.cpp ã® MaterialDesc ã‹ã‚‰èª­ã¿è¾¼ã‚€ã€‚
 ==============================================================================*/
 
 //==============================================================================
-//ƒCƒ“ƒNƒ‹[ƒh
+//ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰
 //==============================================================================
 #include <cstdio>
 #include "PolygonModel.h"
@@ -17,7 +17,7 @@
 #include "keyboard.h"
 
 //==============================================================================
-//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 //==============================================================================
 PolygonModel::PolygonModel(const char* materialName, XMFLOAT3 position)
 	: m_MaterialName(materialName)
@@ -26,18 +26,18 @@ PolygonModel::PolygonModel(const char* materialName, XMFLOAT3 position)
 }
 
 //==============================================================================
-//‰Šú‰»ˆ—
+//åˆæœŸåŒ–å‡¦ç†
 //==============================================================================
 void PolygonModel::Init(void)
 {
-	m_Is2D = false;		//2DƒIƒuƒWƒFƒNƒgƒtƒ‰ƒOOFF
+	m_Is2D = false;		//2Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ•ãƒ©ã‚°OFF
 
-	//\‘¢‘Ì‰Šú‰»
+	//æ§‹é€ ä½“åˆæœŸåŒ–
 	m_Position = m_InitialPosition;
 	m_Scale = XMFLOAT3(0.2f, 0.2f, 0.2f);
 	m_Rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
 
-	//ƒTƒ“ƒvƒ‰[‚Ìİ’è
+	//ã‚µãƒ³ãƒ—ãƒ©ãƒ¼ã®è¨­å®š
 	D3D11_SAMPLER_DESC sampDesc = {};
 	sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 	sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
@@ -46,20 +46,20 @@ void PolygonModel::Init(void)
 	sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
 	Renderer::GetDevice()->CreateSamplerState(&sampDesc, &m_SamplerState);
 
-	//ƒ}ƒeƒŠƒAƒ‹–¼ ¨ •\‚Ì“Yš
+	//ãƒãƒ†ãƒªã‚¢ãƒ«å â†’ è¡¨ã®æ·»å­—
 	int index = FindMaterialIndex(m_MaterialName.c_str());
 	if (index < 0)
 	{
-		MessageBoxA(NULL, m_MaterialName.c_str(), "ƒ}ƒeƒŠƒAƒ‹‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñiMaterialTable.cpp ‚ğŠm”Fj", MB_ICONEXCLAMATION | MB_OK);
+		MessageBoxA(NULL, m_MaterialName.c_str(), "ãƒãƒ†ãƒªã‚¢ãƒ«ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ï¼ˆMaterialTable.cpp ã‚’ç¢ºèªï¼‰", MB_ICONEXCLAMATION | MB_OK);
 		index = 0;
 	}
 
-	//ƒVƒF[ƒ_[EƒeƒNƒXƒ`ƒƒEƒ‚ƒfƒ‹Eƒpƒ‰ƒ[ƒ^Eƒ‰ƒCƒg‚ğ“Ç‚İ‚Ş
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ãƒ»ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ»ãƒ¢ãƒ‡ãƒ«ãƒ»ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ»ãƒ©ã‚¤ãƒˆã‚’èª­ã¿è¾¼ã‚€
 	ChangeMaterial(index, true);
 }
 
 //==============================================================================
-//ƒ}ƒeƒŠƒAƒ‹Ø‚è‘Ö‚¦
+//ãƒãƒ†ãƒªã‚¢ãƒ«åˆ‡ã‚Šæ›¿ãˆ
 //==============================================================================
 void PolygonModel::ChangeMaterial(int materialIndex, bool resetParams)
 {
@@ -69,13 +69,13 @@ void PolygonModel::ChangeMaterial(int materialIndex, bool resetParams)
 	m_MaterialIndex = materialIndex;
 	const MaterialDesc& desc = table[materialIndex];
 
-	//ƒVƒF[ƒ_[iƒLƒƒƒbƒVƒ…Œo—RjE’Ç‰ÁƒeƒNƒXƒ`ƒƒ
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ï¼ˆã‚­ãƒ£ãƒƒã‚·ãƒ¥çµŒç”±ï¼‰ãƒ»è¿½åŠ ãƒ†ã‚¯ã‚¹ãƒãƒ£
 	m_Material.Load(&desc);
 
-	//Šî–{ƒeƒNƒXƒ`ƒƒi“¯–¼‚ÍÄ—˜—p‚³‚ê‚éj
+	//åŸºæœ¬ãƒ†ã‚¯ã‚¹ãƒãƒ£ï¼ˆåŒåã¯å†åˆ©ç”¨ã•ã‚Œã‚‹ï¼‰
 	m_TexID = Texture::Load(desc.Texture);
 
-	//ƒ‚ƒfƒ‹iˆá‚¤‚Æ‚«‚¾‚¯“Ç‚İ’¼‚·j
+	//ãƒ¢ãƒ‡ãƒ«ï¼ˆé•ã†ã¨ãã ã‘èª­ã¿ç›´ã™ï¼‰
 	if (m_Model == nullptr || m_LoadedModelPath != desc.Model)
 	{
 		if (m_Model) { ModelRelease(m_Model); m_Model = nullptr; }
@@ -91,27 +91,27 @@ void PolygonModel::ChangeMaterial(int materialIndex, bool resetParams)
 }
 
 //==============================================================================
-//I—¹ˆ—
+//çµ‚äº†å‡¦ç†
 //==============================================================================
 void PolygonModel::Uninit(void)
 {
-	// ƒVƒF[ƒ_[‚ÍƒVƒF[ƒ_[ƒLƒƒƒbƒVƒ…‚ªŠ—L‚µ‚Ä‚¢‚é‚Ì‚ÅA‚±‚±‚Å‚Í‰ğ•ú‚µ‚È‚¢
+	// ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã¯ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãŒæ‰€æœ‰ã—ã¦ã„ã‚‹ã®ã§ã€ã“ã“ã§ã¯è§£æ”¾ã—ãªã„
 	SafeRelease(m_SamplerState);
 	if (m_Model) { ModelRelease(m_Model); m_Model = nullptr; }
 }
 
 //==============================================================================
-// XVˆ—
+// æ›´æ–°å‡¦ç†
 //==============================================================================
 void PolygonModel::Update(void)
 {
 	float Rotspeed = 0.5f;
 	float Movespeed = 0.01f;
-	//‰ñ“]
+	//å›è»¢
 	if (Keyboard_IsKeyDown(KK_E))		m_Rotation.x += Rotspeed;
 	if(Keyboard_IsKeyDown(KK_Q))		m_Rotation.x -= Rotspeed;
 
-	//ˆÚ“®
+	//ç§»å‹•
 	if(Keyboard_IsKeyDown(KK_W))  	 m_Position.z+= Movespeed;
 	if(Keyboard_IsKeyDown(KK_S))		m_Position.z -= Movespeed;
 	if(Keyboard_IsKeyDown(KK_A))		m_Position.x -= Movespeed;
@@ -121,34 +121,34 @@ void PolygonModel::Update(void)
 }
 
 //==============================================================================
-// •`‰æˆ—
+// æç”»å‡¦ç†
 //==============================================================================
 void PolygonModel::Draw(void)
 {
 	const MaterialDesc& desc = GetDesc();
 
-	// ƒXƒ|ƒbƒgƒ‰ƒCƒg“™‚Í Game.cpp ‚Ì‹¤’Êƒ‰ƒCƒg‚ğg‚¤
+	// ã‚¹ãƒãƒƒãƒˆãƒ©ã‚¤ãƒˆç­‰ã¯ Game.cpp ã®å…±é€šãƒ©ã‚¤ãƒˆã‚’ä½¿ã†
 	if (desc.UseGlobalLight)
 	{
 		m_Light = g_Light;
 	}
 
-	// ƒpƒ‰ƒ[ƒ^E’Ç‰ÁƒeƒNƒXƒ`ƒƒE’¸“_ƒŒƒCƒAƒEƒgEƒVƒF[ƒ_[İ’è
+	// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ»è¿½åŠ ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ»é ‚ç‚¹ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆãƒ»ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼è¨­å®š
 	Renderer::SetParameter(m_Parameter);
 	m_Material.Bind();
 
 	if (desc.HasOutline())
 	{
-		// ‡@ ’Êí•`‰æi— –ÊƒJƒŠƒ“ƒOj
+		// â‘  é€šå¸¸æç”»ï¼ˆè£é¢ã‚«ãƒªãƒ³ã‚°ï¼‰
 		Renderer::SetCullMode(D3D11_CULL_BACK);
 		DrawModel();
 
-		// ‡A ƒAƒEƒgƒ‰ƒCƒ“•`‰æi•\–ÊƒJƒŠƒ“ƒO{ƒAƒEƒgƒ‰ƒCƒ“—pƒVƒF[ƒ_[j
+		// â‘¡ ã‚¢ã‚¦ãƒˆãƒ©ã‚¤ãƒ³æç”»ï¼ˆè¡¨é¢ã‚«ãƒªãƒ³ã‚°ï¼‹ã‚¢ã‚¦ãƒˆãƒ©ã‚¤ãƒ³ç”¨ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ï¼‰
 		Renderer::SetCullMode(D3D11_CULL_FRONT);
 		m_Material.BindOutline();
 		DrawModel();
 
-		// ‡B — –ÊƒJƒŠƒ“ƒO‚É–ß‚·
+		// â‘¢ è£é¢ã‚«ãƒªãƒ³ã‚°ã«æˆ»ã™
 		Renderer::SetCullMode(D3D11_CULL_BACK);
 	}
 	else
@@ -162,13 +162,13 @@ void PolygonModel::DrawImGui()
 	ImGui::Begin("Inspecter");
 	ImGui::PushID(this);
 
-	// "###" ˆÈ~‚ğID‚É‚µ‚ÄAƒ}ƒeƒŠƒAƒ‹‚ğØ‚è‘Ö‚¦‚Ä‚àŠJ•Âó‘Ô‚ğ•Û‚Â
+	// "###" ä»¥é™ã‚’IDã«ã—ã¦ã€ãƒãƒ†ãƒªã‚¢ãƒ«ã‚’åˆ‡ã‚Šæ›¿ãˆã¦ã‚‚é–‹é–‰çŠ¶æ…‹ã‚’ä¿ã¤
 	char header[128];
 	snprintf(header, sizeof(header), "PolygonModel :%s###PolygonModel", GetName());
 
 	if (ImGui::CollapsingHeader(header))
 	{
-		// ƒ}ƒeƒŠƒAƒ‹iƒVƒF[ƒ_[jØ‚è‘Ö‚¦
+		// ãƒãƒ†ãƒªã‚¢ãƒ«ï¼ˆã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ï¼‰åˆ‡ã‚Šæ›¿ãˆ
 		ImGui::SeparatorText("Material");
 		int selected = MaterialCombo(m_MaterialIndex);
 		if (selected >= 0)
@@ -181,7 +181,7 @@ void PolygonModel::DrawImGui()
 		DragFloat3Row("Rotation", "Rotation", m_Rotation);
 		DragFloat3Row("Scale",    "Scale",    m_Scale);
 
-		// ƒ‰ƒCƒgEƒ}ƒeƒŠƒAƒ‹ŒÅ—L‚Ìƒpƒ‰ƒ[ƒ^
+		// ãƒ©ã‚¤ãƒˆãƒ»ãƒãƒ†ãƒªã‚¢ãƒ«å›ºæœ‰ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 		const MaterialDesc& desc = GetDesc();
 		DrawMaterialSettings(desc, m_Light, m_Parameter);
 
@@ -212,11 +212,11 @@ void PolygonModel::DrawModel(void)
 {
 	Renderer::SetLight(m_Light);
 
-	//ƒeƒNƒXƒ`ƒƒ‚ğƒZƒbƒg
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ã‚»ãƒƒãƒˆ
 	ID3D11ShaderResourceView* tex = Texture::GetTexture(m_TexID);
 	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
 
-	//ƒ[ƒ‹ƒhs—ñì¬
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ä½œæˆ
 	Renderer::SetWorldMatrix(GetWorldMatrix());
 
 	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);

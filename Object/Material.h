@@ -1,15 +1,15 @@
-/*==============================================================================
+ï»¿/*==============================================================================
 
 [Material.h]
-	ƒVƒF[ƒ_[1‘g‚Ô‚ñ‚Ìİ’è‚ğuƒf[ƒ^v‚Æ‚µ‚Ä‚Â‚½‚ß‚Ìd‘g‚İB
+	ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼1çµ„ã¶ã‚“ã®è¨­å®šã‚’ã€Œãƒ‡ãƒ¼ã‚¿ã€ã¨ã—ã¦æŒã¤ãŸã‚ã®ä»•çµ„ã¿ã€‚
 
-	EMaterialDesc : ƒVƒF[ƒ_[–¼Eƒpƒ‰ƒ[ƒ^‰Šú’lEƒ‰ƒCƒg‰Šú’lE’Ç‰ÁƒeƒNƒXƒ`ƒƒE
-	                 ImGui ‚Éo‚·ƒXƒ‰ƒCƒ_[‚È‚Ç‚ğ1‚Â‚É‚Ü‚Æ‚ß‚½uİ’è•\‚Ì1sv
-	EMaterial     : MaterialDesc ‚ğŒ³‚ÉAÀÛ‚ÌƒVƒF[ƒ_[^ƒeƒNƒXƒ`ƒƒ‚ğ“Ç‚İ‚ñ‚Å
-	                 •`‰æ‘O‚ÉƒZƒbƒg(Bind)‚·‚éÀ‘Ì
-	EƒVƒF[ƒ_[ƒLƒƒƒbƒVƒ… : “¯‚¶ .cso ‚ğ‰½“x‚à“Ç‚İ‚Ü‚È‚¢‚½‚ß‚Ì‹¤—L’u‚«ê
+	ãƒ»MaterialDesc : ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼åãƒ»ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿åˆæœŸå€¤ãƒ»ãƒ©ã‚¤ãƒˆåˆæœŸå€¤ãƒ»è¿½åŠ ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ»
+	                 ImGui ã«å‡ºã™ã‚¹ãƒ©ã‚¤ãƒ€ãƒ¼ãªã©ã‚’1ã¤ã«ã¾ã¨ã‚ãŸã€Œè¨­å®šè¡¨ã®1è¡Œã€
+	ãƒ»Material     : MaterialDesc ã‚’å…ƒã«ã€å®Ÿéš›ã®ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ï¼ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’èª­ã¿è¾¼ã‚“ã§
+	                 æç”»å‰ã«ã‚»ãƒƒãƒˆ(Bind)ã™ã‚‹å®Ÿä½“
+	ãƒ»ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‚­ãƒ£ãƒƒã‚·ãƒ¥ : åŒã˜ .cso ã‚’ä½•åº¦ã‚‚èª­ã¿è¾¼ã¾ãªã„ãŸã‚ã®å…±æœ‰ç½®ãå ´
 
-	V‚µ‚¢ƒVƒF[ƒ_[‚ğ’Ç‰Á‚·‚é‚Æ‚«‚Í MaterialTable.cpp ‚É1ŠÖ”(1s)‘«‚·‚¾‚¯‚Å‚æ‚¢B
+	æ–°ã—ã„ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‚’è¿½åŠ ã™ã‚‹ã¨ãã¯ MaterialTable.cpp ã«1é–¢æ•°(1è¡Œ)è¶³ã™ã ã‘ã§ã‚ˆã„ã€‚
 ==============================================================================*/
 #pragma once
 
@@ -18,29 +18,29 @@
 #include "renderer.h"
 
 //------------------------------------------------------------------------------
-// ’Ç‰ÁƒeƒNƒXƒ`ƒƒiƒsƒNƒZƒ‹ƒVƒF[ƒ_[‚Ì t1 ˆÈ~‚ÉƒZƒbƒg‚·‚é‚à‚Ìj
+// è¿½åŠ ãƒ†ã‚¯ã‚¹ãƒãƒ£ï¼ˆãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã® t1 ä»¥é™ã«ã‚»ãƒƒãƒˆã™ã‚‹ã‚‚ã®ï¼‰
 //------------------------------------------------------------------------------
 struct TextureSlot
 {
-	UINT           Slot;	// PSSetShaderResources ‚ÌƒXƒƒbƒg”Ô†i0”Ô‚ÍŠî–{ƒeƒNƒXƒ`ƒƒ—pj
-	const wchar_t* Path;	// ƒeƒNƒXƒ`ƒƒ‚ÌƒpƒX
+	UINT           Slot;	// PSSetShaderResources ã®ã‚¹ãƒ­ãƒƒãƒˆç•ªå·ï¼ˆ0ç•ªã¯åŸºæœ¬ãƒ†ã‚¯ã‚¹ãƒãƒ£ç”¨ï¼‰
+	const wchar_t* Path;	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ãƒ‘ã‚¹
 };
 
 //------------------------------------------------------------------------------
-// ImGui ‚É•\¦‚·‚é m_Parameter —pƒXƒ‰ƒCƒ_[‚Ì’è‹`
+// ImGui ã«è¡¨ç¤ºã™ã‚‹ m_Parameter ç”¨ã‚¹ãƒ©ã‚¤ãƒ€ãƒ¼ã®å®šç¾©
 //------------------------------------------------------------------------------
 struct ParamUI
 {
-	const char* Label;				// •\¦–¼
-	int         Index;				// m_Parameter ‚Ì‰½”Ô–Ú‚©i0:x 1:y 2:z 3:wj
+	const char* Label;				// è¡¨ç¤ºå
+	int         Index;				// m_Parameter ã®ä½•ç•ªç›®ã‹ï¼ˆ0:x 1:y 2:z 3:wï¼‰
 	float       Min;
 	float       Max;
 	const char* Format    = "%.3f";
-	float       DragSpeed = 0.0f;	// 0 ‚È‚ç SliderFloatA0‚æ‚è‘å‚«‚¯‚ê‚Î DragFloat
+	float       DragSpeed = 0.0f;	// 0 ãªã‚‰ SliderFloatã€0ã‚ˆã‚Šå¤§ãã‘ã‚Œã° DragFloat
 };
 
 //------------------------------------------------------------------------------
-// ƒ}ƒeƒŠƒAƒ‹iƒVƒF[ƒ_[1‘g‚Ô‚ñj‚Ìİ’è
+// ãƒãƒ†ãƒªã‚¢ãƒ«ï¼ˆã‚·ã‚§ãƒ¼ãƒ€ãƒ¼1çµ„ã¶ã‚“ï¼‰ã®è¨­å®š
 //------------------------------------------------------------------------------
 struct MaterialDesc
 {
@@ -48,18 +48,18 @@ struct MaterialDesc
 	const char*    VertexShader = "UnlitTextureVS.cso";
 	const char*    PixelShader  = "UnlitTexturePS.cso";
 	const char*    Model        = "asset\\model\\model.fbx";
-	const wchar_t* Texture      = L"asset\\texture\\sura.jpg";	// t0 ‚ÉƒZƒbƒg‚·‚éŠî–{ƒeƒNƒXƒ`ƒƒ
+	const wchar_t* Texture      = L"asset\\texture\\sura.jpg";	// t0 ã«ã‚»ãƒƒãƒˆã™ã‚‹åŸºæœ¬ãƒ†ã‚¯ã‚¹ãƒãƒ£
 
-	XMFLOAT4 Parameter{ 0.0f, 0.0f, 0.0f, 0.0f };	// m_Parameter ‚Ì‰Šú’l
-	LIGHT    Light{};								// m_Light ‚Ì‰Šú’l
+	XMFLOAT4 Parameter{ 0.0f, 0.0f, 0.0f, 0.0f };	// m_Parameter ã®åˆæœŸå€¤
+	LIGHT    Light{};								// m_Light ã®åˆæœŸå€¤
 
-	std::vector<TextureSlot> ExtraTextures;		// t1 ˆÈ~‚Ì’Ç‰ÁƒeƒNƒXƒ`ƒƒ
-	std::vector<ParamUI>     ParamUIs;			// ImGui ‚Éo‚·ƒpƒ‰ƒ[ƒ^
+	std::vector<TextureSlot> ExtraTextures;		// t1 ä»¥é™ã®è¿½åŠ ãƒ†ã‚¯ã‚¹ãƒãƒ£
+	std::vector<ParamUI>     ParamUIs;			// ImGui ã«å‡ºã™ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 
-	bool UseGlobalLight = false;				// true ‚È‚ç•`‰æ‚É g_Light ‚ğg‚¤iƒXƒ|ƒbƒgƒ‰ƒCƒg“™j
+	bool UseGlobalLight = false;				// true ãªã‚‰æç”»æ™‚ã« g_Light ã‚’ä½¿ã†ï¼ˆã‚¹ãƒãƒƒãƒˆãƒ©ã‚¤ãƒˆç­‰ï¼‰
 
-	// ƒAƒEƒgƒ‰ƒCƒ“i2ƒpƒX–Új—pƒVƒF[ƒ_[B—¼•ûw’è‚·‚é‚Æ
-	// u— –ÊƒJƒŠƒ“ƒO‚Å’Êí•`‰æ ¨ •\–ÊƒJƒŠƒ“ƒO‚ÅƒAƒEƒgƒ‰ƒCƒ“•`‰æv‚ğs‚¤
+	// ã‚¢ã‚¦ãƒˆãƒ©ã‚¤ãƒ³ï¼ˆ2ãƒ‘ã‚¹ç›®ï¼‰ç”¨ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã€‚ä¸¡æ–¹æŒ‡å®šã™ã‚‹ã¨
+	// ã€Œè£é¢ã‚«ãƒªãƒ³ã‚°ã§é€šå¸¸æç”» â†’ è¡¨é¢ã‚«ãƒªãƒ³ã‚°ã§ã‚¢ã‚¦ãƒˆãƒ©ã‚¤ãƒ³æç”»ã€ã‚’è¡Œã†
 	const char* OutlineVertexShader = nullptr;
 	const char* OutlinePixelShader  = nullptr;
 
@@ -67,21 +67,21 @@ struct MaterialDesc
 };
 
 //------------------------------------------------------------------------------
-// MaterialDesc ‚©‚ç“Ç‚İ‚ñ‚¾ƒVƒF[ƒ_[EƒeƒNƒXƒ`ƒƒ‚ÌÀ‘Ì
+// MaterialDesc ã‹ã‚‰èª­ã¿è¾¼ã‚“ã ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ãƒ»ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®å®Ÿä½“
 //------------------------------------------------------------------------------
 class Material
 {
 public:
-	void Load(const MaterialDesc* desc);	// ƒVƒF[ƒ_[iƒLƒƒƒbƒVƒ…Œo—Rj‚ÆƒeƒNƒXƒ`ƒƒ‚ğ“Ç‚İ‚Ş
-	void Bind() const;						// ’Ç‰ÁƒeƒNƒXƒ`ƒƒE“ü—ÍƒŒƒCƒAƒEƒgEVS/PS ‚ğƒZƒbƒg
-	void BindOutline() const;				// ƒAƒEƒgƒ‰ƒCƒ“—p VS/PS ‚ğƒZƒbƒg
+	void Load(const MaterialDesc* desc);	// ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ï¼ˆã‚­ãƒ£ãƒƒã‚·ãƒ¥çµŒç”±ï¼‰ã¨ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’èª­ã¿è¾¼ã‚€
+	void Bind() const;						// è¿½åŠ ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ»å…¥åŠ›ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆãƒ»VS/PS ã‚’ã‚»ãƒƒãƒˆ
+	void BindOutline() const;				// ã‚¢ã‚¦ãƒˆãƒ©ã‚¤ãƒ³ç”¨ VS/PS ã‚’ã‚»ãƒƒãƒˆ
 
 	const MaterialDesc* GetDesc() const { return m_Desc; }
 
 private:
 	const MaterialDesc* m_Desc = nullptr;
 
-	// ƒVƒF[ƒ_[‚ÍƒLƒƒƒbƒVƒ…‚ªŠ—L‚µ‚Ä‚¢‚é‚Ì‚ÅA‚±‚±‚Å‚Í Release ‚µ‚È‚¢
+	// ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã¯ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãŒæ‰€æœ‰ã—ã¦ã„ã‚‹ã®ã§ã€ã“ã“ã§ã¯ Release ã—ãªã„
 	ID3D11VertexShader* m_VertexShader = nullptr;
 	ID3D11PixelShader*  m_PixelShader  = nullptr;
 	ID3D11InputLayout*  m_VertexLayout = nullptr;
@@ -90,24 +90,24 @@ private:
 	ID3D11PixelShader*  m_OutlinePixelShader  = nullptr;
 	ID3D11InputLayout*  m_OutlineVertexLayout = nullptr;
 
-	std::vector<int> m_ExtraTexIDs;			// ExtraTextures ‚Æ“¯‚¶•À‚Ñ
+	std::vector<int> m_ExtraTexIDs;			// ExtraTextures ã¨åŒã˜ä¸¦ã³
 };
 
 //------------------------------------------------------------------------------
-// ƒVƒF[ƒ_[ƒLƒƒƒbƒVƒ…i“¯‚¶ .cso ‚Í1‰ñ‚¾‚¯“Ç‚İ‚Şj
+// ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‚­ãƒ£ãƒƒã‚·ãƒ¥ï¼ˆåŒã˜ .cso ã¯1å›ã ã‘èª­ã¿è¾¼ã‚€ï¼‰
 //------------------------------------------------------------------------------
 void GetCachedVertexShader(const char* fileName, ID3D11VertexShader** vs, ID3D11InputLayout** layout);
 void GetCachedPixelShader(const char* fileName, ID3D11PixelShader** ps);
-void ReleaseShaderCache();					// FinalizeGame ‚ÅŒÄ‚Ô
+void ReleaseShaderCache();					// FinalizeGame ã§å‘¼ã¶
 
 //------------------------------------------------------------------------------
-// ƒ}ƒeƒŠƒAƒ‹•\iMaterialTable.cppj
+// ãƒãƒ†ãƒªã‚¢ãƒ«è¡¨ï¼ˆMaterialTable.cppï¼‰
 //------------------------------------------------------------------------------
 const std::vector<MaterialDesc>& GetMaterialTable();
-int FindMaterialIndex(const char* name);	// Œ©‚Â‚©‚ç‚È‚¯‚ê‚Î -1
+int FindMaterialIndex(const char* name);	// è¦‹ã¤ã‹ã‚‰ãªã‘ã‚Œã° -1
 
 //------------------------------------------------------------------------------
-// ImGuiiPolygonModel / Field3D ‚Å‹¤’Êj
+// ImGuiï¼ˆPolygonModel / Field3D ã§å…±é€šï¼‰
 //------------------------------------------------------------------------------
-int  MaterialCombo(int currentIndex);	// ‘I‚Ñ’¼‚³‚ê‚½‚ç‚»‚Ì“YšA•Ï‚í‚ç‚È‚¯‚ê‚Î -1
-void DrawMaterialSettings(const MaterialDesc& desc, LIGHT& light, XMFLOAT4& parameter);	// ƒ‰ƒCƒgEŒÅ—Lƒpƒ‰ƒ[ƒ^
+int  MaterialCombo(int currentIndex);	// é¸ã³ç›´ã•ã‚ŒãŸã‚‰ãã®æ·»å­—ã€å¤‰ã‚ã‚‰ãªã‘ã‚Œã° -1
+void DrawMaterialSettings(const MaterialDesc& desc, LIGHT& light, XMFLOAT4& parameter);	// ãƒ©ã‚¤ãƒˆãƒ»å›ºæœ‰ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿

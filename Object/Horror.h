@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Sprite2D.h"
 
 // レンダリングテクスチャ（GetPeTexture）を全画面に貼り、ホラー風ノイズをかけるスプライト

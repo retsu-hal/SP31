@@ -1,13 +1,13 @@
-/*==============================================================================
+ï»¿/*==============================================================================
 
-   ’¸“_ŠÇ—[Sprite2D.h]
+   é ‚ç‚¹ç®¡ç†[Sprite2D.h]
 														 Author :
 														 Date   :
 --------------------------------------------------------------------------------
-	2DƒXƒvƒ‰ƒCƒgBƒVƒF[ƒ_[‚Í PolygonModel / Field3D ‚Æ“¯‚¶‚­
-	MaterialDesciMaterialTable.cppj‚©‚ç“Ç‚İ‚Ş‚Ì‚ÅAImGui ‚ÅØ‚è‘Ö‚¦‚ç‚ê‚éB
+	2Dã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã€‚ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã¯ PolygonModel / Field3D ã¨åŒã˜ã
+	MaterialDescï¼ˆMaterialTable.cppï¼‰ã‹ã‚‰èª­ã¿è¾¼ã‚€ã®ã§ã€ImGui ã§åˆ‡ã‚Šæ›¿ãˆã‚‰ã‚Œã‚‹ã€‚
 
-	—á) new Sprite2D("GrayscaleTexture", L"asset\\texture\\texture.jpg")
+	ä¾‹) new Sprite2D("GrayscaleTexture", L"asset\\texture\\texture.jpg")
 ==============================================================================*/
 #pragma once
 
@@ -19,20 +19,20 @@
 #include "Material.h"
 
 //*****************************************************************************
-// ƒ}ƒNƒ’è‹`
+// ãƒã‚¯ãƒ­å®šç¾©
 //*****************************************************************************
 
 
 ////////////////
-//\‘¢‘Ì
+//æ§‹é€ ä½“
 ////////////////
 
-// ˆÊ’u‚Í m_PositioniƒXƒNƒŠ[ƒ“À•WjA‰ñ“]‚Í m_Rotation.zi“xjAŠg‘åk¬‚Í m_Scale.x / y ‚ğg‚¤
+// ä½ç½®ã¯ m_Positionï¼ˆã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™ï¼‰ã€å›è»¢ã¯ m_Rotation.zï¼ˆåº¦ï¼‰ã€æ‹¡å¤§ç¸®å°ã¯ m_Scale.x / y ã‚’ä½¿ã†
 class Sprite2D : public GameObject
 {
 	protected:
-		XMFLOAT4	Color;			//F
-		XMFLOAT2	Size;			//ƒTƒCƒY
+		XMFLOAT4	Color;			//è‰²
+		XMFLOAT2	Size;			//ã‚µã‚¤ã‚º
 
 		const MaterialDesc& GetDesc() const { return GetMaterialTable()[m_MaterialIndex]; }
 
@@ -41,10 +41,10 @@ class Sprite2D : public GameObject
 		const wchar_t* GetTexturePath()      const override { return m_TexturePath ? m_TexturePath : GetDesc().Texture; }
 		const char*    GetName()             const override { return GetDesc().Name; }
 
-		std::string    m_MaterialName;			// ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Åw’è‚³‚ê‚½–¼‘OiInit ‚Å‰ğŒˆj
-		int            m_MaterialIndex = 0;		// GetMaterialTable() ‚Ì“Yš
+		std::string    m_MaterialName;			// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§æŒ‡å®šã•ã‚ŒãŸåå‰ï¼ˆInit ã§è§£æ±ºï¼‰
+		int            m_MaterialIndex = 0;		// GetMaterialTable() ã®æ·»å­—
 		Material       m_Material;
-		const wchar_t* m_TexturePath;			// nullptr ‚È‚çƒ}ƒeƒŠƒAƒ‹‚ÌŠî–{ƒeƒNƒXƒ`ƒƒ‚ğg‚¤
+		const wchar_t* m_TexturePath;			// nullptr ãªã‚‰ãƒãƒ†ãƒªã‚¢ãƒ«ã®åŸºæœ¬ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ä½¿ã†
 
 		const char* GetTypeName() const override { return "Sprite2D"; }
 
@@ -59,6 +59,6 @@ class Sprite2D : public GameObject
 
 		void DrawImGui() override;
 
-		// ƒ}ƒeƒŠƒAƒ‹‚ğØ‚è‘Ö‚¦‚éiresetParams ‚ª true ‚È‚çƒpƒ‰ƒ[ƒ^Eƒ‰ƒCƒg‚ğ‰Šú’l‚É–ß‚·j
+		// ãƒãƒ†ãƒªã‚¢ãƒ«ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹ï¼ˆresetParams ãŒ true ãªã‚‰ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ»ãƒ©ã‚¤ãƒˆã‚’åˆæœŸå€¤ã«æˆ»ã™ï¼‰
 		void ChangeMaterial(int materialIndex, bool resetParams = true);
 };

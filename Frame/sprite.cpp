@@ -1,6 +1,6 @@
-/*==============================================================================
+ï»¿/*==============================================================================
 
-   ŠÈˆÕƒXƒvƒ‰ƒCƒg•\Ž¦
+   ç°¡æ˜“ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆè¡¨ç¤º
 														 Author :
 														 Date   :
 --------------------------------------------------------------------------------
@@ -10,46 +10,46 @@
 #include	"sprite.h"
 
 //*****************************************************************************
-// ƒ}ƒNƒ’è‹`
+// ãƒžã‚¯ãƒ­å®šç¾©
 //*****************************************************************************
 #define NUM_SPRITEVERTEX 4
 
 //*****************************************************************************
-// ƒvƒƒgƒ^ƒCƒvéŒ¾
+// ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€
 //*****************************************************************************
 
 
 
 //*****************************************************************************
-// ƒOƒ[ƒoƒ‹•Ï”
+// ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
 //*****************************************************************************
-static ID3D11Buffer				*g_VertexBuffer = NULL;		// ’¸“_ƒoƒbƒtƒ@
+static ID3D11Buffer				*g_VertexBuffer = NULL;		// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡
 
 //=============================================================================
-// ‰Šú‰»ˆ—
+// åˆæœŸåŒ–å‡¦ç†
 //=============================================================================
 HRESULT Sprite::Init(void)
 {
 	ID3D11Device *pDevice = Renderer::GetDevice();
 
-	// ’¸“_ƒoƒbƒtƒ@¶¬
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D11_USAGE_DYNAMIC;//“®“I‘‚«ž‚Ý
+	bd.Usage = D3D11_USAGE_DYNAMIC;//å‹•çš„æ›¸ãè¾¼ã¿
 	bd.ByteWidth = sizeof(VERTEX_3D) * NUM_SPRITEVERTEX;
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;//CPU‚Å‘‚«ž‚Ý‚·‚é
+	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;//CPUã§æ›¸ãè¾¼ã¿ã™ã‚‹
 	Renderer::GetDevice()->CreateBuffer(&bd, NULL, &g_VertexBuffer);
 
 	return S_OK;
 }
 
 //=============================================================================
-// I—¹ˆ—
+// çµ‚äº†å‡¦ç†
 //=============================================================================
 void Sprite::Finalize(void)
 {
-	// ’¸“_ƒoƒbƒtƒ@‚Ì‰ð•ú
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®è§£æ”¾
 	if (g_VertexBuffer)
 	{
 		g_VertexBuffer->Release();
@@ -58,13 +58,13 @@ void Sprite::Finalize(void)
 }
 
 //=============================================================================
-// •`‰æˆ—
+// æç”»å‡¦ç†
 //====================
 
 void Sprite::Draw(XMFLOAT2 size, XMFLOAT4 color)
 {
 
-	//’¸“_ƒoƒbƒtƒ@‚Ì‘‚«ž‚Ýæƒ|ƒCƒ“ƒ^[‚ðŽæ“¾
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®æ›¸ãè¾¼ã¿å…ˆãƒã‚¤ãƒ³ã‚¿ãƒ¼ã‚’å–å¾—
 	D3D11_MAPPED_SUBRESOURCE msr;
 	Renderer::GetDeviceContext()->Map(g_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
 	VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
@@ -72,43 +72,43 @@ void Sprite::Draw(XMFLOAT2 size, XMFLOAT4 color)
 	float size_W = size.x * 0.5f;
 	float size_H = size.y * 0.5f;
 
-	//¶ã ’†S‚©‚çƒTƒCƒY‚Ì”¼•ª‚ÌêŠ‚ÅÀ•W‚ðì‚é
+	//å·¦ä¸Š ä¸­å¿ƒã‹ã‚‰ã‚µã‚¤ã‚ºã®åŠåˆ†ã®å ´æ‰€ã§åº§æ¨™ã‚’ä½œã‚‹
 	vertex[0].Position = XMFLOAT3(-size_W, -size_H, 0.0f);
 	vertex[0].Diffuse = color;
 	vertex[0].TexCoord = XMFLOAT2(0.0f, 0.0f);
-	//‰Eã ’†S‚©‚çƒTƒCƒY‚Ì”¼•ª‚ÌêŠ‚ÅÀ•W‚ðì‚é
+	//å³ä¸Š ä¸­å¿ƒã‹ã‚‰ã‚µã‚¤ã‚ºã®åŠåˆ†ã®å ´æ‰€ã§åº§æ¨™ã‚’ä½œã‚‹
 	vertex[1].Position = XMFLOAT3(size_W, -size_H, 0.0f);
 	vertex[1].Diffuse = color;
 	vertex[1].TexCoord = XMFLOAT2(1.0f, 0.0f);
-	//¶‰º ’†S‚©‚çƒTƒCƒY‚Ì”¼•ª‚ÌêŠ‚ÅÀ•W‚ðì‚é
+	//å·¦ä¸‹ ä¸­å¿ƒã‹ã‚‰ã‚µã‚¤ã‚ºã®åŠåˆ†ã®å ´æ‰€ã§åº§æ¨™ã‚’ä½œã‚‹
 	vertex[2].Position = XMFLOAT3(-size_W, size_H, 0.0f);
 	vertex[2].Diffuse = color;
 	vertex[2].TexCoord = XMFLOAT2(0.0f, 1.0f);
-	//‰E‰º ’†S‚©‚çƒTƒCƒY‚Ì”¼•ª‚ÌêŠ‚ÅÀ•W‚ðì‚é
+	//å³ä¸‹ ä¸­å¿ƒã‹ã‚‰ã‚µã‚¤ã‚ºã®åŠåˆ†ã®å ´æ‰€ã§åº§æ¨™ã‚’ä½œã‚‹
 	vertex[3].Position = XMFLOAT3(size_W, size_H, 0.0f);
 	vertex[3].Diffuse = color;
 	vertex[3].TexCoord = XMFLOAT2(1.0f, 1.0f);
-	//–@üi‰æ–ÊŽè‘OŒü‚«Fƒ‰ƒCƒeƒBƒ“ƒOŒnƒVƒF[ƒ_[—pj
+	//æ³•ç·šï¼ˆç”»é¢æ‰‹å‰å‘ãï¼šãƒ©ã‚¤ãƒ†ã‚£ãƒ³ã‚°ç³»ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ç”¨ï¼‰
 	for (int i = 0; i < NUM_SPRITEVERTEX; i++)
 	{
 		vertex[i].Normal = XMFLOAT3(0.0f, 0.0f, -1.0f);
 	}
-	//‘‚«ž‚ÝŠ®—¹
+	//æ›¸ãè¾¼ã¿å®Œäº†
 	Renderer::GetDeviceContext()->Unmap(g_VertexBuffer, 0);
 
 
-	// ’¸“_ƒoƒbƒtƒ@‚ðDirectX‚ÖƒZƒbƒg
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã‚’DirectXã¸ã‚»ãƒƒãƒˆ
 	UINT stride = sizeof(VERTEX_3D);
 	UINT offset = 0;
 	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &g_VertexBuffer, &stride, &offset);
-	// ƒvƒŠƒ~ƒeƒBƒuƒgƒ|ƒƒWÝ’è
+	// ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ãƒˆãƒãƒ­ã‚¸è¨­å®š
 	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-	// ƒ}ƒeƒŠƒAƒ‹‚ðƒVƒF[ƒ_[‚Ö‘—‚é
+	// ãƒžãƒ†ãƒªã‚¢ãƒ«ã‚’ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã¸é€ã‚‹
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
 	material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	Renderer::SetMaterial(material);
-	// ƒ|ƒŠƒSƒ“•`‰æ
+	// ãƒãƒªã‚´ãƒ³æç”»
 	Renderer::GetDeviceContext()->Draw(4, 0);
 }
 

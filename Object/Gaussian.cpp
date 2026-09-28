@@ -1,4 +1,4 @@
-#include <math.h>
+﻿#include <math.h>
 #include "Gaussian.h"
 #include "sprite.h"		// Sprite::Draw
 

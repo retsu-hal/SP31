@@ -1,12 +1,12 @@
-#pragma once
+ï»¿#pragma once
 #include "Sprite2D.h"
 
-// ƒŒƒ“ƒ_ƒŠƒ“ƒOƒeƒNƒXƒ`ƒƒiGetPeTexturej‚ğ“\‚Á‚Ä•\¦‚·‚éƒXƒvƒ‰ƒCƒg
-// Parameter.x ‚Åƒ~ƒbƒvƒ}ƒbƒvƒŒƒxƒ‹‚ğw’è‚·‚é
+// ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ãƒ†ã‚¯ã‚¹ãƒãƒ£ï¼ˆGetPeTextureï¼‰ã‚’è²¼ã£ã¦è¡¨ç¤ºã™ã‚‹ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ
+// Parameter.x ã§ãƒŸãƒƒãƒ—ãƒãƒƒãƒ—ãƒ¬ãƒ™ãƒ«ã‚’æŒ‡å®šã™ã‚‹
 class MipMapSprite : public Sprite2D
 {
 protected:
-	int m_PeNo;		// ‰½”Ô‚ÌƒŒƒ“ƒ_ƒŠƒ“ƒOƒeƒNƒXƒ`ƒƒ‚ğ“\‚é‚©
+	int m_PeNo;		// ä½•ç•ªã®ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’è²¼ã‚‹ã‹
 
 	const char* GetTypeName() const override { return "MipMapSprite"; }
 

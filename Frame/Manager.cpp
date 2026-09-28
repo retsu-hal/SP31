@@ -1,4 +1,4 @@
-#include "Main.h"
+ï»¿#include "Main.h"
 #include "Manager.h"
 #include "Renderer.h"
 #include "Sprite.h"
@@ -75,7 +75,7 @@ void Manager::Draw()
 
 void Manager::SetScene(SCENE Scene)
 {
-	//Œ»İ‚ÌƒV[ƒ“‚ğI—¹
+	//ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ã‚’çµ‚äº†
 	switch (g_Scene)
 	{
 	case SCENE_NONE:
@@ -96,7 +96,7 @@ void Manager::SetScene(SCENE Scene)
 	}
 
 
-	//Ÿ‚ÌƒV[ƒ“‚ğ‰Šú‰»
+	//æ¬¡ã®ã‚·ãƒ¼ãƒ³ã‚’åˆæœŸåŒ–
 	g_Scene = Scene;
 	switch (g_Scene)
 	{

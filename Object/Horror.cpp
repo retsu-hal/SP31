@@ -1,4 +1,4 @@
-#include <stdlib.h>		// rand
+﻿#include <stdlib.h>		// rand
 #include "Horror.h"
 #include "Game.h"		// g_Light
 #include "sprite.h"		// Sprite::Draw

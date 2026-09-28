@@ -1,6 +1,6 @@
-/*==============================================================================
+ï»¿/*==============================================================================
 
-   ’¸“_ŠÇ— [Sprite2D.cpp]
+   é ‚ç‚¹ç®¡ç† [Sprite2D.cpp]
 														 Author :
 														 Date   :
 --------------------------------------------------------------------------------
@@ -13,24 +13,24 @@
 #include "texture.h"
 
 //*****************************************************************************
-// ƒ}ƒNƒ’è‹`
+// ãƒã‚¯ãƒ­å®šç¾©
 //*****************************************************************************
 
 //*****************************************************************************
-// ƒvƒƒgƒ^ƒCƒvéŒ¾
+// ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€
 //*****************************************************************************
 
 
 //*****************************************************************************
-// ƒOƒ[ƒoƒ‹•Ï”
+// ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
 //*****************************************************************************
 
 //
 //struct  TEST
 //{
-//	int		IntData;	//4ƒoƒCƒg
-//	char	CharData;	//1ƒoƒCƒg
-//	float	FloatData;	//4ƒoƒCƒg
+//	int		IntData;	//4ãƒã‚¤ãƒˆ
+//	char	CharData;	//1ãƒã‚¤ãƒˆ
+//	float	FloatData;	//4ãƒã‚¤ãƒˆ
 //};
 //
 //TEST	test;
@@ -41,11 +41,11 @@ Sprite2D::Sprite2D(const char* materialName, const wchar_t* texturePath)
 {}
 
 //=============================================================================
-// ‰Šú‰»ˆ—
+// åˆæœŸåŒ–å‡¦ç†
 //=============================================================================
 void Sprite2D::Init(void)
 {
-	m_Is2D = true;		//2DƒIƒuƒWƒFƒNƒg‚Æ‚µ‚Ä•`‰æ‚·‚é
+	m_Is2D = true;		//2Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨ã—ã¦æç”»ã™ã‚‹
 
 	//char	txt[256] = { 0 };
 	//sprintf(txt, "&IntData   => %p \n", &test.IntData);
@@ -57,27 +57,27 @@ void Sprite2D::Init(void)
 
 
 
-	//2DƒIƒuƒWƒFƒNƒg‰Šú‰»
+	//2Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆåˆæœŸåŒ–
 	m_Position = XMFLOAT3(SCREEN_WIDTH / 3 / 2, SCREEN_HEIGHT / 4, 0.0f);
 	m_Rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	m_Scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
 	Color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	Size = XMFLOAT2(SCREEN_WIDTH / 3, SCREEN_HEIGHT / 2);
 
-	//ƒ}ƒeƒŠƒAƒ‹–¼ ¨ •\‚Ì“Yš
+	//ãƒãƒ†ãƒªã‚¢ãƒ«å â†’ è¡¨ã®æ·»å­—
 	int index = FindMaterialIndex(m_MaterialName.c_str());
 	if (index < 0)
 	{
-		MessageBoxA(NULL, m_MaterialName.c_str(), "ƒ}ƒeƒŠƒAƒ‹‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñiMaterialTable.cpp ‚ğŠm”Fj", MB_ICONEXCLAMATION | MB_OK);
+		MessageBoxA(NULL, m_MaterialName.c_str(), "ãƒãƒ†ãƒªã‚¢ãƒ«ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ï¼ˆMaterialTable.cpp ã‚’ç¢ºèªï¼‰", MB_ICONEXCLAMATION | MB_OK);
 		index = 0;
 	}
 
-	//ƒVƒF[ƒ_[EƒeƒNƒXƒ`ƒƒEƒpƒ‰ƒ[ƒ^Eƒ‰ƒCƒg‚ğ“Ç‚İ‚Ş
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ãƒ»ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ»ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ»ãƒ©ã‚¤ãƒˆã‚’èª­ã¿è¾¼ã‚€
 	ChangeMaterial(index, true);
 }
 
 //=============================================================================
-// ƒ}ƒeƒŠƒAƒ‹Ø‚è‘Ö‚¦
+// ãƒãƒ†ãƒªã‚¢ãƒ«åˆ‡ã‚Šæ›¿ãˆ
 //=============================================================================
 void Sprite2D::ChangeMaterial(int materialIndex, bool resetParams)
 {
@@ -87,10 +87,10 @@ void Sprite2D::ChangeMaterial(int materialIndex, bool resetParams)
 	m_MaterialIndex = materialIndex;
 	const MaterialDesc& desc = table[materialIndex];
 
-	//ƒVƒF[ƒ_[iƒLƒƒƒbƒVƒ…Œo—RjE’Ç‰ÁƒeƒNƒXƒ`ƒƒ
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ï¼ˆã‚­ãƒ£ãƒƒã‚·ãƒ¥çµŒç”±ï¼‰ãƒ»è¿½åŠ ãƒ†ã‚¯ã‚¹ãƒãƒ£
 	m_Material.Load(&desc);
 
-	//ƒeƒNƒXƒ`ƒƒi“¯–¼‚ÍÄ—˜—p‚³‚ê‚éj
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ï¼ˆåŒåã¯å†åˆ©ç”¨ã•ã‚Œã‚‹ï¼‰
 	m_TexID = Texture::Load(GetTexturePath());
 
 	if (resetParams)
@@ -101,15 +101,15 @@ void Sprite2D::ChangeMaterial(int materialIndex, bool resetParams)
 }
 
 //=============================================================================
-// I—¹ˆ—
+// çµ‚äº†å‡¦ç†
 //=============================================================================
 void Sprite2D::Uninit(void)
 {
-	// ƒVƒF[ƒ_[‚ÍƒVƒF[ƒ_[ƒLƒƒƒbƒVƒ…‚ªŠ—L‚µ‚Ä‚¢‚é‚Ì‚ÅA‚±‚±‚Å‚Í‰ğ•ú‚µ‚È‚¢
+	// ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã¯ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãŒæ‰€æœ‰ã—ã¦ã„ã‚‹ã®ã§ã€ã“ã“ã§ã¯è§£æ”¾ã—ãªã„
 }
 
 //=============================================================================
-// XVˆ—
+// æ›´æ–°å‡¦ç†
 //=============================================================================
 void Sprite2D::Update(void)
 {
@@ -117,37 +117,37 @@ void Sprite2D::Update(void)
 }
 
 //=============================================================================
-// •`‰æˆ—
+// æç”»å‡¦ç†
 //=============================================================================
 void Sprite2D::Draw(void)
 {
 	const MaterialDesc& desc = GetDesc();
 
-	// ƒXƒ|ƒbƒgƒ‰ƒCƒg“™‚Í Game.cpp ‚Ì‹¤’Êƒ‰ƒCƒg‚ğg‚¤
+	// ã‚¹ãƒãƒƒãƒˆãƒ©ã‚¤ãƒˆç­‰ã¯ Game.cpp ã®å…±é€šãƒ©ã‚¤ãƒˆã‚’ä½¿ã†
 	if (desc.UseGlobalLight)
 	{
 		m_Light = g_Light;
 	}
 
-	// ƒpƒ‰ƒ[ƒ^E’Ç‰ÁƒeƒNƒXƒ`ƒƒE’¸“_ƒŒƒCƒAƒEƒgEƒVƒF[ƒ_[İ’è
-	// iƒXƒvƒ‰ƒCƒg‚È‚Ì‚ÅƒAƒEƒgƒ‰ƒCƒ“—p‚Ì2ƒpƒX–Ú‚Í•`‚©‚È‚¢j
+	// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ»è¿½åŠ ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ»é ‚ç‚¹ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆãƒ»ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼è¨­å®š
+	// ï¼ˆã‚¹ãƒ—ãƒ©ã‚¤ãƒˆãªã®ã§ã‚¢ã‚¦ãƒˆãƒ©ã‚¤ãƒ³ç”¨ã®2ãƒ‘ã‚¹ç›®ã¯æã‹ãªã„ï¼‰
 	Renderer::SetParameter(m_Parameter);
 	m_Material.Bind();
 	Renderer::SetLight(m_Light);
 
-	//‰œs‚«ˆ—‚ğOFF
+	//å¥¥è¡Œãå‡¦ç†ã‚’OFF
 	Renderer::SetDepthEnable(false);
 
-	{//2Dƒ|ƒŠƒSƒ“1–‡‚¸‚Â‚Å•K—v‚Èˆ—
+	{//2Dãƒãƒªã‚´ãƒ³1æšãšã¤ã§å¿…è¦ãªå‡¦ç†
 
-		//ƒeƒNƒXƒ`ƒƒ‚ğƒZƒbƒg
+		//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ã‚»ãƒƒãƒˆ
 		ID3D11ShaderResourceView* tex = Texture::GetTexture(m_TexID);
 		Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
 
-		//ƒ[ƒ‹ƒhs—ñ‚ğDirectX‚ÖƒZƒbƒgiŠg‘åk¬ ¨ Z‰ñ“] ¨ •½sˆÚ“®j
+		//ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã‚’DirectXã¸ã‚»ãƒƒãƒˆï¼ˆæ‹¡å¤§ç¸®å° â†’ Zå›è»¢ â†’ å¹³è¡Œç§»å‹•ï¼‰
 		Renderer::SetWorldMatrix(GetWorldMatrix());
 
-		// ƒ|ƒŠƒSƒ“•`‰æiƒ}ƒeƒŠƒAƒ‹İ’è‚à DrawSprite “à‚Ås‚¤j
+		// ãƒãƒªã‚´ãƒ³æç”»ï¼ˆãƒãƒ†ãƒªã‚¢ãƒ«è¨­å®šã‚‚ DrawSprite å†…ã§è¡Œã†ï¼‰
 		Sprite::Draw(Size, Color);
 	}
 
@@ -162,7 +162,7 @@ void Sprite2D::DrawImGui()
 	ImGui::Begin("Inspecter");
 	ImGui::PushID(this);
 
-	// "###" ˆÈ~‚ğID‚É‚µ‚ÄAƒ}ƒeƒŠƒAƒ‹‚ğØ‚è‘Ö‚¦‚Ä‚àŠJ•Âó‘Ô‚ğ•Û‚Â
+	// "###" ä»¥é™ã‚’IDã«ã—ã¦ã€ãƒãƒ†ãƒªã‚¢ãƒ«ã‚’åˆ‡ã‚Šæ›¿ãˆã¦ã‚‚é–‹é–‰çŠ¶æ…‹ã‚’ä¿ã¤
 	char header[128];
 	snprintf(header, sizeof(header), "%s : %s###%s", GetTypeName(), GetName(), GetTypeName());
 
@@ -170,7 +170,7 @@ void Sprite2D::DrawImGui()
 	{
 
 		{
-			// ƒ}ƒeƒŠƒAƒ‹iƒVƒF[ƒ_[jØ‚è‘Ö‚¦
+			// ãƒãƒ†ãƒªã‚¢ãƒ«ï¼ˆã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ï¼‰åˆ‡ã‚Šæ›¿ãˆ
 			ImGui::SeparatorText("Material");
 			int selected = MaterialCombo(m_MaterialIndex);
 			if (selected >= 0)
@@ -186,7 +186,7 @@ void Sprite2D::DrawImGui()
 		ImGui::DragFloat2("Size", &Size.x, 1.0f);
 		ImGui::ColorEdit4("Color", &Color.x);
 
-		// ƒ‰ƒCƒgEƒ}ƒeƒŠƒAƒ‹ŒÅ—L‚Ìƒpƒ‰ƒ[ƒ^
+		// ãƒ©ã‚¤ãƒˆãƒ»ãƒãƒ†ãƒªã‚¢ãƒ«å›ºæœ‰ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 		const MaterialDesc& desc = GetDesc();
 		DrawMaterialSettings(desc, m_Light, m_Parameter);
 

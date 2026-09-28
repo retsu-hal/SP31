@@ -1,4 +1,4 @@
-
+ï»¿
 //Camera.cpp
 
 #include	"Camera.h"
@@ -6,18 +6,18 @@
 
 void	Camera::Init()
 {
-	//ƒJƒƒ‰‚Ì‰Šú‰»
-	m_Position = XMFLOAT3(0.0f, 1.0f, -1.5f);	//ƒJƒƒ‰Šî–{À•W
-	m_UpVector = XMFLOAT3(0.0f, 1.0f, 0.0f);		//ƒJƒƒ‰‚Ìã•ûƒxƒNƒgƒ‹
-	m_AtPosition = XMFLOAT3(0.0f, 0.0f, 0.0f);	//ƒJƒƒ‰‚Ì’Ž‹“_À•W
-	m_Fov = 45.0f;								//‰æŠp
-	m_Nearclip = 0.5f;							//‹ß–ÊƒNƒŠƒbƒv
-	m_Farclip = 1000.0f;							//‰“–ÊƒNƒŠƒbƒv
+	//ã‚«ãƒ¡ãƒ©ã®åˆæœŸåŒ–
+	m_Position = XMFLOAT3(0.0f, 1.0f, -1.5f);	//ã‚«ãƒ¡ãƒ©åŸºæœ¬åº§æ¨™
+	m_UpVector = XMFLOAT3(0.0f, 1.0f, 0.0f);		//ã‚«ãƒ¡ãƒ©ã®ä¸Šæ–¹ãƒ™ã‚¯ãƒˆãƒ«
+	m_AtPosition = XMFLOAT3(0.0f, 0.0f, 0.0f);	//ã‚«ãƒ¡ãƒ©ã®æ³¨è¦–ç‚¹åº§æ¨™
+	m_Fov = 45.0f;								//ç”»è§’
+	m_Nearclip = 0.5f;							//è¿‘é¢ã‚¯ãƒªãƒƒãƒ—
+	m_Farclip = 1000.0f;							//é é¢ã‚¯ãƒªãƒƒãƒ—
 	m_Rotation = 0.0f;
 	m_Offset = XMFLOAT3(0.0f, 1.0f, -1.5f);
 
 	m_Yaw = 0.0f;
-	m_Pitch = 30.0f;	// ­‚µã‚©‚çŒ©‰º‚ë‚·
+	m_Pitch = 30.0f;	// å°‘ã—ä¸Šã‹ã‚‰è¦‹ä¸‹ã‚ã™
 	m_Distance = 1.5f;
 }
 
@@ -28,21 +28,21 @@ void	Camera::Finalize()
 
 void	Camera::Update()
 {
-	float speed = 1.0f;	// 1ƒtƒŒ[ƒ€‚É‰ñ‚·Šp“xi“xj
+	float speed = 1.0f;	// 1ãƒ•ãƒ¬ãƒ¼ãƒ ã«å›žã™è§’åº¦ï¼ˆåº¦ï¼‰
 
 	if (Keyboard_IsKeyDown(KK_LEFT))	m_Yaw += speed;
 	if (Keyboard_IsKeyDown(KK_RIGHT))	m_Yaw -= speed;
 	if (Keyboard_IsKeyDown(KK_UP))		m_Pitch += speed;
 	if (Keyboard_IsKeyDown(KK_DOWN))	m_Pitch -= speed;
 
-	// ^ãE^‰º‚Ü‚Ås‚­‚Æ LookAt ‚ª‰ó‚ê‚é‚Ì‚Å§ŒÀ‚·‚é
+	// çœŸä¸Šãƒ»çœŸä¸‹ã¾ã§è¡Œãã¨ LookAt ãŒå£Šã‚Œã‚‹ã®ã§åˆ¶é™ã™ã‚‹
 	if (m_Pitch > 80.0f) m_Pitch = 80.0f;
 	if (m_Pitch < -10.0f) m_Pitch = -10.0f;
 
 	float yaw = XMConvertToRadians(m_Yaw);
 	float pitch = XMConvertToRadians(m_Pitch);
 
-	// Šp“x‚Æ‹——£‚©‚çƒIƒtƒZƒbƒg‚ðì‚éiYaw=0 ‚Ì‚Æ‚«’Ž‹“_‚Ì^Œã‚ë-Z‘¤j
+	// è§’åº¦ã¨è·é›¢ã‹ã‚‰ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’ä½œã‚‹ï¼ˆYaw=0 ã®ã¨ãæ³¨è¦–ç‚¹ã®çœŸå¾Œã‚ï¼-Zå´ï¼‰
 	m_Offset.x = -sinf(yaw) * cosf(pitch) * m_Distance;
 	m_Offset.y = sinf(pitch) * m_Distance;
 	m_Offset.z = -cosf(yaw) * cosf(pitch) * m_Distance;
@@ -52,9 +52,9 @@ void	Camera::Update()
 	m_Position.z = m_AtPosition.z + m_Offset.z;
 }
 
-void	Camera::Draw()//3DŽg—pŽž
+void	Camera::Draw()//3Dä½¿ç”¨æ™‚
 {
-	//ƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ‚ðì¬
+	//ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¡Œåˆ—ã‚’ä½œæˆ
 	XMMATRIX	ProjectionMatrix =
 		XMMatrixPerspectiveFovLH(
 			XMConvertToRadians(m_Fov),
@@ -62,19 +62,19 @@ void	Camera::Draw()//3DŽg—pŽž
 			m_Nearclip,
 			m_Farclip
 		);
-	//ƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ‚ðƒZƒbƒg
+	//ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¡Œåˆ—ã‚’ã‚»ãƒƒãƒˆ
 	Renderer::SetProjectionMatrix(ProjectionMatrix);
 
-	//ƒJƒƒ‰s—ñ‚ðì¬
+	//ã‚«ãƒ¡ãƒ©è¡Œåˆ—ã‚’ä½œæˆ
 	XMVECTOR	eyev = XMLoadFloat3(&m_AtPosition);
 	XMVECTOR	pos = XMLoadFloat3(&m_Position);
 	XMVECTOR	up = XMLoadFloat3(&m_UpVector);
 	XMMATRIX	ViewMatrix =
 		XMMatrixLookAtLH(pos, eyev, up);
 
-	//ƒJƒƒ‰s—ñ‚ðƒZƒbƒg
+	//ã‚«ãƒ¡ãƒ©è¡Œåˆ—ã‚’ã‚»ãƒƒãƒˆ
 	Renderer::SetViewMatrix(ViewMatrix);
-	//ƒJƒƒ‰À•WƒZƒbƒg
+	//ã‚«ãƒ¡ãƒ©åº§æ¨™ã‚»ãƒƒãƒˆ
 	Renderer::SetCameraPosition(m_Position);
 }
 

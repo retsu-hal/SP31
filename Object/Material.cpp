@@ -1,12 +1,12 @@
-/*==============================================================================
+ï»¿/*==============================================================================
 
 [Material.cpp]
-	MaterialDesc ‚ğŒ³‚ÉƒVƒF[ƒ_[^ƒeƒNƒXƒ`ƒƒ‚ğ“Ç‚İ‚İA•`‰æ‘O‚ÉƒZƒbƒg‚·‚éB
-	ƒVƒF[ƒ_[‚Íƒtƒ@ƒCƒ‹–¼‚ğƒL[‚ÉƒLƒƒƒbƒVƒ…‚µ‚ÄA“¯‚¶‚à‚Ì‚ğd•¡‚µ‚Ä“Ç‚İ‚Ü‚È‚¢B
+	MaterialDesc ã‚’å…ƒã«ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ï¼ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’èª­ã¿è¾¼ã¿ã€æç”»å‰ã«ã‚»ãƒƒãƒˆã™ã‚‹ã€‚
+	ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã¯ãƒ•ã‚¡ã‚¤ãƒ«åã‚’ã‚­ãƒ¼ã«ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã—ã¦ã€åŒã˜ã‚‚ã®ã‚’é‡è¤‡ã—ã¦èª­ã¿è¾¼ã¾ãªã„ã€‚
 ==============================================================================*/
 
 //==============================================================================
-//ƒCƒ“ƒNƒ‹[ƒh
+//ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰
 //==============================================================================
 #include <string>
 #include <unordered_map>
@@ -15,7 +15,7 @@
 #include "texture.h"
 
 //==============================================================================
-//ƒVƒF[ƒ_[ƒLƒƒƒbƒVƒ…
+//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‚­ãƒ£ãƒƒã‚·ãƒ¥
 //==============================================================================
 namespace
 {
@@ -34,9 +34,9 @@ void GetCachedVertexShader(const char* fileName, ID3D11VertexShader** vs, ID3D11
 	auto it = g_VertexShaderCache.find(fileName);
 	if (it == g_VertexShaderCache.end())
 	{
-		// ‰‰ñ‚¾‚¯“Ç‚İ‚Şi¸”s‚µ‚Ä nullptr ‚Ì‚Ü‚Ü‚Å‚à“o˜^‚µAƒGƒ‰[•\¦‚ğŒJ‚è•Ô‚³‚È‚¢j
+		// åˆå›ã ã‘èª­ã¿è¾¼ã‚€ï¼ˆå¤±æ•—ã—ã¦ nullptr ã®ã¾ã¾ã§ã‚‚ç™»éŒ²ã—ã€ã‚¨ãƒ©ãƒ¼è¡¨ç¤ºã‚’ç¹°ã‚Šè¿”ã•ãªã„ï¼‰
 		VertexShaderEntry entry;
-		Renderer::CreateVertexShader(&entry.VS, &entry.Layout, (std::string("shader/") + fileName).c_str());	// .cso ‚Í shader ƒtƒHƒ‹ƒ_‚É‚ ‚é
+		Renderer::CreateVertexShader(&entry.VS, &entry.Layout, (std::string("shader/") + fileName).c_str());	// .cso ã¯ shader ãƒ•ã‚©ãƒ«ãƒ€ã«ã‚ã‚‹
 		it = g_VertexShaderCache.emplace(fileName, entry).first;
 	}
 	*vs     = it->second.VS;
@@ -92,7 +92,7 @@ void Material::Load(const MaterialDesc* desc)
 		m_OutlineVertexLayout = nullptr;
 	}
 
-	// ’Ç‰ÁƒeƒNƒXƒ`ƒƒiTextureLoad ‚Í“¯–¼‚ğÄ—˜—p‚·‚é‚Ì‚Å‰½“xŒÄ‚ñ‚Å‚à‚æ‚¢j
+	// è¿½åŠ ãƒ†ã‚¯ã‚¹ãƒãƒ£ï¼ˆTextureLoad ã¯åŒåã‚’å†åˆ©ç”¨ã™ã‚‹ã®ã§ä½•åº¦å‘¼ã‚“ã§ã‚‚ã‚ˆã„ï¼‰
 	m_ExtraTexIDs.clear();
 	for (const TextureSlot& slot : desc->ExtraTextures)
 	{
@@ -104,7 +104,7 @@ void Material::Bind() const
 {
 	if (!m_Desc) return;
 
-	// ’Ç‰ÁƒeƒNƒXƒ`ƒƒ‚ğ t1 ˆÈ~‚Öit0 ‚Í PolygonModel::DrawModel ‚ÅƒZƒbƒgj
+	// è¿½åŠ ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ t1 ä»¥é™ã¸ï¼ˆt0 ã¯ PolygonModel::DrawModel ã§ã‚»ãƒƒãƒˆï¼‰
 	for (size_t i = 0; i < m_Desc->ExtraTextures.size(); i++)
 	{
 		ID3D11ShaderResourceView* tex = Texture::GetTexture(m_ExtraTexIDs[i]);
@@ -128,7 +128,7 @@ void Material::BindOutline() const
 //==============================================================================
 namespace
 {
-	// m_Parameter ‚Ì index ”Ô–Úi0:x 1:y 2:z 3:wj‚Ö‚ÌQÆ
+	// m_Parameter ã® index ç•ªç›®ï¼ˆ0:x 1:y 2:z 3:wï¼‰ã¸ã®å‚ç…§
 	float& ParamComponent(XMFLOAT4& p, int index)
 	{
 		switch (index)
@@ -166,20 +166,20 @@ void DrawMaterialSettings(const MaterialDesc& desc, LIGHT& light, XMFLOAT4& para
 	ImGui::SeparatorText("Light");
 	if (desc.UseGlobalLight)
 	{
-		ImGui::TextDisabled("Using g_Light (Game.cpp)");	// ImGui‚Í“ú–{ŒêƒtƒHƒ“ƒg–¢İ’è‚Ì‚½‚ß‰pŒê
+		ImGui::TextDisabled("Using g_Light (Game.cpp)");	// ImGuiã¯æ—¥æœ¬èªãƒ•ã‚©ãƒ³ãƒˆæœªè¨­å®šã®ãŸã‚è‹±èª
 	}
 	else
 	{
-		DragFloat3Row("LightDirection", u8"ƒ‰ƒCƒg‚ÌŒü‚«", light.Direction);
-		DragFloat3Row("LightPosition",  u8"ƒ‰ƒCƒg‚ÌˆÊ’u",  light.Position);
+		DragFloat3Row("LightDirection", u8"ãƒ©ã‚¤ãƒˆã®å‘ã", light.Direction);
+		DragFloat3Row("LightPosition",  u8"ãƒ©ã‚¤ãƒˆã®ä½ç½®",  light.Position);
 
-		ImGui::ColorEdit3(u8"ŠgUŒõ", &light.Diffuse.x);
-		ImGui::ColorEdit3(u8"ŠÂ‹«Œõ", &light.Ambient.x);
+		ImGui::ColorEdit3(u8"æ‹¡æ•£å…‰", &light.Diffuse.x);
+		ImGui::ColorEdit3(u8"ç’°å¢ƒå…‰", &light.Ambient.x);
 
-		DragFloat3Row("PointLightParam", u8"ƒpƒ‰ƒ[ƒ^", light.PointLightParam);
+		DragFloat3Row("PointLightParam", u8"ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿", light.PointLightParam);
 	}
 
-	// ƒ}ƒeƒŠƒAƒ‹ŒÅ—L‚Ìƒpƒ‰ƒ[ƒ^iMaterialDesc::ParamUIs ‚©‚ç©“®¶¬j
+	// ãƒãƒ†ãƒªã‚¢ãƒ«å›ºæœ‰ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼ˆMaterialDesc::ParamUIs ã‹ã‚‰è‡ªå‹•ç”Ÿæˆï¼‰
 	if (!desc.ParamUIs.empty())
 	{
 		ImGui::SeparatorText(desc.Name);

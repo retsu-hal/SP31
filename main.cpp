@@ -1,11 +1,11 @@
-
+ï»¿
 #include	"main.h"
 #include	"renderer.h"
 #include	"Manager.h"
 #include	"keyboard.h"
 
 //===================================
-// ƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒŠƒ“ƒN
+// ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®ãƒªãƒ³ã‚¯
 //===================================
 #pragma	comment (lib, "d3d11.lib")
 #pragma	comment (lib, "d3dcompiler.lib")
@@ -14,164 +14,164 @@
 #pragma	comment (lib, "dinput8.lib")
 
 //=================================
-//ƒ}ƒNƒ’è‹`
+//ãƒã‚¯ãƒ­å®šç¾©
 //=================================
 #define		CLASS_NAME		"GameProject Window"
-#define		WINDOW_CAPTION	"GameProject   <<ƒVƒF[ƒ_[‚Ì’†‚Ìl>>"
+#define		WINDOW_CAPTION	"GameProject   <<ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®ä¸­ã®äºº>>"
 
 //===================================
-//ƒvƒƒgƒ^ƒCƒvéŒ¾
+//ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€
 //===================================
-//ƒR[ƒ‹ƒoƒbƒNŠÖ”„‘¼l‚ªŒÄ‚Ño‚µ‚Ä‚­‚ê‚éŠÖ”
+//ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°ï¼ï¼ä»–äººãŒå‘¼ã³å‡ºã—ã¦ãã‚Œã‚‹é–¢æ•°
 LRESULT	CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-//‰Šú‰»ŠÖ”
+//åˆæœŸåŒ–é–¢æ•°
 HRESULT	Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow);
-//I—¹ˆ—
+//çµ‚äº†å‡¦ç†
 void	Finalize(void);
-//XVˆ—
+//æ›´æ–°å‡¦ç†
 void	Update(void);
-//•`‰æˆ—
+//æç”»å‡¦ç†
 void	Draw(void);
 
 //==================================
-//ƒOƒ[ƒoƒ‹•Ï”
+//ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
 //==================================
-#ifdef _DEBUG	//ƒfƒoƒbƒOƒ‚[ƒh‚Ì‚İ•Ï”‚ğì‚é
-int	g_CountFPS;							//FPSƒJƒEƒ“ƒ^[
-char g_DebugStr[2048] = WINDOW_CAPTION;	//•\¦•¶š—ñİ’è
+#ifdef _DEBUG	//ãƒ‡ãƒãƒƒã‚°ãƒ¢ãƒ¼ãƒ‰æ™‚ã®ã¿å¤‰æ•°ã‚’ä½œã‚‹
+int	g_CountFPS;							//FPSã‚«ã‚¦ãƒ³ã‚¿ãƒ¼
+char g_DebugStr[2048] = WINDOW_CAPTION;	//è¡¨ç¤ºæ–‡å­—åˆ—è¨­å®š
 #endif
 
 //=====================================
-//ƒƒCƒ“ŠÖ”
+//ãƒ¡ã‚¤ãƒ³é–¢æ•°
 //======================================
 int APIENTRY WinMain(HINSTANCE hInstance,
 	HINSTANCE hPrevInstance, LPSTR lpCmd, int nCmdShow)
 {
-	//—”‰Šú‰»
+	//ä¹±æ•°åˆæœŸåŒ–
 	srand((UINT)timeGetTime());
-	//ƒtƒŒ[ƒ€ƒŒ[ƒgŒv‘ª—p•Ï”
+	//ãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¬ãƒ¼ãƒˆè¨ˆæ¸¬ç”¨å¤‰æ•°
 	DWORD	dwExecLastTime;
 	DWORD	dwFPSLastTime;
 	DWORD	dwCurrentTime;
 	DWORD	dwFrameCount;
-	//COMƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì€”õi‹@”\‚ğ•”•i‰»‚µ‚ÄŠO•”‚ÌƒvƒƒOƒ‰ƒ€‚©‚ç‹¤—L—˜—p‚·‚éd‘g‚İj
+	//COMã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®æº–å‚™ï¼ˆæ©Ÿèƒ½ã‚’éƒ¨å“åŒ–ã—ã¦å¤–éƒ¨ã®ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‹ã‚‰å…±æœ‰åˆ©ç”¨ã™ã‚‹ä»•çµ„ã¿ï¼‰
 	HRESULT hr = CoInitializeEx(nullptr, COINITBASE_MULTITHREADED);
 
-	//ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚Ì“o˜^iƒEƒBƒ“ƒhƒE‚Ìd—l“I‚È•¨‚ğŒˆ‚ß‚ÄWindows‚ÖƒZƒbƒg‚·‚éj
-	WNDCLASS	wc;	//\‘¢‘Ì‚ğ€”õ
-	ZeroMemory(&wc, sizeof(WNDCLASS));//“à—e‚ğ‚O‚Å‰Šú‰»
-	wc.lpfnWndProc = WndProc;	//ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ìƒ|ƒCƒ“ƒ^[
-	wc.lpszClassName = CLASS_NAME;	//‚±‚Ìd—l‘‚Ì–¼‘O
-	wc.hInstance = hInstance;	//‚±‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì‚±‚Æ
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);//ƒJ[ƒ\ƒ‹‚Ìí—Ş
-	wc.hbrBackground = (HBRUSH)(COLOR_BACKGROUND + 1);//ƒEƒBƒ“ƒhƒE‚Ì”wŒiF
-	RegisterClass(&wc);	//\‘¢‘Ì‚ğWindows‚ÖƒZƒbƒg
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ã®ç™»éŒ²ï¼ˆã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ä»•æ§˜çš„ãªç‰©ã‚’æ±ºã‚ã¦Windowsã¸ã‚»ãƒƒãƒˆã™ã‚‹ï¼‰
+	WNDCLASS	wc;	//æ§‹é€ ä½“ã‚’æº–å‚™
+	ZeroMemory(&wc, sizeof(WNDCLASS));//å†…å®¹ã‚’ï¼ã§åˆæœŸåŒ–
+	wc.lpfnWndProc = WndProc;	//ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°ã®ãƒã‚¤ãƒ³ã‚¿ãƒ¼
+	wc.lpszClassName = CLASS_NAME;	//ã“ã®ä»•æ§˜æ›¸ã®åå‰
+	wc.hInstance = hInstance;	//ã“ã®ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ã“ã¨
+	wc.hCursor = LoadCursor(NULL, IDC_ARROW);//ã‚«ãƒ¼ã‚½ãƒ«ã®ç¨®é¡
+	wc.hbrBackground = (HBRUSH)(COLOR_BACKGROUND + 1);//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®èƒŒæ™¯è‰²
+	RegisterClass(&wc);	//æ§‹é€ ä½“ã‚’Windowsã¸ã‚»ãƒƒãƒˆ
 
 
-	//ƒEƒBƒ“ƒhƒEƒTƒCƒY‚Ì’²®
-	//             ¶ã@@‰E‰º
-	RECT	rc = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };//‰¡1280 c720
-	//•`‰æ—Ìˆæ‚ª1280X720‚É‚È‚é‚æ‚¤‚ÉƒTƒCƒY‚ğ’²®‚·‚é
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚ºã®èª¿æ•´
+	//             å·¦ä¸Šã€€ã€€å³ä¸‹
+	RECT	rc = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };//æ¨ª1280 ç¸¦720
+	//æç”»é ˜åŸŸãŒ1280X720ã«ãªã‚‹ã‚ˆã†ã«ã‚µã‚¤ã‚ºã‚’èª¿æ•´ã™ã‚‹
 	AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW ^ (WS_THICKFRAME|WS_MAXIMIZEBOX|WS_MINIMIZEBOX), FALSE);
 
-	//ƒEƒBƒ“ƒhƒE‚Ìì¬
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ä½œæˆ
 	HWND	hWnd = CreateWindow(
-		CLASS_NAME,	//ì‚è‚½‚¢ƒEƒBƒ“ƒhƒE
-		WINDOW_CAPTION,	//ƒEƒBƒ“ƒhƒE‚É•\¦‚·‚éƒ^ƒCƒgƒ‹
-		WS_OVERLAPPEDWINDOW ^ (WS_THICKFRAME | WS_MAXIMIZEBOX | WS_MINIMIZEBOX),//•W€“I‚ÈŒ`ó‚ÌƒEƒBƒ“ƒhƒE ƒTƒCƒY•ÏX‹Ö~
-		CW_USEDEFAULT,		//ƒfƒtƒHƒ‹ƒgİ’è‚Å‚¨‚Ü‚©‚¹
+		CLASS_NAME,	//ä½œã‚ŠãŸã„ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
+		WINDOW_CAPTION,	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«è¡¨ç¤ºã™ã‚‹ã‚¿ã‚¤ãƒˆãƒ«
+		WS_OVERLAPPEDWINDOW ^ (WS_THICKFRAME | WS_MAXIMIZEBOX | WS_MINIMIZEBOX),//æ¨™æº–çš„ãªå½¢çŠ¶ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ ã‚µã‚¤ã‚ºå¤‰æ›´ç¦æ­¢
+		CW_USEDEFAULT,		//ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆè¨­å®šã§ãŠã¾ã‹ã›
 		CW_USEDEFAULT,
-		rc.right - rc.left,//CW_USEDEFAULT,//ƒEƒBƒ“ƒhƒE‚Ì•
-		rc.bottom - rc.top,//CW_USEDEFAULT,//ƒEƒBƒ“ƒhƒE‚Ì‚‚³
+		rc.right - rc.left,//CW_USEDEFAULT,//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®å¹…
+		rc.bottom - rc.top,//CW_USEDEFAULT,//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®é«˜ã•
 		NULL,
 		NULL,
-		hInstance,		//ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ìƒnƒ“ƒhƒ‹
+		hInstance,		//ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒãƒ³ãƒ‰ãƒ«
 		NULL
 	);
 
-	//‰Šú‰»ˆ—
+	//åˆæœŸåŒ–å‡¦ç†
 	if (FAILED(Init(hInstance, hWnd, true)))
 	{
-		return -1;//‰Šú‰»¸”s
+		return -1;//åˆæœŸåŒ–å¤±æ•—
 	}
 
-	//ì¬‚µ‚½ƒEƒBƒ“ƒhƒE‚ğ•\¦‚·‚é
-	ShowWindow(hWnd, nCmdShow);//ˆø”‚É]‚Á‚Ä•\¦A‚Ü‚½‚Í”ñ•\¦
-	//ƒEƒBƒ“ƒhƒE‚Ì“à—e‚ğ‹­§•\¦
+	//ä½œæˆã—ãŸã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’è¡¨ç¤ºã™ã‚‹
+	ShowWindow(hWnd, nCmdShow);//å¼•æ•°ã«å¾“ã£ã¦è¡¨ç¤ºã€ã¾ãŸã¯éè¡¨ç¤º
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®å†…å®¹ã‚’å¼·åˆ¶è¡¨ç¤º
 	UpdateWindow(hWnd);
 
-	//ƒƒbƒZ[ƒWƒ‹[ƒv
+	//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ«ãƒ¼ãƒ—
 	MSG	msg;
-	ZeroMemory(&msg, sizeof(MSG));//ƒƒbƒZ[ƒW\‘¢‘Ì‚ğì¬‚µ‚Ä‰Šú‰»
-	//ƒtƒŒ[ƒ€ƒŒ[ƒgŒv‘ª‰Šú‰»
-	timeBeginPeriod(1);	//ƒ^ƒCƒ}[‚Ì•ª‰ğ”\‚ğİ’è
-	dwExecLastTime = dwFPSLastTime = timeGetTime();//Œ»İ‚Ìƒ^ƒCƒ}[’l
+	ZeroMemory(&msg, sizeof(MSG));//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸æ§‹é€ ä½“ã‚’ä½œæˆã—ã¦åˆæœŸåŒ–
+	//ãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¬ãƒ¼ãƒˆè¨ˆæ¸¬åˆæœŸåŒ–
+	timeBeginPeriod(1);	//ã‚¿ã‚¤ãƒãƒ¼ã®åˆ†è§£èƒ½ã‚’è¨­å®š
+	dwExecLastTime = dwFPSLastTime = timeGetTime();//ç¾åœ¨ã®ã‚¿ã‚¤ãƒãƒ¼å€¤
 	dwCurrentTime = dwFrameCount = 0;
 
-	//I—¹ƒƒbƒZ[ƒW‚ª—ˆ‚é‚Ü‚Åƒ‹[ƒv‚·‚é
-	//ƒQ[ƒ€ƒ‹[ƒv
+	//çµ‚äº†ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒæ¥ã‚‹ã¾ã§ãƒ«ãƒ¼ãƒ—ã™ã‚‹
+	//ã‚²ãƒ¼ãƒ ãƒ«ãƒ¼ãƒ—
 	while (1)
-	{	//ƒƒbƒZ[ƒW‚Ì—L–³‚ğƒ`ƒFƒbƒN
+	{	//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®æœ‰ç„¡ã‚’ãƒã‚§ãƒƒã‚¯
 		if(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-		{ //Windows‚©‚çƒƒbƒZ[ƒW‚ª—ˆ‚½I
-			if (msg.message == WM_QUIT)//Š®‘SI—¹‚µ‚Ü‚µ‚½ƒƒbƒZ[ƒW
+		{ //Windowsã‹ã‚‰ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒæ¥ãŸï¼
+			if (msg.message == WM_QUIT)//å®Œå…¨çµ‚äº†ã—ã¾ã—ãŸãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 			{
-				break;	//whileƒ‹[ƒv‚©‚ç‚Ê‚¯‚é
+				break;	//whileãƒ«ãƒ¼ãƒ—ã‹ã‚‰ã¬ã‘ã‚‹
 			}
 			else
 			{
 				TranslateMessage(&msg);
-				DispatchMessage(&msg);	//WndProc‚ªŒÄ‚Ño‚³‚ê‚é
+				DispatchMessage(&msg);	//WndProcãŒå‘¼ã³å‡ºã•ã‚Œã‚‹
 			}
 	
 		}
-		else //Windows‚©‚çƒƒbƒZ[ƒW‚ª—ˆ‚Ä‚¢‚È‚¢
+		else //Windowsã‹ã‚‰ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒæ¥ã¦ã„ãªã„
 		{
-			dwCurrentTime = timeGetTime();//Œ»İ‚Ìƒ^ƒCƒ}[’l‚ğæ“¾
-			if ((dwCurrentTime - dwFPSLastTime) >= 1000)//1•bŒo‰ß‚µ‚½‚©
+			dwCurrentTime = timeGetTime();//ç¾åœ¨ã®ã‚¿ã‚¤ãƒãƒ¼å€¤ã‚’å–å¾—
+			if ((dwCurrentTime - dwFPSLastTime) >= 1000)//1ç§’çµŒéã—ãŸã‹
 			{
 #ifdef _DEBUG
 				g_CountFPS = dwFrameCount;
 #endif
-				dwFPSLastTime = dwCurrentTime;	//Œ»İ‚Ìƒ^ƒCƒ}[’l‚ğ•Û‘¶
-				dwFrameCount = 0;				//ƒtƒŒ[ƒ€ƒJƒEƒ“ƒg‚ğƒNƒŠƒA
+				dwFPSLastTime = dwCurrentTime;	//ç¾åœ¨ã®ã‚¿ã‚¤ãƒãƒ¼å€¤ã‚’ä¿å­˜
+				dwFrameCount = 0;				//ãƒ•ãƒ¬ãƒ¼ãƒ ã‚«ã‚¦ãƒ³ãƒˆã‚’ã‚¯ãƒªã‚¢
 			}
-			if ((dwCurrentTime - dwExecLastTime) >= ((float)1000 / 60)) // 1/60•bŒo‰ß‚µ‚½‚©
+			if ((dwCurrentTime - dwExecLastTime) >= ((float)1000 / 60)) // 1/60ç§’çµŒéã—ãŸã‹
 			{
-				dwExecLastTime = dwCurrentTime;	//Œ»İ‚ÌŠÔ‚ğ•Û‘¶
+				dwExecLastTime = dwCurrentTime;	//ç¾åœ¨ã®æ™‚é–“ã‚’ä¿å­˜
 #ifdef _DEBUG
-				wsprintf(g_DebugStr, WINDOW_CAPTION);//”z—ñ‚ÉƒLƒƒƒvƒVƒ‡ƒ“•¶š—ñ‚ğŠi”[
+				wsprintf(g_DebugStr, WINDOW_CAPTION);//é…åˆ—ã«ã‚­ãƒ£ãƒ—ã‚·ãƒ§ãƒ³æ–‡å­—åˆ—ã‚’æ ¼ç´
 				wsprintf(&g_DebugStr[strlen(g_DebugStr)], " FPS:%d", g_CountFPS);
-				SetWindowText(hWnd, g_DebugStr);//ƒLƒƒƒvƒVƒ‡ƒ“•”•ª‚Ì‘‚«Š·‚¦
+				SetWindowText(hWnd, g_DebugStr);//ã‚­ãƒ£ãƒ—ã‚·ãƒ§ãƒ³éƒ¨åˆ†ã®æ›¸ãæ›ãˆ
 #endif
 
-				Update();	//XVˆ—
-				Draw();		//•`‰æˆ—
-				keycopy();	//ƒL[ˆ——p
+				Update();	//æ›´æ–°å‡¦ç†
+				Draw();		//æç”»å‡¦ç†
+				keycopy();	//ã‚­ãƒ¼å‡¦ç†ç”¨
 
-				dwFrameCount++;	//ƒtƒŒ[ƒ€ƒJƒEƒ“ƒg‚ği‚ß‚é
+				dwFrameCount++;	//ãƒ•ãƒ¬ãƒ¼ãƒ ã‚«ã‚¦ãƒ³ãƒˆã‚’é€²ã‚ã‚‹
 			}
 
 		}
 	}//while
 
-	//I—¹ˆ—
+	//çµ‚äº†å‡¦ç†
 	Finalize();
 
-	//I—¹‚·‚é
+	//çµ‚äº†ã™ã‚‹
 	return (int)msg.wParam;
 
 }
 
 //=========================================
-//ƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ
-// ƒƒbƒZ[ƒWƒ‹[ƒv“à‚ÅŒÄ‚Ño‚³‚ê‚é
+//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ—ãƒ­ã‚·ãƒ¼ã‚¸ãƒ£
+// ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ«ãƒ¼ãƒ—å†…ã§å‘¼ã³å‡ºã•ã‚Œã‚‹
 //=========================================
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 
-	//  ImGui‚ÌƒƒbƒZ[ƒWˆ—
+	//  ImGuiã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å‡¦ç†
 	extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	if (ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam))
 		return true;
@@ -184,49 +184,49 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case WM_SYSKEYUP:
 			Keyboard_ProcessMessage(uMsg, wParam, lParam);
 			break;
-		case WM_KEYDOWN:	//ƒL[‚ª‰Ÿ‚³‚ê‚½
-			if (wParam == VK_ESCAPE)//‰Ÿ‚³‚ê‚½‚Ì‚ÍESCƒL[
+		case WM_KEYDOWN:	//ã‚­ãƒ¼ãŒæŠ¼ã•ã‚ŒãŸ
+			if (wParam == VK_ESCAPE)//æŠ¼ã•ã‚ŒãŸã®ã¯ESCã‚­ãƒ¼
 			{
-				//ƒEƒBƒ“ƒhƒE‚ğ•Â‚¶‚½‚¢ƒŠƒNƒGƒXƒg‚ğWindows‚É‘—‚é
+				//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‰ã˜ãŸã„ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‚’Windowsã«é€ã‚‹
 				SendMessage(hWnd, WM_CLOSE, 0, 0);
 			}
 			Keyboard_ProcessMessage(uMsg, wParam, lParam);
 			break;
-		case WM_CLOSE:	//ƒEƒBƒ“ƒhƒE‚ğ•Â‚¶‚È‚³‚¢–½—ß				
+		case WM_CLOSE:	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‰ã˜ãªã•ã„å‘½ä»¤				
 			if (
-				MessageBox(hWnd, "–{“–‚ÉI—¹‚µ‚Ä‚æ‚ë‚µ‚¢‚Å‚·‚©H",
-					"Šm”F", MB_OKCANCEL | MB_DEFBUTTON2) == IDOK
+				MessageBox(hWnd, "æœ¬å½“ã«çµ‚äº†ã—ã¦ã‚ˆã‚ã—ã„ã§ã™ã‹ï¼Ÿ",
+					"ç¢ºèª", MB_OKCANCEL | MB_DEFBUTTON2) == IDOK
 				)
-			{//OK‚ª‰Ÿ‚³‚ê‚½‚Æ‚«
-				DestroyWindow(hWnd);//I—¹‚·‚éè‘±‚«‚ğWindows‚ÖƒŠƒNƒGƒXƒg
+			{//OKãŒæŠ¼ã•ã‚ŒãŸã¨ã
+				DestroyWindow(hWnd);//çµ‚äº†ã™ã‚‹æ‰‹ç¶šãã‚’Windowsã¸ãƒªã‚¯ã‚¨ã‚¹ãƒˆ
 			}
 			else
 			{
-				return 0;	//‚â‚Á‚Ï‚èI‚í‚ç‚È‚¢
+				return 0;	//ã‚„ã£ã±ã‚Šçµ‚ã‚ã‚‰ãªã„
 			}
 
 			break;
-		case WM_DESTROY:	//I—¹‚µ‚ÄOK‚Å‚·‚æ
-			PostQuitMessage(0);		//©•ª‚ÌƒƒbƒZ[ƒW‚É‚O‚ğ‘—‚é
+		case WM_DESTROY:	//çµ‚äº†ã—ã¦OKã§ã™ã‚ˆ
+			PostQuitMessage(0);		//è‡ªåˆ†ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã«ï¼ã‚’é€ã‚‹
 			break;
 
 	}
 
-	//•K—p‚Ì–³‚¢ƒƒbƒZ[ƒW‚Í“K“–‚Éˆ—‚³‚¹‚ÄI—¹
+	//å¿…ç”¨ã®ç„¡ã„ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã¯é©å½“ã«å‡¦ç†ã•ã›ã¦çµ‚äº†
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 
 }
 
 //==================================
-//‰Šú‰»
+//åˆæœŸåŒ–
 //==================================
 HRESULT	Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 {
-	//DirectXŠÖ˜A‚Ì‰Šú‰»
+	//DirectXé–¢é€£ã®åˆæœŸåŒ–
 	Renderer::Init(hInstance, hWnd, bWindow);
-	//ƒL[“ü—Í‰Šú‰»
+	//ã‚­ãƒ¼å…¥åŠ›åˆæœŸåŒ–
 	Keyboard_Initialize();
-	//ƒ}ƒl[ƒWƒƒ‰Šú‰»
+	//ãƒãƒãƒ¼ã‚¸ãƒ£åˆæœŸåŒ–
 	Manager::Init();
 
 	//==================
@@ -237,11 +237,11 @@ HRESULT	Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
-	//“ú–{ŒêƒtƒHƒ“ƒg
+	//æ—¥æœ¬èªãƒ•ã‚©ãƒ³ãƒˆ
 	ImFont* font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\meiryo.ttc", 18.0f);
 	if (font == nullptr)
 	{
-		// ƒƒCƒŠƒI‚ª–³‚¢ŠÂ‹«—p‚Ì—\”õ
+		// ãƒ¡ã‚¤ãƒªã‚ªãŒç„¡ã„ç’°å¢ƒç”¨ã®äºˆå‚™
 		font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\msgothic.ttc", 18.0f);
 	}
 	IM_ASSERT(font != nullptr);
@@ -254,7 +254,7 @@ HRESULT	Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 }
 
 //====================================
-//	I—¹ˆ—
+//	çµ‚äº†å‡¦ç†
 //====================================
 void	Finalize(void)
 {
@@ -264,16 +264,16 @@ void	Finalize(void)
 	ImGui::DestroyContext();
 	//================
 
-	//ƒ}ƒl[ƒWƒƒI—¹
+	//ãƒãƒãƒ¼ã‚¸ãƒ£çµ‚äº†
 	Manager::Finalize();
-	//DirectXŠÖ˜A‚ÌI—¹ˆ—
+	//DirectXé–¢é€£ã®çµ‚äº†å‡¦ç†
 	Renderer::Finalize();
 
 
 }
 
 //===================================
-//XVˆ—
+//æ›´æ–°å‡¦ç†
 //====================================
 void	Update(void)
 {
@@ -286,7 +286,7 @@ void	Update(void)
 	ImGui::DockSpaceOverViewport(0, nullptr, ImGuiDockNodeFlags_PassthruCentralNode);	
 	//===========================
 
-	//ƒ}ƒl[ƒWƒƒXV
+	//ãƒãƒãƒ¼ã‚¸ãƒ£æ›´æ–°
 	Manager::Update();
 
 
@@ -294,13 +294,13 @@ void	Update(void)
 }
 
 //==================================
-//•`‰æˆ—
+//æç”»å‡¦ç†
 //==================================
 void	Draw(void)
 {
-	//ƒoƒbƒNƒoƒbƒtƒ@‚ÌƒNƒŠƒA
+	//ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡ã®ã‚¯ãƒªã‚¢
 	//Renderer::Clear();
-	//ƒ}ƒl[ƒWƒƒ•`‰æ
+	//ãƒãƒãƒ¼ã‚¸ãƒ£æç”»
 	Manager::Draw();
 
 	//====================
@@ -308,7 +308,7 @@ void	Draw(void)
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 	//====================
 
-	//ƒoƒbƒNƒoƒbƒtƒ@‚ğƒtƒƒ“ƒgƒoƒbƒtƒ@‚ÖƒRƒs[
+	//ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡ã‚’ãƒ•ãƒ­ãƒ³ãƒˆãƒãƒƒãƒ•ã‚¡ã¸ã‚³ãƒ”ãƒ¼
 	Renderer::Present();
 
 }

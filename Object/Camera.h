@@ -1,4 +1,4 @@
-
+ï»¿
 #pragma once
 
 //Camera.h
@@ -9,19 +9,19 @@
 class Camera
 {
 	public:
-		XMFLOAT3	m_Position;		//ƒJƒƒ‰‚ÌÀ•W
-		XMFLOAT3	m_AtPosition;		//ƒJƒƒ‰‚Ì’‹“_
-		XMFLOAT3	m_UpVector;		//ã•ûƒxƒNƒgƒ‹
-		float		m_Fov;			//‹–ìŠp
-		float		m_Nearclip;		//‚Ç‚±‚Ü‚Å‹ß‚­‚ªŒ©‚¦‚é‚©
-		float		m_Farclip;		//‚Ç‚±‚Ü‚Å‰“‚­‚ªŒ©‚¦‚é‚©
+		XMFLOAT3	m_Position;		//ã‚«ãƒ¡ãƒ©ã®åº§æ¨™
+		XMFLOAT3	m_AtPosition;		//ã‚«ãƒ¡ãƒ©ã®æ³¨è¦–ç‚¹
+		XMFLOAT3	m_UpVector;		//ä¸Šæ–¹ãƒ™ã‚¯ãƒˆãƒ«
+		float		m_Fov;			//è¦–é‡è§’
+		float		m_Nearclip;		//ã©ã“ã¾ã§è¿‘ããŒè¦‹ãˆã‚‹ã‹
+		float		m_Farclip;		//ã©ã“ã¾ã§é ããŒè¦‹ãˆã‚‹ã‹
 		float		m_Rotation;
 
 		XMFLOAT3 m_Offset;
 
-		float m_Yaw;		// ‰¡‰ñ“]i“xj
-		float m_Pitch;	// c‰ñ“]i“xj
-		float m_Distance;	// ’‹“_‚©‚ç‚Ì‹——£
+		float m_Yaw;		// æ¨ªå›è»¢ï¼ˆåº¦ï¼‰
+		float m_Pitch;	// ç¸¦å›è»¢ï¼ˆåº¦ï¼‰
+		float m_Distance;	// æ³¨è¦–ç‚¹ã‹ã‚‰ã®è·é›¢
 
 		void	Init();
 		void	Finalize();

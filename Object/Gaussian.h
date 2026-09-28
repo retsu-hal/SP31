@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Sprite2D.h"
 
 // RT0 →(横ブラー)→ RT1 →(縦ブラー)→ バックバッファ

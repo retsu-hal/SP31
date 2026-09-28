@@ -1,4 +1,4 @@
-#include "Main.h"
+ï»¿#include "Main.h"
 #include "Renderer.h"
 #include "Game.h"
 #include "Camera.h"
@@ -14,12 +14,12 @@
 #include <algorithm>
 
 //===============================================
-//ƒOƒ[ƒoƒ‹•Ï”
+//ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
 //===============================================
 
-// PolygonModel / Field3D / Sprite2D ‚Ì‘æ1ˆø”‚Íƒ}ƒeƒŠƒAƒ‹–¼iMaterialTable.cpp ‚É’è‹`j
-// Às’†‚Í ImGui ‚Ì Inspecter ¨ Material ‚ÅØ‚è‘Ö‚¦‚ç‚ê‚é
-// ¦ƒJƒƒ‰‚Í GameObject ‚Å‚Í‚È‚¢‚Ì‚Å InitCamera ‚È‚Ç‚ğ’¼ÚŒÄ‚Ô
+// PolygonModel / Field3D / Sprite2D ã®ç¬¬1å¼•æ•°ã¯ãƒãƒ†ãƒªã‚¢ãƒ«åï¼ˆMaterialTable.cpp ã«å®šç¾©ï¼‰
+// å®Ÿè¡Œä¸­ã¯ ImGui ã® Inspecter â†’ Material ã§åˆ‡ã‚Šæ›¿ãˆã‚‰ã‚Œã‚‹
+// â€»ã‚«ãƒ¡ãƒ©ã¯ GameObject ã§ã¯ãªã„ã®ã§ InitCamera ãªã©ã‚’ç›´æ¥å‘¼ã¶
 Gaussian* g_Gaussian = new Gaussian();
 
 std::vector<GameObject*> g_GameObjects =
@@ -33,38 +33,38 @@ std::vector<GameObject*> g_GameObjects =
 	new MipMapSprite("UnlitTexture"),
 };
 
-Camera g_Camera;	//ƒJƒƒ‰
-//ƒ|[ƒYƒtƒ‰ƒO
+Camera g_Camera;	//ã‚«ãƒ¡ãƒ©
+//ãƒãƒ¼ã‚ºãƒ•ãƒ©ã‚°
 static	bool	pause = false;
 
 LIGHT g_Light;
 //===============================================
-//ƒ|[ƒYƒtƒ‰ƒOƒZƒbƒg
+//ãƒãƒ¼ã‚ºãƒ•ãƒ©ã‚°ã‚»ãƒƒãƒˆ
 void	SetPause(bool flg)
 {
 	pause = flg;
 }
 //===============================================
-//ƒ|[ƒYƒtƒ‰ƒOæ“¾
+//ãƒãƒ¼ã‚ºãƒ•ãƒ©ã‚°å–å¾—
 bool	GetPause()
 {
 	return pause;
 }
 
 //===============================================
-//g_Gaussian ‚ª g_GameObjects ‚É“o˜^‚³‚ê‚Ä‚¢‚é‚©
-//iƒRƒƒ“ƒgƒAƒEƒg‚³‚ê‚Ä‚¢‚ê‚Îƒuƒ‰[‚È‚µ‚Å•`‰æ‚·‚éj
+//g_Gaussian ãŒ g_GameObjects ã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ã‹
+//ï¼ˆã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆã•ã‚Œã¦ã„ã‚Œã°ãƒ–ãƒ©ãƒ¼ãªã—ã§æç”»ã™ã‚‹ï¼‰
 static bool IsGaussianEnabled()
 {
 	return std::find(g_GameObjects.begin(), g_GameObjects.end(), g_Gaussian) != g_GameObjects.end();
 }
 
 //===============================================
-//3DƒIƒuƒWƒFƒNƒg‚Ì•`‰æ
+//3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æç”»
 static void Draw3DObjects()
 {
-	g_Camera.Draw();				//ƒrƒ…[EƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ‚ğƒZƒbƒg
-	Renderer::SetDepthEnable(true);		//‰œs‚«ˆ——LŒø
+	g_Camera.Draw();				//ãƒ“ãƒ¥ãƒ¼ãƒ»ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¡Œåˆ—ã‚’ã‚»ãƒƒãƒˆ
+	Renderer::SetDepthEnable(true);		//å¥¥è¡Œãå‡¦ç†æœ‰åŠ¹
 	for (GameObject* gameObject : g_GameObjects)
 	{
 		if (gameObject != nullptr && !gameObject->m_Is2D)
@@ -73,7 +73,7 @@ static void Draw3DObjects()
 }
 
 //===============================================
-//ƒQ[ƒ€ƒV[ƒ“‰Šú‰»
+//ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³åˆæœŸåŒ–
 void InitGame()
 {
 	Texture::Initialize(Renderer::GetDevice());
@@ -88,24 +88,24 @@ void InitGame()
 	}
 
 
-	// ƒ‰ƒCƒg\‘¢‘Ì‚Ì‰Šú‰»
+	// ãƒ©ã‚¤ãƒˆæ§‹é€ ä½“ã®åˆæœŸåŒ–
 	g_Light = MakeDefaultLight();
 
-	//ƒXƒ|ƒbƒgƒ‰ƒCƒg—p
+	//ã‚¹ãƒãƒƒãƒˆãƒ©ã‚¤ãƒˆç”¨
 	XMVECTOR dir = XMVector4Normalize(XMVectorSet(0.0f, -1.0f, 0.0f, 0.0f));
-	XMStoreFloat4(&g_Light.Direction, dir);						//ƒR[ƒ“‚ÌŒü‚«
+	XMStoreFloat4(&g_Light.Direction, dir);						//ã‚³ãƒ¼ãƒ³ã®å‘ã
 	g_Light.Position = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
 	g_Light.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	g_Light.Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);
-	g_Light.PointLightParam = XMFLOAT4(10.0f, 1.0f, 0.0f, 0.0f);	//x:‹——£ y:POW
-	g_Light.Angle.x = XMConvertToRadians(30.0f);					//ƒR[ƒ“Šp“x
+	g_Light.PointLightParam = XMFLOAT4(10.0f, 1.0f, 0.0f, 0.0f);	//x:è·é›¢ y:POW
+	g_Light.Angle.x = XMConvertToRadians(30.0f);					//ã‚³ãƒ¼ãƒ³è§’åº¦
 }
 
 //===============================================
-//ƒQ[ƒ€ƒV[ƒ“I—¹
+//ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³çµ‚äº†
 void FinalizeGame()
 {
-	//–¢“o˜^‚Ì g_Gaussian ‚Í‚±‚±‚Å‰ğ•úi“o˜^‚³‚ê‚Ä‚¢‚ê‚Î‰º‚Ìƒ‹[ƒv‚Å‰ğ•ú‚³‚ê‚éj
+	//æœªç™»éŒ²ã® g_Gaussian ã¯ã“ã“ã§è§£æ”¾ï¼ˆç™»éŒ²ã•ã‚Œã¦ã„ã‚Œã°ä¸‹ã®ãƒ«ãƒ¼ãƒ—ã§è§£æ”¾ã•ã‚Œã‚‹ï¼‰
 	if (!IsGaussianEnabled())
 	{
 		delete g_Gaussian;
@@ -123,16 +123,16 @@ void FinalizeGame()
 	g_GameObjects.clear();
 
 	g_Camera.Finalize();
-	ReleaseShaderCache();	// PolygonModel / Field3D / Sprite2D ‚ª‹¤—L‚µ‚Ä‚¢‚½ƒVƒF[ƒ_[‚ğ‰ğ•ú
+	ReleaseShaderCache();	// PolygonModel / Field3D / Sprite2D ãŒå…±æœ‰ã—ã¦ã„ãŸã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‚’è§£æ”¾
 	Texture::Finalize();
 }
 
 //===============================================
-//ƒQ[ƒ€ƒV[ƒ“XV
+//ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³æ›´æ–°
 void UpdateGame()
 {
 
-	if (GetPause() == false)//ƒ|[ƒY’†‚Å‚È‚¯‚ê‚ÎXVÀs
+	if (GetPause() == false)//ãƒãƒ¼ã‚ºä¸­ã§ãªã‘ã‚Œã°æ›´æ–°å®Ÿè¡Œ
 	{
 		g_Camera.Update();
 		for (GameObject* gameObject : g_GameObjects)
@@ -141,21 +141,21 @@ void UpdateGame()
 			{
 				gameObject->Update();
 
-				g_Camera.SetCameraTarget(g_GameObjects[0]->GetPosition());	//ƒJƒƒ‰‚Ì’‹“_‚ğXV
+				g_Camera.SetCameraTarget(g_GameObjects[0]->GetPosition());	//ã‚«ãƒ¡ãƒ©ã®æ³¨è¦–ç‚¹ã‚’æ›´æ–°
 				g_Camera.Update();
 			}
 		}
 
 	}
-	// ‹¤’Êƒ‰ƒCƒgig_Lightj‚Ì’²®UI
-	ImGui::Begin(u8"ƒXƒ|ƒbƒgƒ‰ƒCƒg###SPOT LIGHT");
+	// å…±é€šãƒ©ã‚¤ãƒˆï¼ˆg_Lightï¼‰ã®èª¿æ•´UI
+	ImGui::Begin(u8"ã‚¹ãƒãƒƒãƒˆãƒ©ã‚¤ãƒˆ###SPOT LIGHT");
 	{
-		ImGui::ColorEdit3(u8"ŠgUŒõ##Diffuse", &g_Light.Diffuse.x);
-		ImGui::DragFloat3(u8"Œü‚«##Direction", &g_Light.Direction.x, 0.01f);
-		ImGui::DragFloat4(u8"ˆÊ’u##Position", &g_Light.Position.x, 0.1f);
-		ImGui::DragFloat4(u8"“_ŒõŒ¹ƒpƒ‰ƒ[ƒ^##PointLightParam", &g_Light.PointLightParam.x, 0.1f);
-		float angle = XMConvertToDegrees(g_Light.Angle.x);	// ƒ‰ƒWƒAƒ“ ¨ “x‚É•ÏŠ·‚µ‚Ä•\¦
-		ImGui::SliderFloat(u8"ÆËŠp##ConeAngle", &angle, 5.0f, 45.0f, "%.1f");
+		ImGui::ColorEdit3(u8"æ‹¡æ•£å…‰##Diffuse", &g_Light.Diffuse.x);
+		ImGui::DragFloat3(u8"å‘ã##Direction", &g_Light.Direction.x, 0.01f);
+		ImGui::DragFloat4(u8"ä½ç½®##Position", &g_Light.Position.x, 0.1f);
+		ImGui::DragFloat4(u8"ç‚¹å…‰æºãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿##PointLightParam", &g_Light.PointLightParam.x, 0.1f);
+		float angle = XMConvertToDegrees(g_Light.Angle.x);	// ãƒ©ã‚¸ã‚¢ãƒ³ â†’ åº¦ã«å¤‰æ›ã—ã¦è¡¨ç¤º
+		ImGui::SliderFloat(u8"ç…§å°„è§’##ConeAngle", &angle, 5.0f, 45.0f, "%.1f");
 		g_Light.Angle.x = XMConvertToRadians(angle);
 	}
 	ImGui::End();
@@ -163,11 +163,11 @@ void UpdateGame()
 }
 
 //===============================================
-//ƒQ[ƒ€ƒV[ƒ“•`‰æ
+//ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³æç”»
 void DrawGame()
 {
-	//===== 3D•`‰æ =====
-	//=====1.3D‚ğRT0‚Ö==========iMipMapSprite ‚È‚Ç‚ª RT0 ‚ğQÆ‚·‚éj
+	//===== 3Dæç”» =====
+	//=====1.3Dã‚’RT0ã¸==========ï¼ˆMipMapSprite ãªã©ãŒ RT0 ã‚’å‚ç…§ã™ã‚‹ï¼‰
 	Renderer::BeginPe(0);
 	{
 		Draw3DObjects();
@@ -175,32 +175,32 @@ void DrawGame()
 
 	if (IsGaussianEnabled())
 	{
-		//=====2.RT0‚ğ‰¡ƒuƒ‰[‚µ‚ÄRT1‚Ö==========
+		//=====2.RT0ã‚’æ¨ªãƒ–ãƒ©ãƒ¼ã—ã¦RT1ã¸==========
 		Renderer::BeginPe(1);
 		{
 			Renderer::SetWorldViewProjection2D();
-			g_Gaussian->DrawPass(0);		//0:‰¡ƒuƒ‰[	1:cƒuƒ‰[
+			g_Gaussian->DrawPass(0);		//0:æ¨ªãƒ–ãƒ©ãƒ¼	1:ç¸¦ãƒ–ãƒ©ãƒ¼
 		}
 
-		//=====3.RT1‚ğcƒuƒ‰[‚µ‚ÄƒoƒbƒNƒoƒbƒtƒ@‚Ö==========
+		//=====3.RT1ã‚’ç¸¦ãƒ–ãƒ©ãƒ¼ã—ã¦ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡ã¸==========
 		Renderer::Clear();
 		{
 			Renderer::SetWorldViewProjection2D();
-			g_Gaussian->DrawPass(1);		//0:‰¡ƒuƒ‰[	1:cƒuƒ‰[
+			g_Gaussian->DrawPass(1);		//0:æ¨ªãƒ–ãƒ©ãƒ¼	1:ç¸¦ãƒ–ãƒ©ãƒ¼
 		}
 	}
 	else
 	{
-		//=====2.ƒuƒ‰[‚È‚µF3D‚ğƒoƒbƒNƒoƒbƒtƒ@‚Ö’¼Ú•`‰æ==========
+		//=====2.ãƒ–ãƒ©ãƒ¼ãªã—ï¼š3Dã‚’ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡ã¸ç›´æ¥æç”»==========
 		Renderer::Clear();
 		{
 			Draw3DObjects();
 		}
 	}
 
-	//=====4.2D•`‰æ==========
+	//=====4.2Dæç”»==========
 	Renderer::SetWorldViewProjection2D();
-	Renderer::SetDepthEnable(false);	//‰œs‚«ˆ—–³Œø
+	Renderer::SetDepthEnable(false);	//å¥¥è¡Œãå‡¦ç†ç„¡åŠ¹
 	for (GameObject* gameObject : g_GameObjects)
 	{
 		if (gameObject != nullptr && gameObject->m_Is2D)

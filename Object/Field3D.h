@@ -1,13 +1,13 @@
-/*==============================================================================
+ï»¿/*==============================================================================
 
    [Field3D.h]
 														 Author :
 														 Date   :
 --------------------------------------------------------------------------------
-	’n–Êi”Âƒ|ƒŠƒSƒ“1–‡jBƒVƒF[ƒ_[‚Í PolygonModel ‚Æ“¯‚¶‚­
-	MaterialDesciMaterialTable.cppj‚©‚ç“Ç‚İ‚Ş‚Ì‚ÅAImGui ‚ÅØ‚è‘Ö‚¦‚ç‚ê‚éB
+	åœ°é¢ï¼ˆæ¿ãƒãƒªã‚´ãƒ³1æšï¼‰ã€‚ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã¯ PolygonModel ã¨åŒã˜ã
+	MaterialDescï¼ˆMaterialTable.cppï¼‰ã‹ã‚‰èª­ã¿è¾¼ã‚€ã®ã§ã€ImGui ã§åˆ‡ã‚Šæ›¿ãˆã‚‰ã‚Œã‚‹ã€‚
 
-	—á) new Field3D("UnlitTexture", XMFLOAT3(0.0f, 0.0f, 0.0f))
+	ä¾‹) new Field3D("UnlitTexture", XMFLOAT3(0.0f, 0.0f, 0.0f))
 ==============================================================================*/
 #pragma once
 
@@ -19,12 +19,12 @@
 #include "Material.h"
 
 //*****************************************************************************
-// ƒ}ƒNƒ’è‹`
+// ãƒã‚¯ãƒ­å®šç¾©
 //*****************************************************************************
 
 
 ////////////////
-//\‘¢‘Ì
+//æ§‹é€ ä½“
 ////////////////
 
 class Field3D : public GameObject
@@ -40,7 +40,7 @@ class Field3D : public GameObject
 
 		void DrawImGui() override;
 
-		// ƒ}ƒeƒŠƒAƒ‹‚ğØ‚è‘Ö‚¦‚éiresetParams ‚ª true ‚È‚çƒpƒ‰ƒ[ƒ^Eƒ‰ƒCƒg‚ğ‰Šú’l‚É–ß‚·j
+		// ãƒãƒ†ãƒªã‚¢ãƒ«ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹ï¼ˆresetParams ãŒ true ãªã‚‰ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ»ãƒ©ã‚¤ãƒˆã‚’åˆæœŸå€¤ã«æˆ»ã™ï¼‰
 		void ChangeMaterial(int materialIndex, bool resetParams = true);
 
 	protected:
@@ -51,8 +51,8 @@ class Field3D : public GameObject
 		const wchar_t* GetTexturePath()      const override { return GetDesc().Texture; }
 		const char*    GetName()             const override { return GetDesc().Name; }
 
-		std::string m_MaterialName;			// ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Åw’è‚³‚ê‚½–¼‘OiInit ‚Å‰ğŒˆj
-		int         m_MaterialIndex = 0;	// GetMaterialTable() ‚Ì“Yš
+		std::string m_MaterialName;			// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§æŒ‡å®šã•ã‚ŒãŸåå‰ï¼ˆInit ã§è§£æ±ºï¼‰
+		int         m_MaterialIndex = 0;	// GetMaterialTable() ã®æ·»å­—
 		Material    m_Material;
 		XMFLOAT3    m_InitialPosition;
 };

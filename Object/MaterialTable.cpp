@@ -1,48 +1,48 @@
-/*==============================================================================
+ï»¿/*==============================================================================
 
 [MaterialTable.cpp]
-	ƒVƒF[ƒ_[iƒ}ƒeƒŠƒAƒ‹j‚Ìİ’è•\B
+	ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ï¼ˆãƒãƒ†ãƒªã‚¢ãƒ«ï¼‰ã®è¨­å®šè¡¨ã€‚
 
-	¡ V‚µ‚¢ƒVƒF[ƒ_[‚ğ’Ç‰Á‚·‚éè‡
-	  1. shader ƒtƒHƒ‹ƒ_‚É xxxVS.hlsl / xxxPS.hlsl ‚ğì‚é
-	  2. ‚±‚Ìƒtƒ@ƒCƒ‹‚É MaterialDesc ‚ğ•Ô‚·ŠÖ”‚ğ1‚Â‘‚­
-	  3. GetMaterialTable() ‚Ì•\‚É1s‘«‚·
-	  4. Game.cpp ‚Å new PolygonModel("–¼‘O", ˆÊ’u) ‚·‚éi‚Ü‚½‚Í ImGui ‚ÅØ‚è‘Ö‚¦j
-	  ¨ .h / .cpp ‚ÌƒNƒ‰ƒX‚ğV‚µ‚­ì‚é•K—v‚Í‚È‚¢
+	â–  æ–°ã—ã„ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‚’è¿½åŠ ã™ã‚‹æ‰‹é †
+	  1. shader ãƒ•ã‚©ãƒ«ãƒ€ã« xxxVS.hlsl / xxxPS.hlsl ã‚’ä½œã‚‹
+	  2. ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã« MaterialDesc ã‚’è¿”ã™é–¢æ•°ã‚’1ã¤æ›¸ã
+	  3. GetMaterialTable() ã®è¡¨ã«1è¡Œè¶³ã™
+	  4. Game.cpp ã§ new PolygonModel("åå‰", ä½ç½®) ã™ã‚‹ï¼ˆã¾ãŸã¯ ImGui ã§åˆ‡ã‚Šæ›¿ãˆï¼‰
+	  â†’ .h / .cpp ã®ã‚¯ãƒ©ã‚¹ã‚’æ–°ã—ãä½œã‚‹å¿…è¦ã¯ãªã„
 ==============================================================================*/
 
 //==============================================================================
-//ƒCƒ“ƒNƒ‹[ƒh
+//ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰
 //==============================================================================
 #include <cstring>
 #include "Material.h"
 #include "GameObject.h"
 
 //==============================================================================
-//ƒ‰ƒCƒg‰Šú’l‚Ì‚Ğ‚ÈŒ`
+//ãƒ©ã‚¤ãƒˆåˆæœŸå€¤ã®ã²ãªå½¢
 //==============================================================================
 namespace
 {
-	// ‹Œ PolygonModel::Init ‚Åİ’è‚µ‚Ä‚¢‚½ƒ‰ƒCƒg
+	// æ—§ PolygonModel::Init ã§è¨­å®šã—ã¦ã„ãŸãƒ©ã‚¤ãƒˆ
 	LIGHT BaseLight()
 	{
 		LIGHT light{};
 		XMVECTOR dir = XMVector3Normalize(XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f));
-		XMStoreFloat4(&light.Direction, dir);						// Œõ‚ÌƒxƒNƒgƒ‹
-		light.Position        = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);	// “_ŒõŒ¹‚ÌˆÊ’u
-		light.Diffuse         = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);	// Œõ‚ÌF
-		light.Ambient         = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);	// ŠÂ‹«Œõ
+		XMStoreFloat4(&light.Direction, dir);						// å…‰ã®ãƒ™ã‚¯ãƒˆãƒ«
+		light.Position        = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);	// ç‚¹å…‰æºã®ä½ç½®
+		light.Diffuse         = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);	// å…‰ã®è‰²
+		light.Ambient         = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);	// ç’°å¢ƒå…‰
 		light.PointLightParam = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
 		return light;
 	}
 
-	// “_ŒõŒ¹ŒniPointPixelLighting / Toon Œn‚Å‹¤’Êj
+	// ç‚¹å…‰æºç³»ï¼ˆPointPixelLighting / Toon ç³»ã§å…±é€šï¼‰
 	LIGHT PointLight()
 	{
 		LIGHT light = BaseLight();
 		light.Diffuse         = XMFLOAT4(0.9f, 0.9f, 0.9f, 1.0f);
 		light.Ambient         = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
-		light.PointLightParam = XMFLOAT4(3.0f, 0.0f, 0.0f, 1.0f);	// x:Œ¸Š‹——£
+		light.PointLightParam = XMFLOAT4(3.0f, 0.0f, 0.0f, 1.0f);	// x:æ¸›è¡°è·é›¢
 		return light;
 	}
 
@@ -57,7 +57,7 @@ namespace
 	}
 
 //==============================================================================
-//Šeƒ}ƒeƒŠƒAƒ‹‚Ì’è‹`
+//å„ãƒãƒ†ãƒªã‚¢ãƒ«ã®å®šç¾©
 //==============================================================================
 	MaterialDesc UnlitColor()
 	{
@@ -73,7 +73,7 @@ namespace
 	MaterialDesc UnlitTextureMipMap()
 	{
 		MaterialDesc m = MakeMaterial("UnlitTexture", "UnlitTextureVS.cso", "UnlitTexturePS.cso");
-		m.ParamUIs = { { "MipMap Level", 0, 0.0f, 7.0f, "%.0f" } };	// x:ƒ~ƒbƒvƒŒƒxƒ‹
+		m.ParamUIs = { { "MipMap Level", 0, 0.0f, 7.0f, "%.0f" } };	// x:ãƒŸãƒƒãƒ—ãƒ¬ãƒ™ãƒ«
 		return m;
 	}
 
@@ -90,7 +90,7 @@ namespace
 	MaterialDesc PixelDirectionalLighting()
 	{
 		MaterialDesc m = MakeMaterial("PixelDirectionalLighting", "PixelDirectionalLightingVS.cso", "PixelDirectionalLightingPS.cso");
-		m.Parameter = XMFLOAT4(30.0f, 0.0f, 0.0f, 0.0f);	// x:ƒXƒyƒLƒ…ƒ‰‚Ì‹­‚³Ay:ƒXƒyƒLƒ…ƒ‰‚ÌFAz:ƒXƒyƒLƒ…ƒ‰‚ÌŒõ‘ò“x
+		m.Parameter = XMFLOAT4(30.0f, 0.0f, 0.0f, 0.0f);	// x:ã‚¹ãƒšã‚­ãƒ¥ãƒ©ã®å¼·ã•ã€y:ã‚¹ãƒšã‚­ãƒ¥ãƒ©ã®è‰²ã€z:ã‚¹ãƒšã‚­ãƒ¥ãƒ©ã®å…‰æ²¢åº¦
 		m.ParamUIs = { { "Specular Power", 0, 1.0f, 128.0f, "%.0f" } };
 		return m;
 	}
@@ -99,15 +99,15 @@ namespace
 	{
 		MaterialDesc m = MakeMaterial("PixelLightingBlinnPhong", "PixelLightingBlinnPhongVS.cso", "PixelLightingBlinnPhongPS.cso");
 		m.Model = "asset\\model\\cube.fbx";
-		m.Light.Diffuse = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);		// Œõ‚ÌF
-		m.Light.Ambient = XMFLOAT4(0.5f, 0.3f, 0.3f, 1.0f);	// ŠÂ‹«Œõ
+		m.Light.Diffuse = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);		// å…‰ã®è‰²
+		m.Light.Ambient = XMFLOAT4(0.5f, 0.3f, 0.3f, 1.0f);	// ç’°å¢ƒå…‰
 		return m;
 	}
 
 	MaterialDesc SpotLighting()
 	{
 		MaterialDesc m = MakeMaterial("SpotLighting", "SpotLightingVS.cso", "SpotLightingPS.cso");
-		m.UseGlobalLight = true;	// g_Light ‚ğg‚¤
+		m.UseGlobalLight = true;	// g_Light ã‚’ä½¿ã†
 		return m;
 	}
 
@@ -121,8 +121,8 @@ namespace
 	MaterialDesc LimLighting()
 	{
 		MaterialDesc m = MakeMaterial("LimLighting", "LimLightingVS.cso", "LimLightingPS.cso");
-		m.Light = PointLight();                          // “_ŒõŒ¹‚Ìİ’è‚ğ—¬—p
-		m.Parameter = XMFLOAT4(3.0f, 0.0f, 0.0f, 0.0f);      // x:ƒŠƒ€‚Ì pow w”
+		m.Light = PointLight();                          // ç‚¹å…‰æºã®è¨­å®šã‚’æµç”¨
+		m.Parameter = XMFLOAT4(3.0f, 0.0f, 0.0f, 0.0f);      // x:ãƒªãƒ ã® pow æŒ‡æ•°
 		m.ParamUIs = { { "Rim Power", 0, 1.0f, 10.0f, "%.1f" } };
 		return m;
 	}
@@ -130,7 +130,7 @@ namespace
 	MaterialDesc RGBShift()
 	{
 		MaterialDesc m = MakeMaterial("RGBShift", "UnlitTextureVS.cso", "RGBShiftPS.cso");
-		m.Parameter = XMFLOAT4(0.01f, 0.01f, 0.0f, 0.0f);	// x:ƒVƒtƒg—Ê
+		m.Parameter = XMFLOAT4(0.01f, 0.01f, 0.0f, 0.0f);	// x:ã‚·ãƒ•ãƒˆé‡
 		m.ParamUIs = {
 			{ "RShift", 0, 0.0f, 0.5f, "%.4f" },
 			{ "BShift", 1, 0.0f, 0.5f, "%.4f" },
@@ -140,13 +140,13 @@ namespace
 
 	MaterialDesc CookTorrance()
 	{
-		// VS‚Íƒ|ƒCƒ“ƒgƒ‰ƒCƒg‚Ì‚à‚Ì‚ğ‚»‚Ì‚Ü‚Üg‚¤
+		// VSã¯ãƒã‚¤ãƒ³ãƒˆãƒ©ã‚¤ãƒˆã®ã‚‚ã®ã‚’ãã®ã¾ã¾ä½¿ã†
 		MaterialDesc m = MakeMaterial("CookTorrance", "PointPixelLightingVS.cso", "CookTorrancePS.cso");
 		m.Model = "asset\\model\\ball.fbx";
 		m.Light = PointLight();
-		m.Parameter = XMFLOAT4(0.3f, 0.8f, 0.0f, 0.0f);	// x:‚´‚ç‚Â‚« y:‹à‘®Š´
+		m.Parameter = XMFLOAT4(0.3f, 0.8f, 0.0f, 0.0f);	// x:ã–ã‚‰ã¤ã y:é‡‘å±æ„Ÿ
 		m.ParamUIs = {
-			{ "Roughness", 0, 0.05f, 1.0f, "%.2f" },	// 0‚¾‚ÆBeckmann‚ª0‚ğ•Ô‚·‚Ì‚Å‰ºŒÀ0.05
+			{ "Roughness", 0, 0.05f, 1.0f, "%.2f" },	// 0ã ã¨BeckmannãŒ0ã‚’è¿”ã™ã®ã§ä¸‹é™0.05
 			{ "Metallic",  1, 0.0f,  1.0f, "%.2f" },
 		};
 		return m;
@@ -158,9 +158,9 @@ namespace
 		m.Model = "asset\\model\\ball.fbx";
 		m.Light = PointLight();
 		m.Light.Diffuse = XMFLOAT4(0.9f, 0.9f, 0.9f, 1.0f);
-		m.Light.Ambient = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);	// ­‚µ‘å‚«‚ß
-		m.Light.PointLightParam = XMFLOAT4(2000.0f, 1.5f, 0.0f, 0.0f);	// Œ¸Š—¦
-		m.Parameter = XMFLOAT4(0.5f, 0.5f, 3.0f, 0.0f);	// z:ƒ‰ƒCƒg”
+		m.Light.Ambient = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);	// å°‘ã—å¤§ãã‚
+		m.Light.PointLightParam = XMFLOAT4(2000.0f, 1.5f, 0.0f, 0.0f);	// æ¸›è¡°ç‡
+		m.Parameter = XMFLOAT4(0.5f, 0.5f, 3.0f, 0.0f);	// z:ãƒ©ã‚¤ãƒˆæ•°
 		m.ExtraTextures = {
 			{ 1, L"asset\\texture\\Roughness.jpg" },	// t1
 			{ 2, L"asset\\texture\\Metalness.jpg" },	// t2
@@ -172,9 +172,9 @@ namespace
 	MaterialDesc Bump()
 	{
 		MaterialDesc m = MakeMaterial("Bump", "PointPixelLightingVS.cso", "BumpPS.cso");
-		m.UseGlobalLight = true;	// g_LightiSPOT LIGHTƒEƒBƒ“ƒhƒEj‚ÅŒõŒ¹‚ğ“®‚©‚·
+		m.UseGlobalLight = true;	// g_Lightï¼ˆSPOT LIGHTã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ï¼‰ã§å…‰æºã‚’å‹•ã‹ã™
 		m.ExtraTextures = {
-			{ 1, L"asset\\texture\\Normal.png" },	// t1F–@üƒ}ƒbƒv
+			{ 1, L"asset\\texture\\Normal.png" },	// t1ï¼šæ³•ç·šãƒãƒƒãƒ—
 		};
 		return m;
 	}
@@ -203,9 +203,9 @@ namespace
 
 	MaterialDesc Toon3()
 	{
-		MaterialDesc m = Toon2();          // –{‘Ì‚ÍToon2‚ğ—¬—p
+		MaterialDesc m = Toon2();          // æœ¬ä½“ã¯Toon2ã‚’æµç”¨
 		m.Name = "Toon3";
-		m.Parameter = XMFLOAT4(0.0f, 0.02f, 0.0f, 0.0f);   // x:Texture V  y:ƒGƒbƒW‘¾‚³
+		m.Parameter = XMFLOAT4(0.0f, 0.02f, 0.0f, 0.0f);   // x:Texture V  y:ã‚¨ãƒƒã‚¸å¤ªã•
 		m.OutlineVertexShader = "ToonEdgeVS.cso";
 		m.OutlinePixelShader = "ToonEdgePS.cso";
 		m.ParamUIs = {
@@ -218,12 +218,12 @@ namespace
 	MaterialDesc Zukei()
 	{
 		MaterialDesc m = MakeMaterial("Zukei", "UnlitTextureVS.cso", "ZukeiPS.cso");
-		m.Parameter = XMFLOAT4(0.8f, 0.01f, 0.05f, 0.0f);	// x:ƒTƒCƒY y:‚Ú‚©‚µ• z:•/‚­‚Ú‚İ/‰Ô‚Ñ‚ç w:}Œ`”Ô†
+		m.Parameter = XMFLOAT4(0.8f, 0.01f, 0.05f, 0.0f);	// x:ã‚µã‚¤ã‚º y:ã¼ã‹ã—å¹… z:å¹…/ãã¼ã¿/èŠ±ã³ã‚‰ w:å›³å½¢ç•ªå·
 		m.ParamUIs = {
 			{ "Size",  0, 0.0f, 1.0f, "%.3f" },
 			{ "Edge",  1, 0.0f, 0.3f, "%.3f" },
 			{ "Z (Ring:width / Heart:kubomi / Flower:petal)", 2, 0.0f, 6.0f, "%.3f", 0.005f },	// DragFloat
-			{ u8"Shape (0:‰~ 1:ƒŠƒ“ƒO 2:‚Ğ‚µŒ` 3:ƒn[ƒg 4:‰Ô)", 3, 0.0f, 4.0f, "%.0f" },
+			{ u8"Shape (0:å†† 1:ãƒªãƒ³ã‚° 2:ã²ã—å½¢ 3:ãƒãƒ¼ãƒˆ 4:èŠ±)", 3, 0.0f, 4.0f, "%.0f" },
 		};
 		return m;
 	}
@@ -233,8 +233,8 @@ namespace
 			MaterialDesc m = MakeMaterial("Mosaic", "UnlitTextureVS.cso", "MosaicPS.cso");
 			m.Parameter = XMFLOAT4(SCREEN_WIDTH, SCREEN_HEIGHT, 16.0f, 0.3f);
 			m.ParamUIs = {
-				{ u8"‘e‚³",   2, 1.0f, 64.0f, "%.0f px" },	// z
-				{ u8"ƒTƒCƒY", 3, 0.0f, 1.1f,  "%.2f" },		// w
+				{ u8"ç²—ã•",   2, 1.0f, 64.0f, "%.0f px" },	// z
+				{ u8"ã‚µã‚¤ã‚º", 3, 0.0f, 1.1f,  "%.2f" },		// w
 			};
 			return m;
 		}
@@ -249,7 +249,7 @@ namespace
 	MaterialDesc GaussianH()
 	{
 		MaterialDesc m = MakeMaterial("GaussianH", "UnlitTextureVS.cso", "GaussianPS_H.cso");
-		m.Parameter = XMFLOAT4(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 1.0f);	// x:• y:‚‚³ z:•ªU w:ŠÔŠu
+		m.Parameter = XMFLOAT4(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 1.0f);	// x:å¹… y:é«˜ã• z:åˆ†æ•£ w:é–“éš”
 		return m;
 	}
 
@@ -261,11 +261,11 @@ namespace
 	}
 }
 //==============================================================================
-//ƒ}ƒeƒŠƒAƒ‹•\
+//ãƒãƒ†ãƒªã‚¢ãƒ«è¡¨
 //==============================================================================
 const std::vector<MaterialDesc>& GetMaterialTable()
 {
-	// šƒVƒF[ƒ_[‚ğ’Ç‰Á‚µ‚½‚ç‚±‚±‚É1s‘«‚·
+	// â˜…ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‚’è¿½åŠ ã—ãŸã‚‰ã“ã“ã«1è¡Œè¶³ã™
 	static const std::vector<MaterialDesc> table =
 	{
 		UnlitColor(),

@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 
 #include "renderer.h"
 
-extern LIGHT g_Light;	// ‹¤’Êƒ‰ƒCƒgiGame.cppj
+extern LIGHT g_Light;	// å…±é€šãƒ©ã‚¤ãƒˆï¼ˆGame.cppï¼‰
 
 void InitGame();
 void FinalizeGame();

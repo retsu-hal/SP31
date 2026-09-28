@@ -1,4 +1,4 @@
-#include "texture.h"
+ï»¿#include "texture.h"
 #include "DirectXTex.h"
 using namespace DirectX;
 //#include "directx.h"
@@ -20,7 +20,7 @@ static TextureData g_Textures[TEXTURE_MAX] = {};
 
 static int g_TextureCount = 0;
 
-// ¦ŠO•”‚©‚ç‚à‚ç‚¤ƒfƒoƒCƒX‚Ìƒ|ƒCƒ“ƒ^‚È‚Ì‚ÅRelease‚Í‚µ‚¿‚áƒ_ƒ
+// â€»å¤–éƒ¨ã‹ã‚‰ã‚‚ã‚‰ã†ãƒ‡ãƒã‚¤ã‚¹ã®ãƒã‚¤ãƒ³ã‚¿ãªã®ã§Releaseã¯ã—ã¡ã‚ƒãƒ€ãƒ¡
 static ID3D11Device* g_Device = NULL;
 
 
@@ -38,14 +38,14 @@ void Texture::Initialize(ID3D11Device* device)
 
 int Texture::Load(const std::wstring& texture_filename)
 {
-	// ‚·‚Å‚É“¯–¼‚ÌƒeƒNƒXƒ`ƒƒ‚ª“Ç‚İ‚Ü‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚é
+	// ã™ã§ã«åŒåã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ãŒèª­ã¿è¾¼ã¾ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹
 	for (int i = 0; i < g_TextureCount; i++) {
 		if (g_Textures[i].filename == texture_filename) {
-			return i; // ‚·‚Å‚É“Ç‚İ‚Ü‚ê‚Ä‚¢‚½‚Ì‚Åid‚ğ‚í‚½‚·
+			return i; // ã™ã§ã«èª­ã¿è¾¼ã¾ã‚Œã¦ã„ãŸã®ã§idã‚’ã‚ãŸã™
 		}
 	}
 
-	// ƒeƒNƒXƒ`ƒƒ“Ç‚İ‚İ
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
 	TexMetadata metadata;
 	ScratchImage image;
 	LoadFromWICFile(texture_filename.c_str(), WIC_FLAGS_NONE, &metadata, image);
@@ -54,7 +54,7 @@ int Texture::Load(const std::wstring& texture_filename)
 	g_Textures[g_TextureCount].height = (int)metadata.height;
 
 	if (!g_Textures[g_TextureCount].shader_resource_view) {
-		MessageBoxW(NULL, L"ƒtƒ@ƒCƒ‹‚ª“Ç‚İ‚ß‚È‚©‚Á‚½", texture_filename.c_str(), MB_ICONEXCLAMATION | MB_OK);
+		MessageBoxW(NULL, L"ãƒ•ã‚¡ã‚¤ãƒ«ãŒèª­ã¿è¾¼ã‚ãªã‹ã£ãŸ", texture_filename.c_str(), MB_ICONEXCLAMATION | MB_OK);
 		return -1;
 	}
 

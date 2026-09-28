@@ -1,6 +1,6 @@
-/*==============================================================================
+ï»¿/*==============================================================================
 
-   ƒŒƒ“ƒ_ƒŠƒ“ƒOŠÇ—[renderer.h]
+   ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ç®¡ç†[renderer.h]
 														 Author :
 														 Date   :
 --------------------------------------------------------------------------------
@@ -11,33 +11,33 @@
 #include "main.h"
 
 //*********************************************************
-// \‘¢‘Ì
+// æ§‹é€ ä½“
 //*********************************************************
 
-// ’¸“_\‘¢‘Ì
+// é ‚ç‚¹æ§‹é€ ä½“
 struct VERTEX_3D
 {
-	XMFLOAT3 Position;	//’¸“_À•W@XMFLOAT3 @float x,y,z
-	XMFLOAT3 Normal;	//–@üƒxƒNƒgƒ‹ 
-	XMFLOAT4 Diffuse;	//F  XMFLOAT4 = float x,y,z,w
-	XMFLOAT2 TexCoord;	//ƒeƒNƒXƒ`ƒƒÀ•W XMFLOAT2 = float x,y
+	XMFLOAT3 Position;	//é ‚ç‚¹åº§æ¨™ã€€XMFLOAT3 ï¼ã€€float x,y,z
+	XMFLOAT3 Normal;	//æ³•ç·šãƒ™ã‚¯ãƒˆãƒ« 
+	XMFLOAT4 Diffuse;	//è‰²  XMFLOAT4 = float x,y,z,w
+	XMFLOAT2 TexCoord;	//ãƒ†ã‚¯ã‚¹ãƒãƒ£åº§æ¨™ XMFLOAT2 = float x,y
 };
 
-// ƒ}ƒeƒŠƒAƒ‹\‘¢‘Ì
+// ãƒãƒ†ãƒªã‚¢ãƒ«æ§‹é€ ä½“
 struct MATERIAL
 {
-	XMFLOAT4	Ambient;	//ƒAƒ“ƒrƒGƒ“ƒg
-	XMFLOAT4	Diffuse;	//ƒfƒtƒ…[ƒY
-	XMFLOAT4	Specular;	//ƒXƒyƒLƒ…ƒ‰
-	XMFLOAT4	Emission;	//ƒGƒ~ƒbƒVƒu
-	float		Shininess;	//ƒXƒyƒLƒ…ƒ‰ƒpƒ‰ƒ[ƒ^
-	float		Dummy[3];	//16byte‹«ŠE’²®—pƒpƒfƒBƒ“ƒO
+	XMFLOAT4	Ambient;	//ã‚¢ãƒ³ãƒ“ã‚¨ãƒ³ãƒˆ
+	XMFLOAT4	Diffuse;	//ãƒ‡ãƒ•ãƒ¥ãƒ¼ã‚º
+	XMFLOAT4	Specular;	//ã‚¹ãƒšã‚­ãƒ¥ãƒ©
+	XMFLOAT4	Emission;	//ã‚¨ãƒŸãƒƒã‚·ãƒ–
+	float		Shininess;	//ã‚¹ãƒšã‚­ãƒ¥ãƒ©ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+	float		Dummy[3];	//16byteå¢ƒç•Œèª¿æ•´ç”¨ãƒ‘ãƒ‡ã‚£ãƒ³ã‚°
 };
 
 struct LIGHT
 {
 	BOOL		Enable;
-	BOOL		Dummy[3];//16byte‹«ŠE—p
+	BOOL		Dummy[3];//16byteå¢ƒç•Œç”¨
 	XMFLOAT4	Direction;
 	XMFLOAT4	Diffuse;
 	XMFLOAT4	Ambient;
@@ -79,7 +79,7 @@ public:
 
 	static void SetLight(LIGHT Light);
 
-	// ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ìì¬
+	// ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã®ä½œæˆ
 	static ID3D11ShaderResourceView* GetPeTexture(int TexID = 0);
 	static void BeginPe(int TexID = 0);
 
