@@ -1,0 +1,12 @@
+BasedOnStyle: Microsoft        # 土台にするスタイル（LLVM / Google なども選べる）
+IndentWidth: 4
+UseTab: Never                  # タブではなくスペースでインデント
+ColumnLimit: 120               # 1行の最大文字数
+BreakBeforeBraces: Allman      # { を必ず次の行に置く
+PointerAlignment: Left         # int* p の書き方にそろえる
+AccessModifierOffset: -4       # public: をクラスと同じ位置に置く
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortFunctionsOnASingleLine: Inline
+NamespaceIndentation: All
+SortIncludes: CaseSensitive    # #include をアルファベット順に並べ替える
+IncludeBlocks: Preserve        # 空行で区切ったまとまりごとに並べ替える

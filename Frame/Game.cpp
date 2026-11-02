@@ -34,7 +34,7 @@ std::vector<GameObject*> g_GameObjects =
 	//new Sprite2D("UnlitTexture"),
 	//g_Gaussian,
 	g_Bloom,
-	new MipMapSprite("UnlitTexture"),
+	//new MipMapSprite("UnlitTexture"),
 };
 
 Camera g_Camera;	//カメラ
