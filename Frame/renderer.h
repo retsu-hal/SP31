@@ -44,7 +44,12 @@ struct LIGHT
 	XMFLOAT4	Position;
 	XMFLOAT4	PointLightParam;
 	XMFLOAT4 Angle;
+
+	XMMATRIX ViewMatrix;		// ライトカメラのビュー行列（投影シャドウ用）
+	XMMATRIX ProjectionMatrix;	// ライトカメラのプロジェクション行列（投影シャドウ用）
 };
+
+#define RT_SHADOW (3)	// シャドウマップ用レンダリングテクスチャの番号（白でクリア）
 
 class Renderer
 {
@@ -84,4 +89,8 @@ public:
 	static void BeginPe(int TexID = 0);
 
 	static void SetWeight(float* Weight);
+
+		// 被写界深度
+    static void BeginDoF();
+    static ID3D11ShaderResourceView* GetDepthStencil();
 };

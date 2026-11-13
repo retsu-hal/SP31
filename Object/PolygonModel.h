@@ -23,6 +23,7 @@ public:
 	void Update(void)override;
 	void Draw(void)override;
 	void DrawModel(void);
+	void DrawShadow(void) override;	// シャドウマップへ影を描く
 
 	void DrawImGui() override;
 

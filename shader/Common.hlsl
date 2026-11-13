@@ -49,6 +49,8 @@ struct LIGHT
     float4 Position;
     float4 PointLightParam;
     float4 Angle;
+    matrix ViewMatrix;       // ライトカメラのビュー行列（投影シャドウ用）
+    matrix ProjectionMatrix; // ライトカメラのプロジェクション行列（投影シャドウ用）
 };
 
 cbuffer LightBuffer : register(b4)
@@ -94,4 +96,5 @@ struct PS_IN
     float4 Normal        : NORMAL0;
     float4 Diffuse       : COLOR0;
     float2 TexCoord      : TEXCOORD0;
+    float4 LightPosition : POSITION1; // ライト空間での座標（投影シャドウ用）
 };

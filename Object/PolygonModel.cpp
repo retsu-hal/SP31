@@ -132,6 +132,13 @@ void PolygonModel::Draw(void)
 	{
 		m_Light = g_Light;
 	}
+	// 投影シャドウはライトカメラ行列を持った g_ShadowLight を使い、t1 にシャドウマップ
+	if (desc.UseShadowMap)
+	{
+		m_Light = g_ShadowLight;
+		ID3D11ShaderResourceView* shadowMap = Renderer::GetPeTexture(RT_SHADOW);
+		Renderer::GetDeviceContext()->PSSetShaderResources(1, 1, &shadowMap);
+	}
 
 	// パラメータ・追加テクスチャ・頂点レイアウト・シェーダー設定
 	Renderer::SetParameter(m_Parameter);
@@ -207,6 +214,26 @@ void PolygonModel::DrawImGui()
 	ImGui::End();
 }
 
+
+//==============================================================================
+// シャドウマップへ影を描く（View/Projection はライトカメラの行列がセット済み）
+//==============================================================================
+void PolygonModel::DrawShadow(void)
+{
+	ID3D11VertexShader* vs = nullptr;
+	ID3D11InputLayout*  layout = nullptr;
+	ID3D11PixelShader*  ps = nullptr;
+	GetCachedVertexShader("ProjectionShadow0VS.cso", &vs, &layout);
+	GetCachedPixelShader("ProjectionShadow0PS.cso", &ps);
+
+	Renderer::GetDeviceContext()->IASetInputLayout(layout);
+	Renderer::GetDeviceContext()->VSSetShader(vs, NULL, 0);
+	Renderer::GetDeviceContext()->PSSetShader(ps, NULL, 0);
+
+	Renderer::SetWorldMatrix(GetWorldMatrix());
+	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	ModelDraw(m_Model);
+}
 
 void PolygonModel::DrawModel(void)
 {

@@ -249,7 +249,7 @@ namespace
 	MaterialDesc GaussianH()
 	{
 		MaterialDesc m = MakeMaterial("GaussianH", "UnlitTextureVS.cso", "GaussianPS_H.cso");
-		m.Parameter = XMFLOAT4(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 1.0f);	// x:幅 y:高さ z:分散 w:間隔
+        m.Parameter = XMFLOAT4(SCREEN_WIDTH, SCREEN_HEIGHT, 10.0f, 1.0f); // x:幅 y:高さ z:分散 w:間隔		
 		return m;
 	}
 
@@ -272,6 +272,21 @@ namespace
 		return MakeMaterial("BloomComposite", "UnlitTextureVS.cso", "BloomPS02.cso");
 	}
 }
+
+	MaterialDesc ProjectionShadow()	// 投影シャドウ：影を受ける側（地面用）
+	{
+		MaterialDesc m = MakeMaterial("ProjectionShadow", "ProjectionShadow1VS.cso", "ProjectionShadow1PS.cso");
+		m.UseShadowMap = true;	// g_ShadowLight ＋ t1 にシャドウマップ
+		return m;
+	}
+
+	MaterialDesc DepthOfField()
+{
+    MaterialDesc m = MakeMaterial("DoF", "UnlitTextureVS.cso", "DoFPS.cso");
+    m.Parameter = XMFLOAT4(0.75f, 0.1f, 0.0f, 0.0f); // x:ピント位置 y:ピント幅
+    return m;
+}
+
 //==============================================================================
 //マテリアル表
 //==============================================================================
@@ -303,6 +318,8 @@ const std::vector<MaterialDesc>& GetMaterialTable()
 		GaussianV(),
 		BloomLuminance(),
 		BloomComposite(),
+        DepthOfField(),
+		ProjectionShadow(),
 	};
 	return table;
 }

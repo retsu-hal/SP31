@@ -9,7 +9,7 @@
 #include <io.h>
 #include "renderer.h"
 
-#define RT_MAX (2)		//レンダリングテクスチャの枚数
+#define RT_MAX (4)		//レンダリングテクスチャの枚数（3番はシャドウマップ用）
 
 //*********************************************************
 // 構造体
@@ -59,6 +59,9 @@ ID3D11RenderTargetView* g_PeRenderTargetView[RT_MAX] = {};
 ID3D11ShaderResourceView* g_PeShaderResourceView[RT_MAX] = {};
 
 ID3D11Buffer* g_WeightBuffer = NULL;
+
+ID3D11DepthStencilView* g_DoFStencilView = NULL;
+ID3D11ShaderResourceView* g_DoFShaderResourceView = NULL;
 
 
 ID3D11Device* Renderer::GetDevice( void )
@@ -323,6 +326,19 @@ HRESULT Renderer::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	g_D3DDevice->CreateSamplerState(&samplerDesc, &samplerState);
 	g_ImmediateContext->PSSetSamplers(1, 1, &samplerState);
 
+	//サンプラー2番：シャドウマップ用（範囲外は白＝影なしで塗りつぶす）
+	//※1番(CLAMP)はブラー等で使っているので別スロットにする
+	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_BORDER;//横の座標範囲外は指定色で塗りつぶす
+	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_BORDER;//縦の座標範囲外は指定色で塗りつぶす
+	samplerDesc.BorderColor[0] = 1.0f;//塗りつぶす色のR
+	samplerDesc.BorderColor[1] = 1.0f;//塗りつぶす色のG
+	samplerDesc.BorderColor[2] = 1.0f;//塗りつぶす色のB
+	samplerDesc.BorderColor[3] = 1.0f;//塗りつぶす色のA
+	samplerDesc.MaxLOD = 0.0f;//ミップマップは作らないので0段目だけ使う
+	g_D3DDevice->CreateSamplerState(&samplerDesc, &samplerState);
+	g_ImmediateContext->PSSetSamplers(2, 1, &samplerState);
+
 
 	//定数バッファ生成
 
@@ -420,7 +436,38 @@ HRESULT Renderer::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 		}
 	}
 
-	
+		//===== DoF用デプスバッファ（シェーダーから読める） =====
+    {
+        ID3D11Texture2D* ppTexture = NULL;
+        D3D11_TEXTURE2D_DESC td;
+        ZeroMemory(&td, sizeof(td));
+        td.Width = sd.BufferDesc.Width;
+        td.Height = sd.BufferDesc.Height;
+        td.Format = DXGI_FORMAT_R32_TYPELESS;
+        td.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
+        td.ArraySize = 1;
+        td.SampleDesc = sd.SampleDesc;
+        td.Usage = D3D11_USAGE_DEFAULT;
+        td.CPUAccessFlags = 0;
+        td.MipLevels = 1;
+        td.MiscFlags = 0;
+        g_D3DDevice->CreateTexture2D(&td, NULL, &ppTexture);
+
+        D3D11_DEPTH_STENCIL_VIEW_DESC dsvd;
+        ZeroMemory(&dsvd, sizeof(dsvd));
+        dsvd.Format = DXGI_FORMAT_D32_FLOAT;
+        dsvd.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+        g_D3DDevice->CreateDepthStencilView(ppTexture, &dsvd, &g_DoFStencilView);
+
+        D3D11_SHADER_RESOURCE_VIEW_DESC srvd;
+        ZeroMemory(&srvd, sizeof(srvd));
+        srvd.Format = DXGI_FORMAT_R32_FLOAT;
+        srvd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+        srvd.Texture2D.MipLevels = 1;
+        g_D3DDevice->CreateShaderResourceView(ppTexture, &srvd, &g_DoFShaderResourceView);
+
+        ppTexture->Release();
+    }
 
 	return S_OK;
 }
@@ -455,6 +502,11 @@ void Renderer::Finalize(void)
 	}
 
 	if (g_WeightBuffer) g_WeightBuffer->Release();
+
+	if (g_DoFStencilView)
+        g_DoFStencilView->Release();
+    if (g_DoFShaderResourceView)
+        g_DoFShaderResourceView->Release();
 }
 
 
@@ -561,12 +613,28 @@ void Renderer::BeginPe(int TexID)
 	g_ImmediateContext->OMSetRenderTargets(1, &g_PeRenderTargetView[TexID], g_DepthStencilView);
 	float ClearColor [][4] =
 	{
-		{ 0.0f, 0.5f, 0.0f, 1.0f },	//緑
-		{ 0.0f, 0.5f, 0.5f, 1.0f },	//水色
+        {0.0f, 0.5f, 0.0f, 1.0f}, // 緑
+        {0.0f, 0.5f, 0.5f, 1.0f}, // 水色
+        {0.0f, 0.0f, 0.0f, 1.0f}, // 黒
+        {1.0f, 1.0f, 1.0f, 1.0f}, // 白（シャドウマップ：影がない所）
 	};
 	g_ImmediateContext->ClearRenderTargetView(g_PeRenderTargetView[TexID], ClearColor[TexID]);
 	g_ImmediateContext->ClearDepthStencilView(g_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 
+}
+
+void Renderer::BeginDoF()
+{
+    g_ImmediateContext->OMSetRenderTargets(1, &g_PeRenderTargetView[0], g_DoFStencilView);
+
+    float ClearColor[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+    g_ImmediateContext->ClearRenderTargetView(g_PeRenderTargetView[0], ClearColor);
+    g_ImmediateContext->ClearDepthStencilView(g_DoFStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+}
+
+ID3D11ShaderResourceView* Renderer::GetDepthStencil()
+{
+    return g_DoFShaderResourceView;
 }
 
 void Renderer::SetWeight(float* Weight)

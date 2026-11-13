@@ -165,6 +165,11 @@ void Field3D::Draw(void)
 	{
 		m_Light = g_Light;
 	}
+	// 投影シャドウはライトカメラ行列を持った g_ShadowLight を使う
+	if (desc.UseShadowMap)
+	{
+		m_Light = g_ShadowLight;
+	}
 
 	// パラメータ・追加テクスチャ・頂点レイアウト・シェーダー設定
 	// （板ポリゴンなのでアウトライン用の2パス目は描かない）
@@ -176,6 +181,13 @@ void Field3D::Draw(void)
 		//テクスチャをセット
 		ID3D11ShaderResourceView* tex = Texture::GetTexture(m_TexID);
 		Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
+
+		//シャドウマップを t1 にセット
+		if (desc.UseShadowMap)
+		{
+			tex = Renderer::GetPeTexture(RT_SHADOW);
+			Renderer::GetDeviceContext()->PSSetShaderResources(1, 1, &tex);
+		}
 
 		//ワールド行列をDirectXへセット
 		Renderer::SetWorldMatrix(GetWorldMatrix());

@@ -58,6 +58,8 @@ struct MaterialDesc
 
 	bool UseGlobalLight = false;				// true なら描画時に g_Light を使う（スポットライト等）
 
+	bool UseShadowMap = false;					// true なら g_ShadowLight を使い、t1 にシャドウマップをセット（投影シャドウ）
+
 	// アウトライン（2パス目）用シェーダー。両方指定すると
 	// 「裏面カリングで通常描画 → 表面カリングでアウトライン描画」を行う
 	const char* OutlineVertexShader = nullptr;

@@ -11,6 +11,7 @@
 #include "sprite.h"
 #include "Camera.h"
 #include "texture.h"
+#include "Renderer.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -55,10 +56,11 @@ void Sprite2D::Init(void)
 	//sprintf(txt, "&FloatData => %p \n", &test.FloatData);
 	//OutputDebugString(txt);
 
-
+	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader/UnlitTextureVS.cso");
+    Renderer::CreatePixelShader(&m_PixelShader, "shader/UnlitTexturePS.cso");
 
 	//2Dオブジェクト初期化
-	m_Position = XMFLOAT3(SCREEN_WIDTH / 3 / 2, SCREEN_HEIGHT / 4, 0.0f);
+    m_Position = XMFLOAT3(SCREEN_WIDTH  / 2, SCREEN_HEIGHT / 4, 0.0f);
 	m_Rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	m_Scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
 	Color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);

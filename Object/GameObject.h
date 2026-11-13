@@ -96,6 +96,7 @@ public:
 	virtual void Uninit(void) {}
 	virtual void Update(void) {}
 	virtual void Draw(void) {}
+	virtual void DrawShadow(void) {}	// シャドウマップへ影を描く（影を落とすオブジェクトだけ上書き）
 	virtual void DrawImGui() {}
 
 	// 拡大縮小 → 回転（度） → 平行移動 のワールド行列
